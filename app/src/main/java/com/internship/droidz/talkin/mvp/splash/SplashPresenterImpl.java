@@ -33,7 +33,7 @@ public class SplashPresenterImpl implements SplashContract.SplashPresenter {
     }
 
     @Override
-    public boolean checkLiggedIn() {
+    public boolean checkLoggedIn() {
         return model.isLoggedIn();
     }
 

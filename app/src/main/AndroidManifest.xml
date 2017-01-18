@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.internship.droidz.talkin">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,12 +17,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.login.LoginScreen"></activity>
-        <activity android:name=".mvp.main.MainScreen"></activity>
+        <activity android:name=".mvp.login.LoginScreen" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="acc74a3f604c40c5664d1d78bf8d9f8874f41986" />
+
+        <activity
+            android:name=".mvp.main.MainScreen"
+            android:label="@string/title_activity_main_screen"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

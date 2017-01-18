@@ -16,7 +16,7 @@ public interface SplashContract {
     interface SplashPresenter {
         void navigateToMain();
         void navigateToLogin();
-        boolean checkLiggedIn();
+        boolean checkLoggedIn();
         void setLoggedIn(boolean value);
 
     }
