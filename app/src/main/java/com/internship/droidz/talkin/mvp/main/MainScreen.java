@@ -1,9 +1,10 @@
-package com.internship.droidz.talkin;
+package com.internship.droidz.talkin.mvp.main;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.crashlytics.android.Crashlytics;
+import com.internship.droidz.talkin.R;
 
 import io.fabric.sdk.android.Fabric;
 

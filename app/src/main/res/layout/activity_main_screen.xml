@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.internship.droidz.talkin.MainScreen">
+    tools:context=".mvp.main.MainScreen">
 
     <TextView
         android:text="This is MainScreen"

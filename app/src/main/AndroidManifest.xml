@@ -8,15 +8,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreen">
+        <activity android:name=".mvp.splash.SplashScreenView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginScreen"></activity>
-        <activity android:name=".MainScreen"></activity>
+        <activity android:name=".mvp.login.LoginScreen"></activity>
+        <activity android:name=".mvp.main.MainScreen"></activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="acc74a3f604c40c5664d1d78bf8d9f8874f41986" />
