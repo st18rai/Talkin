@@ -13,7 +13,6 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_login_screen);
     }
 }
