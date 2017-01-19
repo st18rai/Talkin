@@ -1,4 +1,4 @@
-package com.internship.droidz.talkin.mvp;
+package com.internship.droidz.talkin;
 
 import android.app.Application;
 
