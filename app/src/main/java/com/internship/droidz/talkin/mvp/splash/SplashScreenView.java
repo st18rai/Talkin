@@ -11,16 +11,15 @@ import com.internship.droidz.talkin.mvp.main.MainScreen;
 
 import io.fabric.sdk.android.Fabric;
 
-public class SplashScreenView extends AppCompatActivity {
+public class SplashScreenView extends AppCompatActivity implements SplashContract.SplashView{
 
-    // loggedIn must be stored in the model?
     SplashContract.SplashPresenter presenter;
-
+    SplashContract.SplashModel model;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SplashPresenterImpl(this);
-        Fabric.with(this, new Crashlytics());
+        model = new SplashModelImpl(this);
+        presenter = new SplashPresenterImpl(model,this);
         setContentView(R.layout.activity_splash_screen);
 
         new Handler().postDelayed(new Runnable() {

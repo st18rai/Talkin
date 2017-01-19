@@ -1,6 +1,7 @@
 package com.internship.droidz.talkin;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 
@@ -16,5 +17,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+        Log.i("crashlytics","it created");
     }
 }

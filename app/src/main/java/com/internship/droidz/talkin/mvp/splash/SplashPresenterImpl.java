@@ -7,17 +7,18 @@ import com.internship.droidz.talkin.mvp.login.LoginScreen;
 import com.internship.droidz.talkin.mvp.main.MainScreen;
 
 /**
- * Created by Joyker on 18.01.2017.
+ * Created by Novak Alexandr on 18.01.2017.
  */
 
 public class SplashPresenterImpl implements SplashContract.SplashPresenter {
-    Context ctx;
-    SplashContract.SplashModel model ;
 
-    public SplashPresenterImpl(Context ctx)
+    SplashContract.SplashModel model ;
+    SplashContract.SplashView view;
+
+    public SplashPresenterImpl (SplashContract.SplashModel model, SplashContract.SplashView view )
     {
-        this.ctx=ctx;
-        model= new SplashModelImpl(ctx);
+        this.model=model;
+        this.view=view;
     }
 
     @Override
