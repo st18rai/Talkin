@@ -1,10 +1,6 @@
 package com.internship.droidz.talkin.mvp.splash;
 
 import android.content.Context;
-import android.content.Intent;
-
-import com.internship.droidz.talkin.mvp.login.LoginScreen;
-import com.internship.droidz.talkin.mvp.main.MainScreen;
 
 /**
  * Created by Joyker on 18.01.2017.

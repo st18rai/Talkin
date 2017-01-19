@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Talkin</string>
+    <string name="email_address_hint">Email Address</string>
+    <string name="password_hint">Password</string>
+    <string name="login_checkbox_text">Keep me signed in</string>
+    <string name="sign_in_button">SIGN IN</string>
+    <string name="sign_up_button">SIGN UP</string>
+    <string name="login_forgot_password">Forgot password</string>
     <string name="title_activity_main_screen">MainScreen</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

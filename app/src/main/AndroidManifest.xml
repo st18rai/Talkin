@@ -17,7 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".mvp.login.LoginScreen" />
+        <activity
+            android:name=".mvp.login.LoginScreen"
+            android:label="@string/sign_in_button">
+        </activity>
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -26,7 +29,8 @@
         <activity
             android:name=".mvp.main.MainScreen"
             android:label="@string/title_activity_main_screen"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>
