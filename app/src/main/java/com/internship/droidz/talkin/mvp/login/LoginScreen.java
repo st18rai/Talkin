@@ -8,7 +8,7 @@ import com.internship.droidz.talkin.R;
 
 import io.fabric.sdk.android.Fabric;
 
-public class LoginScreen extends AppCompatActivity {
+public class LoginScreen extends AppCompatActivity  implements LoginContract.LoginView{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

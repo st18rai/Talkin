@@ -12,24 +12,12 @@ import com.internship.droidz.talkin.mvp.main.MainScreen;
 
 public class SplashPresenterImpl implements SplashContract.SplashPresenter {
     Context ctx;
-    SplashModelImpl model ;
+    SplashContract.SplashModel model ;
 
     public SplashPresenterImpl(Context ctx)
     {
         this.ctx=ctx;
         model= new SplashModelImpl(ctx);
-    }
-
-    @Override
-    public void navigateToMain() {
-        Intent intent = new Intent(ctx, MainScreen.class);
-        ctx.startActivity(intent);
-    }
-
-    @Override
-    public void navigateToLogin() {
-        Intent intent = new Intent(ctx, LoginScreen.class);
-        ctx.startActivity(intent);
     }
 
     @Override

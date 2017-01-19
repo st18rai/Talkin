@@ -16,7 +16,7 @@ import android.view.MenuItem;
 import com.internship.droidz.talkin.R;
 
 public class MainScreen extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MainContract.MainView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

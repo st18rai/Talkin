@@ -26,7 +26,7 @@ public class SplashModelImpl implements SplashContract.SplashModel {
 
     @Override
     public boolean isLoggedIn() {
-        return sPref.getBoolean(LOGGED_IN_KEY,true);
+        return sPref.getBoolean(LOGGED_IN_KEY,false);
     }
 
     @Override

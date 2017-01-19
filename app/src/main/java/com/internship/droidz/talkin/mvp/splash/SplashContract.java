@@ -1,9 +1,7 @@
 package com.internship.droidz.talkin.mvp.splash;
 
-import android.content.Context;
-
 /**
- * Created by Joyker on 18.01.2017.
+ * Created by Novak Alexandr on 18.01.2017.
  */
 
 public interface SplashContract {
@@ -14,8 +12,6 @@ public interface SplashContract {
     }
 
     interface SplashPresenter {
-        void navigateToMain();
-        void navigateToLogin();
         boolean checkLoggedIn();
         void setLoggedIn(boolean value);
 
