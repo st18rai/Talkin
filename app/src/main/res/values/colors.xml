@@ -7,5 +7,7 @@
     <color name="white">#FFFFFF</color>
     <color name="signInButton">#004951</color>
     <color name="signUpButton">#27686f</color>
+    <color name="linkFacebookButton">#3a579a</color>
+    <color name="pressedFacebookButton">#3a899d</color>
     <color name="loginScreenBackground">#327780</color>
 </resources>

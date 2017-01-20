@@ -32,6 +32,10 @@
             android:label="@string/title_activity_main_screen"
             android:theme="@style/AppTheme">
         </activity>
+        <activity
+            android:name=".mvp.registration.RegistrationScreen"
+            android:label="@string/sign_up_button">
+        </activity>
     </application>
 
 </manifest>

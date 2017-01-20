@@ -10,8 +10,19 @@
     <style name="SignInButtonStyle">
         <item name="android:colorButtonNormal">#004951</item>
     </style>
+
     <style name="SignUpButtonStyle">
         <item name="android:colorButtonNormal">#27686f</item>
+    </style>
+
+    <style name="SignUpButtonRegStyle">
+        <item name="colorButtonNormal">#004951</item>
+        <item name="colorAccent">#24a185</item>
+    </style>
+
+    <style name="LinkFacebookButtonStyle">
+        <item name="colorButtonNormal">#3a579a</item>
+        <item name="colorAccent">#3a899d</item>
     </style>
 
 </resources>

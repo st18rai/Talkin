@@ -16,12 +16,24 @@
         <item name="colorButtonNormal">#004951</item>
         <item name="colorAccent">#24a185</item>
     </style>
+
     <style name="SignUpButtonStyle">
         <item name="colorButtonNormal">#27686f</item>
         <item name="colorAccent">#24a185</item>
     </style>
 
+    <style name="SignUpButtonRegStyle">
+        <item name="colorButtonNormal">#004951</item>
+        <item name="colorAccent">#24a185</item>
+    </style>
+
+    <style name="LinkFacebookButtonStyle">
+        <item name="colorButtonNormal">#3a579a</item>
+        <item name="colorAccent">#3a899d</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
