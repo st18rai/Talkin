@@ -63,7 +63,9 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
     //Mockito
     testCompile "org.mockito:mockito-core:2.0.57-beta"
-
-
+    //JUnit
     testCompile 'junit:junit:4.12'
+    //Espresso
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+
 }

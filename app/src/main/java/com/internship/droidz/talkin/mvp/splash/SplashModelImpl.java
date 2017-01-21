@@ -11,13 +11,13 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SplashModelImpl implements SplashContract.SplashModel {
 
-    public SplashModelImpl(Context ctx)
+    public SplashModelImpl(Context context)
     {
-        this.ctx=ctx;
-        sPref = ctx.getSharedPreferences("SplashPref",MODE_PRIVATE);
+        this.context = context;
+        sPref = context.getSharedPreferences("SplashPref", MODE_PRIVATE);
     }
 
-    Context ctx;
+    Context context;
     SharedPreferences sPref;
     SharedPreferences.Editor ed;
 
@@ -25,13 +25,13 @@ public class SplashModelImpl implements SplashContract.SplashModel {
 
     @Override
     public boolean isLoggedIn() {
-        return sPref.getBoolean(LOGGED_IN_KEY,false);
+        return sPref.getBoolean(LOGGED_IN_KEY, false);
     }
 
     @Override
     public void setLoggedIn(boolean value) {
-        ed=sPref.edit();
-        ed.putBoolean(LOGGED_IN_KEY,value);
+        ed = sPref.edit();
+        ed.putBoolean(LOGGED_IN_KEY, value);
         ed.commit();
     }
 }

@@ -2,6 +2,7 @@ package com.internship.droidz.talkin.ui.splash;
 
 import com.internship.droidz.talkin.mvp.splash.SplashContract;
 import com.internship.droidz.talkin.mvp.splash.SplashPresenterImpl;
+import com.internship.droidz.talkin.mvp.splash.SplashScreen;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,8 +10,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.mockito.Mockito.after;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Koroqe on 19-Jan-17.
@@ -18,6 +21,9 @@ import static org.mockito.Mockito.times;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SplashPresenterUnitTest {
+
+    @Mock
+    SplashScreen splashScreen;
 
     @Mock
     SplashContract.SplashModel model;
@@ -34,15 +40,26 @@ public class SplashPresenterUnitTest {
 
     @Test
     public void navigateToLoginScreenCouldBeCalledIfNotLoggedIn() {
-        splashPresenter.setLoggedIn(false);
+
+        boolean loggedIn = true;
+        when(model.isLoggedIn()).thenReturn(false);
+
         splashPresenter.checkLoggedInAndNavigate();
         verify(view, times(1)).navigateToLoginScreen();
     }
 
     @Test
     public void navigateToMainScreenCouldBeCalledIfLoggedIn() {
-        splashPresenter.setLoggedIn(true);
+
+        boolean loggedIn = true;
+        when(model.isLoggedIn()).thenReturn(true);
+
         splashPresenter.checkLoggedInAndNavigate();
         verify(view, times(1)).navigateToMainScreen();
+    }
+
+    @Test
+    public void navigateAndDestroySplashShouldBeCalledAfter3seconds() throws Exception {
+        verify(splashScreen, after(5000)).isDestroyed();
     }
 }

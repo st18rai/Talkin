@@ -1,7 +1,5 @@
 package com.internship.droidz.talkin.mvp.splash;
 
-import android.content.Context;
-
 /**
  * Created by Joyker on 18.01.2017.
  */
