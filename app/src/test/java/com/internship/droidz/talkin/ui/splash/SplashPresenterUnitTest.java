@@ -11,6 +11,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by Koroqe on 19-Jan-17.
@@ -34,14 +36,20 @@ public class SplashPresenterUnitTest {
 
     @Test
     public void navigateToLoginScreenCouldBeCalledIfNotLoggedIn() {
-        splashPresenter.setLoggedIn(false);
+
+        boolean loggedIn = true;
+        when(model.isLoggedIn()).thenReturn(false);
+
         splashPresenter.checkLoggedInAndNavigate();
         verify(view, times(1)).navigateToLoginScreen();
     }
 
     @Test
     public void navigateToMainScreenCouldBeCalledIfLoggedIn() {
-        splashPresenter.setLoggedIn(true);
+
+        boolean loggedIn = true;
+        when(model.isLoggedIn()).thenReturn(true);
+
         splashPresenter.checkLoggedInAndNavigate();
         verify(view, times(1)).navigateToMainScreen();
     }

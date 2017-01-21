@@ -20,7 +20,6 @@ public class SplashScreen extends AppCompatActivity implements SplashContract.Sp
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new SplashPresenterImpl(new SplashModelImpl(this), this);
-        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_splash_screen);
 
         new Handler().postDelayed(new Runnable() {
