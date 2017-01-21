@@ -12,31 +12,36 @@ import com.internship.droidz.talkin.mvp.main.MainScreen;
 
 import io.fabric.sdk.android.Fabric;
 
-public class SplashScreenView extends AppCompatActivity {
+public class SplashScreen extends AppCompatActivity implements SplashContract.SplashView{
 
     SplashContract.SplashPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new SplashPresenterImpl(this);
+        presenter = new SplashPresenterImpl(new SplashModelImpl(this), this);
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_splash_screen);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (presenter.checkLoggedIn()) {
-                    Intent intent = new Intent(SplashScreenView.this, MainScreen.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else {
-                    Intent intent = new Intent(SplashScreenView.this, LoginScreen.class);
-                    startActivity(intent);
-                    finish();
-                }
+                presenter.checkLoggedInAndNavigate();
             }
         }, 3000);
+    }
+
+    @Override
+    public void navigateToMainScreen() {
+        Intent intent = new Intent(SplashScreen.this, MainScreen.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void navigateToLoginScreen() {
+        Intent intent = new Intent(SplashScreen.this, LoginScreen.class);
+        startActivity(intent);
+        finish();
     }
 }

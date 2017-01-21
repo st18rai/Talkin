@@ -11,7 +11,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class SplashModelImpl implements SplashContract.SplashModel {
 
-
     public SplashModelImpl(Context ctx)
     {
         this.ctx=ctx;

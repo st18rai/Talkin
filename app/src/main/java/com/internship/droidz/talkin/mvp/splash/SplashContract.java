@@ -7,19 +7,22 @@ package com.internship.droidz.talkin.mvp.splash;
 public interface SplashContract {
 
     interface SplashModel {
+
         boolean isLoggedIn();
         void setLoggedIn(boolean value);
     }
 
     interface SplashPresenter {
+
         boolean checkLoggedIn();
         void setLoggedIn(boolean value);
-
+        void checkLoggedInAndNavigate();
     }
-
 
     interface SplashView {
 
+        void navigateToMainScreen();
+        void navigateToLoginScreen();
     }
 
 }

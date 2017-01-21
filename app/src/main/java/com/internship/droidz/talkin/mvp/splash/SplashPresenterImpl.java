@@ -7,13 +7,12 @@ import android.content.Context;
  */
 
 public class SplashPresenterImpl implements SplashContract.SplashPresenter {
-    Context ctx;
-    SplashContract.SplashModel model ;
+    SplashContract.SplashModel model;
+    SplashContract.SplashView view;
 
-    public SplashPresenterImpl(Context ctx)
-    {
-        this.ctx=ctx;
-        model= new SplashModelImpl(ctx);
+    public SplashPresenterImpl(SplashContract.SplashModel model, SplashContract.SplashView view) {
+        this.model = model;
+        this.view = view;
     }
 
     @Override
@@ -25,4 +24,15 @@ public class SplashPresenterImpl implements SplashContract.SplashPresenter {
     public void setLoggedIn(boolean value) {
         model.setLoggedIn(value);
     }
+
+    @Override
+    public void checkLoggedInAndNavigate() {
+        if (checkLoggedIn()) {
+            view.navigateToMainScreen();
+        }
+        else {
+            view.navigateToLoginScreen();
+        }
+    }
+
 }
