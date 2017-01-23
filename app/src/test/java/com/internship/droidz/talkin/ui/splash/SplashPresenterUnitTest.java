@@ -2,7 +2,6 @@ package com.internship.droidz.talkin.ui.splash;
 
 import com.internship.droidz.talkin.mvp.splash.SplashContract;
 import com.internship.droidz.talkin.mvp.splash.SplashPresenterImpl;
-import com.internship.droidz.talkin.mvp.splash.SplashScreen;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,9 +20,6 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SplashPresenterUnitTest {
-
-    @Mock
-    SplashScreen splashScreen;
 
     @Mock
     SplashContract.SplashModel model;
@@ -56,10 +52,5 @@ public class SplashPresenterUnitTest {
 
         splashPresenter.checkLoggedInAndNavigate();
         verify(view, times(1)).navigateToMainScreen();
-    }
-
-    @Test
-    public void navigateAndDestroySplashShouldBeCalledAfter3seconds() throws Exception {
-        verify(splashScreen, after(5000)).isDestroyed();
     }
 }

@@ -1,7 +1,7 @@
 package com.internship.droidz.talkin.mvp.splash;
 
 /**
- * Created by Joyker on 18.01.2017.
+ * Created by Novak Alexandr on 18.01.2017.
  */
 
 public class SplashPresenterImpl implements SplashContract.SplashPresenter {
