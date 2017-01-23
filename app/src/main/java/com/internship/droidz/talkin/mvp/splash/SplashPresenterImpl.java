@@ -30,4 +30,14 @@ public class SplashPresenterImpl implements SplashContract.SplashPresenter {
     public void setLoggedIn(boolean value) {
         model.setLoggedIn(value);
     }
+
+    @Override
+    public void checkLoggedInAndNavigate() {
+        if (checkLoggedIn()) {
+            view.navigateToMainScreen();
+        }
+        else {
+            view.navigateToLoginScreen();
+        }
+    }
 }
