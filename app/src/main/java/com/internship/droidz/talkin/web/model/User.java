@@ -1,4 +1,3 @@
-
 package com.internship.droidz.talkin.web.model;
 
 import com.google.gson.annotations.Expose;
