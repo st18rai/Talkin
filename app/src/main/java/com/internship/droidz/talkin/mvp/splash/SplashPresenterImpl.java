@@ -1,16 +1,17 @@
 package com.internship.droidz.talkin.mvp.splash;
 
+
 /**
  * Created by Novak Alexandr on 18.01.2017.
  */
 
 public class SplashPresenterImpl implements SplashContract.SplashPresenter {
-    SplashContract.SplashModel model;
+    SplashContract.SplashModel model ;
     SplashContract.SplashView view;
 
-    public SplashPresenterImpl(SplashContract.SplashModel model, SplashContract.SplashView view) {
-        this.model = model;
-        this.view = view;
+    public SplashPresenterImpl (SplashContract.SplashModel model, SplashContract.SplashView view ) {
+        this.model=model;
+        this.view=view;
     }
 
     @Override
@@ -32,5 +33,4 @@ public class SplashPresenterImpl implements SplashContract.SplashPresenter {
             view.navigateToLoginScreen();
         }
     }
-
 }

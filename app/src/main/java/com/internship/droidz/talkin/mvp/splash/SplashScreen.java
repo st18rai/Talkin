@@ -12,7 +12,7 @@ import com.internship.droidz.talkin.mvp.main.MainScreen;
 
 import io.fabric.sdk.android.Fabric;
 
-public class SplashScreenView extends AppCompatActivity implements SplashContract.SplashView{
+public class SplashScreen extends AppCompatActivity implements SplashContract.SplashView{
 
     // loggedIn must be stored in the model?
     SplashContract.SplashPresenter presenter;
