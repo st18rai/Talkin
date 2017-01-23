@@ -16,9 +16,9 @@ public class ApiManager {
 
     private static final String SCHEMA = "https://";
     private static final String HOST = "api.quickblox.com/";
-    private static final String APP_ID = "52558";
-    private static final String APP_AUTH_KEY= "UwScdfTjL7Tbhu5";
-    private static final String APP_SECRET= "zbhG3xMwDPrWyzf";
+    public static final String APP_ID = "52558";
+    public static final String APP_AUTH_KEY= "UwScdfTjL7Tbhu5";
+    public static final String APP_SECRET= "zbhG3xMwDPrWyzf";
     private static final String SRV=SCHEMA+HOST;
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -35,6 +35,7 @@ public class ApiManager {
                     .baseUrl(SRV)
                     .addConverterFactory(createGsonConverter())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()));
+                    //.addCallAdapterFactory(RxJavaCallAdapterFactory.create());
 
     public static <S> S createService(Class<S> serviceClass) {
         Retrofit retrofit = builder.client(httpClient.build()).build();
