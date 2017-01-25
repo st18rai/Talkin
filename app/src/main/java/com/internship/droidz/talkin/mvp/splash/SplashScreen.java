@@ -14,7 +14,6 @@ import io.fabric.sdk.android.Fabric;
 
 public class SplashScreen extends AppCompatActivity implements SplashContract.SplashView{
 
-    // loggedIn must be stored in the model?
     SplashContract.SplashPresenter presenter;
 
     @Override

@@ -11,11 +11,13 @@ public interface LoginContract {
     }
 
     interface LoginPresenter {
-
     }
 
 
     interface LoginView {
+
+        void signInButtonState();
+        void navigateToRegistrationScreen();
 
     }
 
