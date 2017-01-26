@@ -41,6 +41,8 @@ public class SessionRequest {
     public SessionRequest() {
         Long timestamp = System.currentTimeMillis()/1000l;
         int nonce = WebUtils.getNonce();
+        this.timestamp=String.valueOf(timestamp);
+        this.nonce=String.valueOf(nonce);
         this.applicationId=ApiRetrofit.APP_ID;
         this.authKey=ApiRetrofit.APP_AUTH_KEY;
         this.nonce=String.valueOf(nonce);

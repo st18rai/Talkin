@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiRetrofit {
 
-    private static final String SCHEMA = "https://";
+    private static final String SCHEMA = "http://";
     private static final String HOST = "api.quickblox.com/";
     public static final String APP_ID = "52558";
     public static final String APP_AUTH_KEY= "UwScdfTjL7Tbhu5";

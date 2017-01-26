@@ -5,6 +5,7 @@ import android.util.Base64;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Formatter;
 import java.util.Random;
 
 import javax.crypto.Mac;
@@ -37,7 +38,20 @@ public class WebUtils {
         return randomizer.nextInt();
     }
 
+    public static String calcSignature(int nonce, long timestamp)
+    {
+        String data = composeParametrs(nonce, timestamp);
+        try {
+            SecretKeySpec signingKey = new SecretKeySpec(ApiRetrofit.APP_SECRET.getBytes(),
+                    "HmacSHA1");
+            Mac mac = Mac.getInstance ("HmacSHA1");
+            mac.init(signingKey);
+            return toHexString(mac.doFinal(data.getBytes()));
+        } catch(NoSuchAlgorithmException | InvalidKeyException ex){
 
+        }
+        return null;
+    }
 
     private static String composeParametrs(int nonce, long timestamp) {
         StringBuilder sb = new StringBuilder("");
@@ -47,4 +61,15 @@ public class WebUtils {
         sb.append("&timestamp=").append(timestamp);
         return sb.toString();
     }
+
+    private static String toHexString(byte[] bytes) {
+        Formatter formatter = new Formatter();
+
+        for (byte b : bytes) {
+            formatter.format("%02x", b);
+        }
+
+        return formatter.toString();
+    }
+
 }
