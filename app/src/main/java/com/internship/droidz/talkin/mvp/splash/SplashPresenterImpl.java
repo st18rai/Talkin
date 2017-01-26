@@ -27,6 +27,16 @@ public class SplashPresenterImpl implements SplashContract.SplashPresenter {
     }
 
     @Override
+    public void onResume() {
+
+    }
+
+    @Override
+    public void onPause() {
+
+    }
+
+    @Override
     public void setLoggedIn(boolean value) {
         model.setLoggedIn(value);
     }
