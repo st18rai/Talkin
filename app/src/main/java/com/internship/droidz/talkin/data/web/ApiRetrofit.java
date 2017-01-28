@@ -1,15 +1,7 @@
 package com.internship.droidz.talkin.data.web;
-
-
-import com.internship.droidz.talkin.data.web.service.SessionService;
 import com.internship.droidz.talkin.data.web.service.UserService;
-
-
-
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
-
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -28,11 +20,9 @@ public class ApiRetrofit {
     public static final String APP_SECRET= "zbhG3xMwDPrWyzf";
     private static final String SRV=SCHEMA+HOST;
 
-    public static String TOKEN_HEADER="QB-Token";
-
     private static ApiRetrofit INSTANCE;
 
-    private SessionService sessionService;
+
 
     public UserService getUserService() {
         return userService;
@@ -41,9 +31,6 @@ public class ApiRetrofit {
     private UserService userService;
 
 
-    public SessionService getSessionService() {
-        return sessionService;
-    }
 
     private ApiRetrofit() {
 
@@ -56,7 +43,6 @@ public class ApiRetrofit {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        sessionService = retrofit.create(SessionService.class);
         userService=retrofit.create(UserService.class);
     }
 

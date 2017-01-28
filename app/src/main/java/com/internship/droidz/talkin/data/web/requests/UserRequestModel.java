@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Novak Alexandr on 26.01.2017.
  */
 
-public class UserRequestModel  extends  SessionRequest{
+public class UserRequestModel {
 
     @SerializedName("email")
     @Expose
@@ -20,7 +20,7 @@ public class UserRequestModel  extends  SessionRequest{
 
 
     public UserRequestModel(String email, String password) {
-        super();
+
         this.email = email;
         this.password = password;
     }
