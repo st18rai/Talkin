@@ -17,5 +17,11 @@ public interface RegistrationContract {
 
     interface RegistrationView {
 
+        void checkEmail();
+
+        void checkPasswordLength();
+
+        void comparePasswords();
+
     }
 }
