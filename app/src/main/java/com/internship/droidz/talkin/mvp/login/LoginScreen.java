@@ -2,9 +2,9 @@ package com.internship.droidz.talkin.mvp.login;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.mvp.registration.RegistrationScreen;
-import com.internship.droidz.talkin.web.ApiService;
 import com.jakewharton.rxbinding.view.RxView;
 
 import rx.Subscription;
@@ -28,12 +27,16 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
     EditText email;
     EditText password;
     AppCompatButton btnSignIn;
+    LoginContract.LoginPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login_screen);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        presenter = new LoginPresenterImpl(new LoginModelImpl(), this);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -62,6 +65,18 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
                 forgotPassword();
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.checkAndStartTimer(getApplicationContext());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStop();
+        presenter.stopTimer(getApplicationContext());
     }
 
     @Override
@@ -131,7 +146,6 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
 
     @Override
     public void navigateToRegistrationScreen() {
-
         Intent intent = new Intent(LoginScreen.this, RegistrationScreen.class);
         startActivity(intent);
     }

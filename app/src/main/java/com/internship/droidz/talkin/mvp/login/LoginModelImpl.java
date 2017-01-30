@@ -5,4 +5,5 @@ package com.internship.droidz.talkin.mvp.login;
  */
 
 public class LoginModelImpl implements LoginContract.LoginModel {
+
 }
