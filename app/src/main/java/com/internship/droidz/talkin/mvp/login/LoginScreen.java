@@ -22,6 +22,9 @@ import com.internship.droidz.talkin.data.web.requests.UserRequestModel;
 import com.internship.droidz.talkin.mvp.registration.RegistrationScreen;
 import com.jakewharton.rxbinding.view.RxView;
 
+import java.io.IOException;
+
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
@@ -72,54 +75,75 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
                 ApiRetrofit.getRetrofitApi().getUserService()
                         .getSession(new SessionRequest(ApiRetrofit.APP_ID,ApiRetrofit.APP_AUTH_KEY,
                                String.valueOf(nonce),String.valueOf(timestamp),WebUtils.calcSignature(nonce,timestamp)))
-                        .doOnNext(token -> {
-                            //ApiRetrofit.getRetrofitApi().getUserService()
-                          //      .getSessionWithAuth(new SessionWithAuthRequest(email.getText().toString(),
-                             //           password.getText().toString()),token.getSession().getToken());
-                            Log.i("debug","tut");
-                            Log.i("debug",token.getSession().getToken());
-                            Log.i("debug",String.valueOf(token.getSession().getUser_id()));
-                        })
+
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                      //  .subscribe(sessionModel -> {})
                         .subscribe(new Subscriber<SessionModel>() {
                             @Override
                             public void onCompleted() {
-
                             }
 
                             @Override
                             public void onError(Throwable e) {
                                     Log.i("error","message: "+e.getMessage());
-
+                                if (e instanceof HttpException) {
+                                    try
+                                    {
+                                        Log.i("retrofit error,",((HttpException) e).response().errorBody().string());
+                                    } catch (IOException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                }
                             }
 
                             @Override
                             public void onNext(SessionModel sessionModel) {
-
                                 int nonce= WebUtils.getNonce();
                                 long timestamp = System.currentTimeMillis()/1000l;
-
                                 SessionWithAuthRequest request=  new SessionWithAuthRequest(
                                         new UserRequestModel(email.getText().toString(), password.getText().toString()),
                                         ApiRetrofit.APP_ID,
                                         ApiRetrofit.APP_AUTH_KEY,
                                         String.valueOf(nonce),
                                         String.valueOf(timestamp),
-                                        WebUtils.calcSignature(nonce, timestamp, email.getText().toString(), password.getText().toString()));
+                                        WebUtils.calcSignature(nonce, timestamp,
+                                                email.getText().toString(),
+                                                password.getText().toString()));
 
                                         ApiRetrofit.getRetrofitApi().getUserService()
                                             .getSessionWithAuth(request,sessionModel.getSession().getToken())
-                                        .doOnNext(sessionModelAuth -> {
-                                            Log.i("dbg",sessionModel.toString());
-                                            Log.i("user",String.valueOf(sessionModelAuth.getSession().getUser_id()));
-                                            Log.i("token",String.valueOf(sessionModelAuth.getSession().getToken()));
-                                        })
-                                        .doOnError(throwable ->  Log.i("debug","error: "+throwable.getMessage()))
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
-                                        .subscribe();
+                                        .subscribe(new Subscriber<SessionModel>() {
+                                            @Override
+                                            public void onCompleted() {
+                                               Log.i("debug","logged in");
+                                            }
 
+                                            @Override
+                                            public void onError(Throwable e) {
+                                                if (e instanceof HttpException) {
+                                                    try
+                                                    {
+                                                        Log.i("retrofit error,",((HttpException) e).response().errorBody().string());
+                                                    } catch (IOException e1) {
+                                                        e1.printStackTrace();
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    Log.i("error","some error");
+                                                }
+
+                                            }
+
+                                            @Override
+                                            public void onNext(SessionModel sessionModel) {
+                                                Log.i("user",String.valueOf(sessionModel.getSession().getUser_id()));
+                                                Log.i("token",String.valueOf(sessionModel.getSession().getToken()));
+                                            }
+                                        });
                             }
                         });
             }
