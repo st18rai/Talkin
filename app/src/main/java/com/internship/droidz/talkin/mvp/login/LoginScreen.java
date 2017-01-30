@@ -2,9 +2,8 @@ package com.internship.droidz.talkin.mvp.login;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 
 import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.mvp.registration.RegistrationScreen;
-import com.internship.droidz.talkin.web.ApiService;
 import com.jakewharton.rxbinding.view.RxView;
 
 import rx.Subscription;
