@@ -18,22 +18,50 @@ public interface RegistrationContract {
 
     interface RegistrationModel {
 
+        void getAllPermissionsToUserPicFile(Context context, Intent intent);
+
+        void addPicToGallery(Context context);
+
+        File createImageFile() throws IOException;
+
+        FormatWatcher getFormatWatcher();
+
+
     }
 
     interface RegistrationPresenter {
-        File createImageFile(Context context) throws IOException;
-        Intent getCameraPictureIntent(PackageManager packageManager, Context context);
-        void checkImageAndSetToView();
+
+        Intent getCameraPictureIntent(PackageManager packageManager);
+
+        void setupUserPicFromCamera();
+
+        void setupUserPicFromGallery(Intent intent);
+
+        void checkImageSizeAndSetToView();
+
         void setUserPicUri(Uri uri);
+
         void setFormatWatcher();
-        void addPicToGallery(Context context);
+
+        void addPicToGallery();
+
+        void showDialogChooseSource();
+
     }
 
 
     interface RegistrationView {
+
+        void startCameraForCapture();
+
+        void startGalleryForCapture();
+
         void showAlertMaxSizeOfImage();
+
         void showAlertFailedToLoad();
+
         void setImageUriToView(Uri uri);
+
         void setPhoneMask(FormatWatcher formatWatcher);
     }
 }
