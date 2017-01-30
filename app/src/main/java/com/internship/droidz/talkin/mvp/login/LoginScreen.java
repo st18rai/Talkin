@@ -1,6 +1,8 @@
 package com.internship.droidz.talkin.mvp.login;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
@@ -9,7 +11,9 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.mvp.registration.RegistrationScreen;
@@ -37,7 +41,6 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
         email = (EditText) findViewById(R.id.emailEditText);
         password = (EditText) findViewById(R.id.passwordEditText);
         btnSignIn = (AppCompatButton) findViewById(R.id.signInButton);
-
         signInButtonState();
 
 
@@ -49,6 +52,14 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
                 Log.i("rx password",password.getText().toString());
                 navigateToRegistrationScreen();
 
+            }
+        });
+
+        TextView tvForgotPassword = (TextView) findViewById(R.id.forgotPasswordTextView);
+        Subscription tvSub = RxView.clicks(tvForgotPassword).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                forgotPassword();
             }
         });
     }
@@ -93,6 +104,29 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
                     btnSignIn.setEnabled(true);
             }
         });
+    }
+
+    @Override
+    public void forgotPassword() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+
+        builder.setView(inflater.inflate(R.layout.forgot_password_dialog, null))
+                .setTitle(R.string.forgot_password_dialog_title)
+                .setPositiveButton(R.string.dialog_positive_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setNegativeButton(R.string.dialog_negative_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        builder.create();
+        builder.show();
     }
 
     @Override

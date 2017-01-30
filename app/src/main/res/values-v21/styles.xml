@@ -7,6 +7,9 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="SplashScreenTheme" parent="AppTheme">
+        <item name="android:statusBarColor">@color/loginScreenBackground</item>
+    </style>
     <style name="SignInButtonStyle">
         <item name="android:colorButtonNormal">#004951</item>
     </style>
@@ -25,4 +28,7 @@
         <item name="colorAccent">#3a899d</item>
     </style>
 
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
 </resources>

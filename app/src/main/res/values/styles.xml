@@ -12,6 +12,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="SplashScreenTheme" parent="AppTheme" />
+
     <style name="SignInButtonStyle">
         <item name="colorButtonNormal">#004951</item>
         <item name="colorAccent">#24a185</item>
@@ -35,5 +37,10 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
 
 </resources>

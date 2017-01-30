@@ -18,4 +18,10 @@
     <string name="phone_hint">Phone</string>
     <string name="website_hint">Website</string>
     <string name="link_facebook_button">Link Facebook</string>
+    <string name="forgot_password_dialog_title">Restore Password</string>
+    <string name="dialog_positive_button">SEND</string>
+    <string name="dialog_negative_button">CANCEL</string>
+    <string name="compare_passwords_toast">Passwords do not match</string>
+    <string name="invalid_email_toast">Invalid email</string>
+    <string name="invalid_password_length_toast">Password length should be 6-12 symbols</string>
 </resources>
