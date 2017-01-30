@@ -4,12 +4,10 @@ package com.internship.droidz.talkin.data.web;
 import com.internship.droidz.talkin.data.web.service.SessionService;
 import com.internship.droidz.talkin.data.web.service.UserService;
 
-
-
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -26,11 +24,14 @@ public class ApiRetrofit {
     public static final String APP_ID = "52558";
     public static final String APP_AUTH_KEY= "UwScdfTjL7Tbhu5";
     public static final String APP_SECRET= "zbhG3xMwDPrWyzf";
-    private static final String SRV=SCHEMA+HOST;
+    private static final String SRV = SCHEMA + HOST;
 
     public static String TOKEN_HEADER="QB-Token";
 
+    HttpLoggingInterceptor logging;
+
     private static ApiRetrofit INSTANCE;
+
 
     private SessionService sessionService;
 
@@ -46,6 +47,8 @@ public class ApiRetrofit {
     }
 
     private ApiRetrofit() {
+        logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
         OkHttpClient okHttpClient = createClient();
 
@@ -62,6 +65,7 @@ public class ApiRetrofit {
 
     private OkHttpClient createClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.addInterceptor(logging);
         builder.readTimeout(10, TimeUnit.SECONDS);
         builder.connectTimeout(30, TimeUnit.SECONDS);
         return builder.build();
@@ -78,8 +82,6 @@ public class ApiRetrofit {
         }
         return INSTANCE;
     }
-
-
-    }
+}
 
 

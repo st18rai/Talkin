@@ -15,9 +15,12 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven {
+            url "https://github.com/QuickBlox/quickblox-android-sdk-releases/raw/master/"
+        }
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+ext {
+    qbSdkVersion = '3.3.0'
 }

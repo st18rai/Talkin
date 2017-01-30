@@ -11,7 +11,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 repositories {
-    maven { url 'https://maven.fabric.io/public' }
+    //Crashlytics
+    maven { url 'https://maven.fabric.io/public'
+    }
     //Mockito
     jcenter()
 }
@@ -48,12 +50,20 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
-    }
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
-
+    //phone mask
+    compile "ru.tinkoff.decoro:decoro:1.1.1"
+    //circle view
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    //Crashlytics
+    compile ('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true;
+    }
+    // Leakcanary
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     // Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
@@ -68,9 +78,17 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     // okhttp
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+    //Quickblox
+    compile("com.quickblox:quickblox-android-sdk-chat:3.3.0")
     //Mockito
     testCompile "org.mockito:mockito-core:2.0.57-beta"
-
+    //JUnit
+    testCompile 'junit:junit:4.12'
+    //Espresso
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 
     testCompile 'junit:junit:4.12'
 }
