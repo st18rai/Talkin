@@ -61,5 +61,11 @@ public interface RegistrationContract {
         void setImageUriToView(Uri uri);
 
         void setPhoneMask(FormatWatcher formatWatcher);
+
+        void checkEmail();
+
+        void checkPasswordLength();
+
+        void comparePasswords();
     }
 }

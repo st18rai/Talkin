@@ -19,6 +19,7 @@ public interface LoginContract {
 
     interface LoginView {
         void signInButtonState();
+        void forgotPassword();
         void navigateToRegistrationScreen();
     }
 

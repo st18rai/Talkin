@@ -1,6 +1,9 @@
 package com.internship.droidz.talkin.mvp.login;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
@@ -9,21 +12,19 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.internship.droidz.talkin.R;
-import com.internship.droidz.talkin.data.web.ApiRetrofit;
-import com.internship.droidz.talkin.data.web.requests.SessionRequest;
 import com.internship.droidz.talkin.mvp.registration.RegistrationScreen;
+import com.internship.droidz.talkin.web.ApiService;
 import com.jakewharton.rxbinding.view.RxView;
 
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 public class LoginScreen extends AppCompatActivity  implements LoginContract.LoginView{
-
 
     EditText email;
     EditText password;
@@ -45,11 +46,11 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
         email = (EditText) findViewById(R.id.emailEditText);
         password = (EditText) findViewById(R.id.passwordEditText);
         btnSignIn = (AppCompatButton) findViewById(R.id.signInButton);
-
         signInButtonState();
 
+
         AppCompatButton btnSignUp = (AppCompatButton) findViewById(R.id.signUpButton);
-        Subscription SubscrBtnSignUp = RxView.clicks(btnSignUp).subscribe(new Action1<Void>() {
+        Subscription buttonSub = RxView.clicks(btnSignUp).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
                 Log.i("rx login",email.getText().toString());
@@ -59,23 +60,11 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
             }
         });
 
-        Subscription SubscrBtnSignIn = RxView.clicks(btnSignIn).subscribe(new Action1<Void>() {
+        TextView tvForgotPassword = (TextView) findViewById(R.id.forgotPasswordTextView);
+        Subscription tvSub = RxView.clicks(tvForgotPassword).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
-                SessionRequest request = new SessionRequest();
-                Log.i("rx login",email.getText().toString());
-                Log.i("rx password",password.getText().toString());
-                ApiRetrofit.getRetrofitApi().getUserService()
-                        .getSession(new SessionRequest())
-                        // .requestLogin(new SessionWithAuthRequest(email.getText().toString(),password.getText().toString()))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext(sessionModel -> {
-                            Log.i("dbg",sessionModel.toString());
-                            Log.i("works", String.valueOf(sessionModel.getSession().getUser_id()));
-                        })
-                        .doOnError(throwable -> Log.i("not works","Error: "+throwable.getMessage()))
-                        .subscribe();
+                forgotPassword();
             }
         });
     }
@@ -94,6 +83,7 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
 
     @Override
     public void signInButtonState() {
+
         btnSignIn.setEnabled(false);
         email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -134,12 +124,31 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
     }
 
     @Override
+    public void forgotPassword() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+        LayoutInflater inflater = getLayoutInflater();
+
+        builder.setView(inflater.inflate(R.layout.forgot_password_dialog, null))
+                .setTitle(R.string.forgot_password_dialog_title)
+                .setPositiveButton(R.string.dialog_positive_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setNegativeButton(R.string.dialog_negative_button, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        builder.create();
+        builder.show();
+    }
+
+    @Override
     public void navigateToRegistrationScreen() {
         Intent intent = new Intent(LoginScreen.this, RegistrationScreen.class);
         startActivity(intent);
     }
-
-
-
-
 }

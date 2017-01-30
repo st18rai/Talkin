@@ -2,9 +2,10 @@
 <resources>
     <color name="colorPrimary">#2bbc9b</color>
     <color name="colorPrimaryDark">#24a185</color>
-    <color name="colorAccent">#ffffff</color>
+    <color name="colorAccent">#FFFFFF</color>
 
-    <color name="white">#ffffff</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray">#cbcbcb</color>
     <color name="signInButton">#004951</color>
     <color name="signUpButton">#27686f</color>
     <color name="linkFacebookButton">#3a579a</color>
