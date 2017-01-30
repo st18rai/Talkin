@@ -70,7 +70,14 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
     //Mockito
     testCompile "org.mockito:mockito-core:2.0.57-beta"
+    // sml serialize\deserialize
+    compile('org.simpleframework:simple-xml:2.7.+'){
+        exclude module: 'stax'
+        exclude module: 'stax-api'
+        exclude module: 'xpp3'
+    }
 
 
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support.test.espresso:espresso-core:2.2.2'
 }

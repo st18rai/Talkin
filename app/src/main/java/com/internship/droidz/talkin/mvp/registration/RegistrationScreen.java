@@ -45,6 +45,8 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
         EditText website = (EditText) findViewById(R.id.siteEditText);
 
 
+
+
         Subscription SubscrBtnSignIn = RxView.clicks(signUpButtonReg).subscribe(new Action1<Void>() {
             @Override
             public void call(Void aVoid) {
@@ -83,6 +85,7 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
                                     @Override
                                     public void onCompleted() {
                                         Log.i("registration","registered");
+
                                     }
 
                                     @Override
