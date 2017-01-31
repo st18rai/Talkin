@@ -39,7 +39,7 @@
             android:src="@drawable/userpic"
             app:civ_border_width="3dp"
             app:civ_border_color="@color/talkinUserPicBorder"
-            android:onClick="takePictureFromSource"/>
+            android:onClick="userPicOnClick"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -108,7 +108,8 @@
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:onClick="onClickPhone" />
 
         <EditText
             android:layout_width="match_parent"

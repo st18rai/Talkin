@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,11 +45,15 @@ public class RegistrationModel implements RegistrationContract.RegistrationModel
 
     @Override
     public void addPicToGallery(Context context) {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        userPicFile = new File(currentPhotoPath);
-        Uri contentUri = Uri.fromFile(userPicFile);
-        mediaScanIntent.setData(contentUri);
-        context.sendBroadcast(mediaScanIntent);
+        if (currentPhotoPath != null) {
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            userPicFile = new File(currentPhotoPath);
+            Uri contentUri = Uri.fromFile(userPicFile);
+            mediaScanIntent.setData(contentUri);
+            context.sendBroadcast(mediaScanIntent);
+        } else {
+            Log.i(TAG, "File don't exist");
+        }
     }
 
     @Override

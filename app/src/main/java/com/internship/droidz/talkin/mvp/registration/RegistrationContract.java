@@ -44,7 +44,7 @@ public interface RegistrationContract {
 
         void addPicToGallery();
 
-        void showDialogChooseSource();
+        boolean shouldAskPermission();
 
     }
 
@@ -58,6 +58,8 @@ public interface RegistrationContract {
 
         void showAlertFailedToLoad();
 
+        void showDialogChooseSource();
+
         void setImageUriToView(Uri uri);
 
         void setPhoneMask(FormatWatcher formatWatcher);
@@ -67,5 +69,7 @@ public interface RegistrationContract {
         void checkPasswordLength();
 
         void comparePasswords();
+
+        public void askPermissionWriteExternal();
     }
 }

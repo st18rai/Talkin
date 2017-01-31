@@ -1,13 +1,12 @@
 package com.internship.droidz.talkin.mvp.registration;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.internship.droidz.talkin.utils.Validator;
@@ -35,22 +34,7 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
         this.context = context;
     }
 
-    @Override
-    public void showDialogChooseSource() {
-        CharSequence sourcesOfImage[] = new CharSequence[] {"Device Camera", "Photo Gallery"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Choose source:")
-                .setNegativeButton("BACK", (DialogInterface dialog, int which) -> {})
-                .setItems(sourcesOfImage, (DialogInterface dialog, int which) -> {
-                    if (which == 0) {
-                        view.startCameraForCapture();
-                    }
-                    if (which == 1) {
-                        view.startGalleryForCapture();
-                    }
-                })
-                .show();
-    }
+
 
     @Override
     public Intent getCameraPictureIntent(PackageManager packageManager) {
@@ -111,5 +95,14 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
     public void setFormatWatcher() {
         view.setPhoneMask(model.getFormatWatcher());
     }
+
+    @Override
+    public boolean shouldAskPermission(){
+
+        return(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+
+    }
+
+
 
 }

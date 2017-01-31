@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.internship.droidz.talkin.mvp.app.App;
+import com.internship.droidz.talkin.App;
 import com.internship.droidz.talkin.utils.ProcessTimerReceiver;
 
 /**
