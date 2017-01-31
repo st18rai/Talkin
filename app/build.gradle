@@ -83,6 +83,13 @@ dependencies {
     compile("com.quickblox:quickblox-android-sdk-chat:3.3.0")
     //Mockito
     testCompile "org.mockito:mockito-core:2.0.57-beta"
+    // sml serialize\deserialize
+    compile('org.simpleframework:simple-xml:2.7.+'){
+        exclude module: 'stax'
+        exclude module: 'stax-api'
+        exclude module: 'xpp3'
+    }
+
     //JUnit
     testCompile 'junit:junit:4.12'
     //Espresso
@@ -91,4 +98,5 @@ dependencies {
     }
 
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support.test.espresso:espresso-core:2.2.2'
 }

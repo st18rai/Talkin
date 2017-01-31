@@ -1,6 +1,8 @@
 package com.internship.droidz.talkin.data.web;
 
+import android.icu.text.LocaleDisplayNames;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -18,20 +20,6 @@ import javax.crypto.spec.SecretKeySpec;
 public class WebUtils {
 
     private static Random randomizer = new Random();
-    public static String calcSignature(int nonce, Long timestamp) {
-        try {
-            String data = composeParametrs(nonce, timestamp);
-            SecretKeySpec key = new SecretKeySpec((ApiRetrofit.APP_SECRET).getBytes("UTF-8"), "HmacSHA1");
-            Mac mac = Mac.getInstance("HmacSHA1");
-            mac.init(key);
-            byte[] bytes = mac.doFinal(data.getBytes("UTF-8"));
-            return new String(Base64.encode(bytes, Base64.DEFAULT));
-        } catch (NoSuchAlgorithmException  | UnsupportedEncodingException | InvalidKeyException ex ) {
-            ex.printStackTrace();
-        }
-
-        return null;
-    }
 
     public static Integer getNonce()
     {
@@ -53,12 +41,39 @@ public class WebUtils {
         return null;
     }
 
+    public static String calcSignature(int nonce, long timestamp,String email,String password)
+    {
+        String data = composeParametrs(nonce, timestamp,email,password);
+        try {
+            SecretKeySpec signingKey = new SecretKeySpec(ApiRetrofit.APP_SECRET.getBytes(),
+                    "HmacSHA1");
+            Mac mac = Mac.getInstance ("HmacSHA1");
+            mac.init(signingKey);
+            return toHexString(mac.doFinal(data.getBytes()));
+        } catch(NoSuchAlgorithmException | InvalidKeyException ex){
+            Log.i("Error","calcSignature: "+ex.getMessage());
+
+        }
+        return null;
+    }
+
     private static String composeParametrs(int nonce, long timestamp) {
         StringBuilder sb = new StringBuilder("");
         sb.append("application_id=").append(ApiRetrofit.APP_ID);
         sb.append("&auth_key=").append(ApiRetrofit.APP_AUTH_KEY);
         sb.append("&nonce=").append(nonce);
         sb.append("&timestamp=").append(timestamp);
+        return sb.toString();
+    }
+
+    private static String composeParametrs(int nonce, long timestamp,String email, String password) {
+        StringBuilder sb = new StringBuilder("");
+        sb.append("application_id=").append(ApiRetrofit.APP_ID);
+        sb.append("&auth_key=").append(ApiRetrofit.APP_AUTH_KEY);
+        sb.append("&nonce=").append(nonce);
+        sb.append("&timestamp=").append(timestamp);
+        sb.append("&user[email]=").append(email);
+        sb.append("&user[password]=").append(password);
         return sb.toString();
     }
 

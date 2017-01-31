@@ -1,11 +1,7 @@
 package com.internship.droidz.talkin.data.web;
-
-
-import com.internship.droidz.talkin.data.web.service.SessionService;
 import com.internship.droidz.talkin.data.web.service.UserService;
 
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -31,7 +27,6 @@ public class ApiRetrofit {
     HttpLoggingInterceptor logging;
 
     private static ApiRetrofit INSTANCE;
-
 
     private SessionService sessionService;
 
