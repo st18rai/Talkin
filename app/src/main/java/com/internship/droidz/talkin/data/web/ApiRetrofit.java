@@ -1,11 +1,7 @@
 package com.internship.droidz.talkin.data.web;
-
-
-import com.internship.droidz.talkin.data.web.service.SessionService;
 import com.internship.droidz.talkin.data.web.service.UserService;
 
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -33,7 +29,6 @@ public class ApiRetrofit {
     private static ApiRetrofit INSTANCE;
 
 
-    private SessionService sessionService;
 
     public UserService getUserService() {
         return userService;
@@ -41,10 +36,6 @@ public class ApiRetrofit {
 
     private UserService userService;
 
-
-    public SessionService getSessionService() {
-        return sessionService;
-    }
 
     private ApiRetrofit() {
         logging = new HttpLoggingInterceptor();
@@ -59,7 +50,6 @@ public class ApiRetrofit {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        sessionService = retrofit.create(SessionService.class);
         userService=retrofit.create(UserService.class);
     }
 

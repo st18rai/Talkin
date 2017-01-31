@@ -33,21 +33,9 @@ public class SessionRequest {
     public SessionRequest(String applicationId, String authKey, String nonce, String timestamp, String signature) {
         this.applicationId = applicationId;
         this.authKey = authKey;
-        this.timestamp = timestamp;
         this.nonce = nonce;
+        this.timestamp = timestamp;
         this.signature = signature;
-    }
-
-    public SessionRequest() {
-        Long timestamp = System.currentTimeMillis()/1000l;
-        int nonce = WebUtils.getNonce();
-        this.timestamp=String.valueOf(timestamp);
-        this.nonce=String.valueOf(nonce);
-        this.applicationId=ApiRetrofit.APP_ID;
-        this.authKey=ApiRetrofit.APP_AUTH_KEY;
-        this.nonce=String.valueOf(nonce);
-        this.timestamp=String.valueOf(timestamp);
-        this.signature=WebUtils.calcSignature(nonce,timestamp);
     }
 
     public String getSignature() {

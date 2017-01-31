@@ -15,12 +15,14 @@ public interface LoginContract {
     interface LoginPresenter {
         void checkAndStartTimer(Context context);
         void stopTimer(Context context);
+        void signIn(String email, String password);
     }
 
     interface LoginView {
         void signInButtonState();
         void forgotPassword();
         void navigateToRegistrationScreen();
+        void navigationToMainScreen();
     }
 
 }

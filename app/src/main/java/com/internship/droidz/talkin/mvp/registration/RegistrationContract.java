@@ -46,6 +46,8 @@ public interface RegistrationContract {
 
         boolean shouldAskPermission();
 
+        void signUp(String email,String password, String fullName, String phone, String website);
+
     }
 
     interface RegistrationView {
@@ -69,6 +71,8 @@ public interface RegistrationContract {
         void checkPasswordLength();
 
         void comparePasswords();
+
+        Runtime Permissions
 
         public void askPermissionWriteExternal();
     }
