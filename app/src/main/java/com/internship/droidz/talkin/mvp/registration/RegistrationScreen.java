@@ -16,9 +16,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.text.TextUtils;
-import com.internship.droidz.talkin.R;
 
+import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.mvp.main.MainScreen;
 import com.jakewharton.rxbinding.view.RxView;
 
@@ -32,7 +31,7 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     private final String TAG = "RegistrationScreen";
     private final int REQUEST_IMAGE_CAPTURE = 0;
     private final int REQUEST_IMAGE_EXT = 1;
-    private final int REQUEST_WRITE_EXTERNAL = 200;
+    private final int REQUEST_PERMISSION_WRITE_EXTERNAL = 200;
 
     private RegistrationContract.RegistrationPresenter presenter;
 
@@ -192,7 +191,7 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
 
         if (presenter.shouldAskPermission()) {
             String[] perms = {"android.permission.WRITE_EXTERNAL_STORAGE"};
-            requestPermissions(perms, REQUEST_WRITE_EXTERNAL);
+            requestPermissions(perms, REQUEST_PERMISSION_WRITE_EXTERNAL);
         }
     }
 

@@ -72,7 +72,7 @@ public interface RegistrationContract {
 
         void comparePasswords();
 
-        Runtime Permissions
+        void navigatetoMainScreen();
 
         public void askPermissionWriteExternal();
     }
