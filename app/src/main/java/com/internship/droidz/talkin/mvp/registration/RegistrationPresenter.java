@@ -10,9 +10,20 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.internship.droidz.talkin.data.model.SessionModel;
+import com.internship.droidz.talkin.data.model.UserModel;
+import com.internship.droidz.talkin.data.web.ApiRetrofit;
+import com.internship.droidz.talkin.data.web.WebUtils;
+import com.internship.droidz.talkin.data.web.requests.RegistrationRequest;
+import com.internship.droidz.talkin.data.web.requests.SessionRequest;
+import com.internship.droidz.talkin.data.web.requests.UserSignUpRequest;
 import com.internship.droidz.talkin.utils.Validator;
 
 import java.io.IOException;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by st18r on 20.01.2017.
@@ -51,6 +62,59 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
                 })
                 .show();
     }
+
+    @Override
+    public void signUp(String email, String password, String fullName, String phone, String website) {
+        int nonce= WebUtils.getNonce();
+        long timestamp = System.currentTimeMillis()/1000l;
+        ApiRetrofit.getRetrofitApi().getUserService()
+                .getSession(new SessionRequest(ApiRetrofit.APP_ID,ApiRetrofit.APP_AUTH_KEY,
+                        String.valueOf(nonce),String.valueOf(timestamp),WebUtils.calcSignature(nonce,timestamp)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<SessionModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("error reg", "msg: "+e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(SessionModel sessionModel) {
+
+
+                        UserSignUpRequest requestReg = new UserSignUpRequest(email,
+                                password,fullName,phone,website);
+                        RegistrationRequest request = new RegistrationRequest(requestReg);
+                        ApiRetrofit.getRetrofitApi().getUserService().requestSignUp(request,sessionModel.getSession().getToken())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<UserModel>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        Log.i("registration","registered");
+                                        view.navigatetoMainScreen();
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Log.i("registration","failed :( "+ e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onNext(UserModel userModel) {
+                                        Log.i("user_id",userModel.getUser().getId().toString());
+                                    }
+                                });
+                    }
+                });
+    }
+
 
     @Override
     public Intent getCameraPictureIntent(PackageManager packageManager) {

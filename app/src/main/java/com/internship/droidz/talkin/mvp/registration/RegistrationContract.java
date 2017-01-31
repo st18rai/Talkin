@@ -46,6 +46,8 @@ public interface RegistrationContract {
 
         void showDialogChooseSource();
 
+        void signUp(String email,String password, String fullName, String phone, String website);
+
     }
 
     interface RegistrationView {
@@ -67,5 +69,7 @@ public interface RegistrationContract {
         void checkPasswordLength();
 
         void comparePasswords();
+
+        void navigatetoMainScreen();
     }
 }

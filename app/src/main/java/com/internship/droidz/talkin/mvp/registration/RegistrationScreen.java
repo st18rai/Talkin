@@ -5,16 +5,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.text.TextUtils;
-
 import com.internship.droidz.talkin.R;
 
+import com.internship.droidz.talkin.mvp.main.MainScreen;
+import com.jakewharton.rxbinding.view.RxView;
+
 import ru.tinkoff.decoro.watchers.FormatWatcher;
+import rx.Subscription;
+import rx.functions.Action1;
 
 
 public class RegistrationScreen extends AppCompatActivity implements RegistrationContract.RegistrationView {
@@ -30,7 +35,10 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     EditText confirmPassword;
     ImageView userPicImageView;
     EditText phoneEditText;
+    EditText fullName;
+    EditText website;
 
+    AppCompatButton signUpButtonReg;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +47,9 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         userPicImageView = (ImageView) findViewById(R.id.userPicImageView);
         phoneEditText = (EditText) findViewById(R.id.phoneEditText);
+        fullName = (EditText) findViewById(R.id.nameEditText);
+        website = (EditText) findViewById(R.id.siteEditText);
+        signUpButtonReg = (AppCompatButton) findViewById(R.id.signUpButtonReg);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -52,6 +63,22 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
         checkEmail();
         checkPasswordLength();
         comparePasswords();
+
+        Subscription buttonSub = RxView.clicks(signUpButtonReg).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                presenter.signUp(email.getText().toString(),
+                        password.getText().toString(),
+                        fullName.getText().toString(),
+                        phoneEditText.getText().toString()
+                                .replaceAll(" ","")
+                                .replaceAll("-","")
+                                .replaceAll("\\(","")
+                                .replaceAll("\\)",""),
+                        website.getText().toString());
+            }
+
+        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent returnedData) {
@@ -117,6 +144,12 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
                 }
             }
         });
+    }
+
+    @Override
+    public void navigatetoMainScreen() {
+        Intent intent = new Intent(RegistrationScreen.this, MainScreen.class);
+        startActivity(intent);
     }
 
     private boolean isValidEmail(CharSequence target) {
