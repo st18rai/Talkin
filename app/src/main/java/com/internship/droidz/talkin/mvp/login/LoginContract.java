@@ -21,6 +21,7 @@ public interface LoginContract {
         void signInButtonState();
         void forgotPassword();
         void navigateToRegistrationScreen();
+        void navigationToMainScreen();
     }
 
 }

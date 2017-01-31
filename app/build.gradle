@@ -32,6 +32,7 @@ android {
         jackOptions {
             enabled true
         }
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -83,12 +84,14 @@ dependencies {
     compile("com.quickblox:quickblox-android-sdk-chat:3.3.0")
     //Mockito
     testCompile "org.mockito:mockito-core:2.0.57-beta"
-    // sml serialize\deserialize
+    // xml serialize\deserialize
     compile('org.simpleframework:simple-xml:2.7.+'){
         exclude module: 'stax'
         exclude module: 'stax-api'
         exclude module: 'xpp3'
     }
+
+    compile 'com.android.support:multidex:1.0.0'
 
     //JUnit
     testCompile 'junit:junit:4.12'

@@ -28,7 +28,7 @@ public class ApiRetrofit {
 
     private static ApiRetrofit INSTANCE;
 
-    private SessionService sessionService;
+
 
     public UserService getUserService() {
         return userService;
@@ -36,10 +36,6 @@ public class ApiRetrofit {
 
     private UserService userService;
 
-
-    public SessionService getSessionService() {
-        return sessionService;
-    }
 
     private ApiRetrofit() {
         logging = new HttpLoggingInterceptor();
@@ -54,7 +50,6 @@ public class ApiRetrofit {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        sessionService = retrofit.create(SessionService.class);
         userService=retrofit.create(UserService.class);
     }
 
