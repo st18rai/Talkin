@@ -12,6 +12,10 @@ public class CreateFileRequest {
     @Expose
     private Blob blob;
 
+    public CreateFileRequest(Blob blob) {
+        this.blob = blob;
+    }
+
     public Blob getBlob() {
         return blob;
     }

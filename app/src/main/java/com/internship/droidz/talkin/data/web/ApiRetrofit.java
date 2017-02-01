@@ -1,4 +1,5 @@
 package com.internship.droidz.talkin.data.web;
+import com.internship.droidz.talkin.data.web.service.ContentService;
 import com.internship.droidz.talkin.data.web.service.UserService;
 
 import java.util.concurrent.TimeUnit;
@@ -34,7 +35,12 @@ public class ApiRetrofit {
         return userService;
     }
 
+    public ContentService getContentService() {
+        return contentService;
+    }
+
     private UserService userService;
+    private ContentService contentService;
 
 
     private ApiRetrofit() {
