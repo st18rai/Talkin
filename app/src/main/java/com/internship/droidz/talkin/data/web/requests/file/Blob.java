@@ -17,6 +17,11 @@ public class Blob {
     @Expose
     private String name;
 
+    public Blob(String contentType, String name) {
+        this.contentType = contentType;
+        this.name = name;
+    }
+
     public String getContentType() {
         return contentType;
     }

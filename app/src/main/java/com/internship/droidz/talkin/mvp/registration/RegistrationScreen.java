@@ -118,6 +118,7 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
         startActivityForResult(presenter.getCameraPictureIntent(getPackageManager()), REQUEST_IMAGE_CAPTURE);
     }
 
+
     @Override
     public void startGalleryForCapture() {
 
