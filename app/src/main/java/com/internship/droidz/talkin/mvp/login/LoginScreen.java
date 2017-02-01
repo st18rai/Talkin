@@ -34,21 +34,21 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login_screen);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        email = (EditText) findViewById(R.id.emailEditText);
+        password = (EditText) findViewById(R.id.passwordEditText);
+        tvForgotPassword = (TextView) findViewById(R.id.forgotPasswordTextView);
+        btnSignIn = (AppCompatButton) findViewById(R.id.signInButton);
+        btnSignUp = (AppCompatButton) findViewById(R.id.signUpButton);
+
         presenter = new LoginPresenterImpl(new LoginModelImpl(), this);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         signInButtonState();
-
-        email = (EditText) findViewById(R.id.emailEditText);
-        password = (EditText) findViewById(R.id.passwordEditText);
-        tvForgotPassword = (TextView) findViewById(R.id.forgotPasswordTextView);
-        btnSignIn = (AppCompatButton) findViewById(R.id.signInButton);
-        btnSignUp = (AppCompatButton) findViewById(R.id.signUpButton);
 
         Subscription buttonSub = RxView.clicks(btnSignUp).subscribe((aVoid) -> {
                 Log.i("rx login",email.getText().toString());
@@ -64,8 +64,6 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
                 });
 
     }
-
-
 
     @Override
     protected void onStop() {

@@ -6,6 +6,7 @@ import com.internship.droidz.talkin.data.model.UserModel;
 import com.internship.droidz.talkin.data.web.requests.RegistrationRequest;
 import com.internship.droidz.talkin.data.web.requests.SessionRequest;
 import com.internship.droidz.talkin.data.web.requests.SessionWithAuthRequest;
+import com.internship.droidz.talkin.data.web.requests.UpdateUserRequest;
 import com.internship.droidz.talkin.data.web.requests.UserSignUpRequest;
 
 
@@ -13,6 +14,8 @@ import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -36,5 +39,11 @@ public interface UserService {
     @Headers({"Content-Type: application/json"})
     @POST("/users.json")
     Observable<UserModel> requestSignUp(@Body RegistrationRequest body, @Header("QB-Token") String token);
+
+    @Headers({"Content-Type: application/json"})
+    @PUT("/users/{user_id}.json")
+    Observable<UserModel> updateUser( @Path(value = "user_id") String userId,
+                                      @Body UpdateUserRequest body,
+                                      @Header("QB-Token") String token);
 
 }

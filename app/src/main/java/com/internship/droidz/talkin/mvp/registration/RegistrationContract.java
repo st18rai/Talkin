@@ -40,6 +40,8 @@ public interface RegistrationContract {
 
         void setUserPicUri(Uri uri);
 
+        Uri getUserPicUri();
+
         void setFormatWatcher();
 
         void addPicToGallery();
@@ -47,6 +49,8 @@ public interface RegistrationContract {
         boolean shouldAskPermission();
 
         void signUp(String email,String password, String fullName, String phone, String website);
+
+        void uploadPhoto(Uri photoUri,String email,String password);
 
     }
 
