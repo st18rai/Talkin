@@ -1,6 +1,7 @@
 package com.internship.droidz.talkin;
 
 import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
@@ -13,7 +14,7 @@ import io.fabric.sdk.android.Fabric;
  * Created by Novak Alexandr on 19.01.2017.
  */
 
-public class App extends Application {
+public class App extends MultiDexApplication {
 
     private static App instance;
     private BackgroundChecker backgroundChecker;
