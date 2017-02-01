@@ -22,12 +22,7 @@ public class SplashScreen extends AppCompatActivity implements SplashContract.Sp
         setContentView(R.layout.activity_splash_screen);
 
         handler = new Handler();
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                presenter.checkLoggedInAndNavigate();
-            }
-        };
+        runnable = () -> presenter.checkLoggedInAndNavigate();
     }
 
     @Override

@@ -21,6 +21,3 @@ allprojects {
     }
 }
 
-ext {
-    qbSdkVersion = '3.3.0'
-}

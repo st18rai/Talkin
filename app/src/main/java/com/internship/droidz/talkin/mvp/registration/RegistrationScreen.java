@@ -23,7 +23,6 @@ import com.jakewharton.rxbinding.view.RxView;
 
 import ru.tinkoff.decoro.watchers.FormatWatcher;
 import rx.Subscription;
-import rx.functions.Action1;
 
 
 public class RegistrationScreen extends AppCompatActivity implements RegistrationContract.RegistrationView {
@@ -69,20 +68,14 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
         checkPasswordLength();
         comparePasswords();
 
-        Subscription buttonSub = RxView.clicks(signUpButtonReg).subscribe(new Action1<Void>() {
-            @Override
-            public void call(Void aVoid) {
-                presenter.signUp(email.getText().toString(),
+        Subscription buttonSub = RxView.clicks(signUpButtonReg)
+                .subscribe((Void aVoid) -> {
+                    presenter.signUp(email.getText().toString(),
                         password.getText().toString(),
                         fullName.getText().toString(),
                         phoneEditText.getText().toString()
-                                .replaceAll(" ","")
-                                .replaceAll("-","")
-                                .replaceAll("\\(","")
-                                .replaceAll("\\)",""),
+                                .replaceAll("[\\n\\-\\(\\)]",""),
                         website.getText().toString());
-            }
-
         });
     }
 
@@ -143,26 +136,15 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
         showDialogChooseSource();
     }
 
-    public void onClickPhone(View view) {
-
-            if (phoneEditText.getText().toString().equals("")) {
-                phoneEditText.setText("+38 (");
-            }
-    }
-
-
     @Override
     public void comparePasswords() {
 
-        confirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean focus) {
+        confirmPassword.setOnFocusChangeListener((view, focus) -> {
                 if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
                     confirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
                     Toast toast = Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT);
                     toast.show();
                 }
-            }
         });
     }
 
@@ -208,30 +190,24 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     @Override
     public void checkEmail() {
 
-        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean focus) {
+        email.setOnFocusChangeListener((view, focus) -> {
                 if (!focus && !isValidEmail(email.getText().toString())) {
                     email.setError(getResources().getString(R.string.invalid_email_toast));
                     Toast toast = Toast.makeText(getApplication(), R.string.invalid_email_toast, Toast.LENGTH_SHORT);
                     toast.show();
                 }
-            }
         });
     }
 
     @Override
     public void checkPasswordLength() {
 
-        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean focus) {
+        password.setOnFocusChangeListener((view, focus) -> {
                 if (!focus && !isValidPasswordLength(password.getText().toString())) {
                     password.setError(getResources().getString(R.string.invalid_password_length_toast));
                     Toast toast = Toast.makeText(getApplication(), R.string.invalid_password_length_toast, Toast.LENGTH_SHORT);
                     toast.show();
                 }
-            }
         });
     }
 

@@ -108,8 +108,7 @@
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:onClick="onClickPhone" />
+            android:layout_marginRight="20dp" />
 
         <EditText
             android:layout_width="match_parent"
