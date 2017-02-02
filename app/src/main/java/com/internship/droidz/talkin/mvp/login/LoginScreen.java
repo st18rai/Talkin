@@ -1,8 +1,8 @@
 package com.internship.droidz.talkin.mvp.login;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
@@ -10,7 +10,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -21,7 +20,7 @@ import com.jakewharton.rxbinding.view.RxView;
 
 import rx.Subscription;
 
-public class LoginScreen extends AppCompatActivity  implements LoginContract.LoginView{
+public class LoginScreen extends AppCompatActivity implements LoginContract.LoginView {
 
     EditText email;
     EditText password;
@@ -42,7 +41,6 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
         tvForgotPassword = (TextView) findViewById(R.id.forgotPasswordTextView);
         btnSignIn = (AppCompatButton) findViewById(R.id.signInButton);
         btnSignUp = (AppCompatButton) findViewById(R.id.signUpButton);
-
         presenter = new LoginPresenterImpl(new LoginModelImpl(), this);
 
         setSupportActionBar(toolbar);
@@ -51,15 +49,15 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
         signInButtonState();
 
         Subscription buttonSub = RxView.clicks(btnSignUp).subscribe((aVoid) -> {
-                Log.i("rx login",email.getText().toString());
-                Log.i("rx password",password.getText().toString());
-                navigateToRegistrationScreen();
+            Log.i("rx login", email.getText().toString());
+            Log.i("rx password", password.getText().toString());
+            navigateToRegistrationScreen();
         });
 
         Subscription tvSub = RxView.clicks(tvForgotPassword).subscribe((aVoid) -> forgotPassword());
 
         Subscription SubscrBtnSignIn = RxView.clicks(btnSignIn)
-                .subscribe( (aVoid) -> {
+                .subscribe((aVoid) -> {
                     presenter.signIn(email.getText().toString(), password.getText().toString());
                 });
 
@@ -121,15 +119,9 @@ public class LoginScreen extends AppCompatActivity  implements LoginContract.Log
 
     @Override
     public void forgotPassword() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
-        LayoutInflater inflater = getLayoutInflater();
-
-        builder.setView(inflater.inflate(R.layout.forgot_password_dialog, null))
-                .setTitle(R.string.forgot_password_dialog_title)
-                .setPositiveButton(R.string.dialog_positive_button, (dialogInterface, i) -> {})
-                .setNegativeButton(R.string.dialog_negative_button, (dialogInterface, i) -> {})
-                .create()
-                .show();
+        FragmentManager fragmentManager = this.getFragmentManager();
+        ForgotPasswordDialog forgotPasswordDialog = new ForgotPasswordDialog();
+        forgotPasswordDialog.show(fragmentManager, "forgot password dialog");
     }
 
     @Override
