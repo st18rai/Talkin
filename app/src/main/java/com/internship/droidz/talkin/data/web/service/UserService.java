@@ -7,9 +7,9 @@ import com.internship.droidz.talkin.data.web.requests.RegistrationRequest;
 import com.internship.droidz.talkin.data.web.requests.SessionRequest;
 import com.internship.droidz.talkin.data.web.requests.SessionWithAuthRequest;
 import com.internship.droidz.talkin.data.web.requests.UpdateUserRequest;
-import com.internship.droidz.talkin.data.web.requests.UserSignUpRequest;
 
 
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -42,8 +42,8 @@ public interface UserService {
 
     @Headers({"Content-Type: application/json"})
     @PUT("/users/{user_id}.json")
-    Observable<UserModel> updateUser( @Path(value = "user_id") String userId,
-                                      @Body UpdateUserRequest body,
-                                      @Header("QB-Token") String token);
+    Observable<Response<Void>> updateUser(@Path(value = "user_id") String userId,
+                                          @Body UpdateUserRequest body,
+                                          @Header("QB-Token") String token);
 
 }
