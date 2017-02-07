@@ -2,7 +2,6 @@ package com.internship.droidz.talkin.data.web.response.file;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.internship.droidz.talkin.data.web.requests.file.Blob;
 
 /**
  * Created by Novak Alexandr on 30.01.2017.

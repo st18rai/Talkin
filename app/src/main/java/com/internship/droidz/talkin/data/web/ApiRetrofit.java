@@ -56,7 +56,7 @@ public class ApiRetrofit {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        userService=retrofit.create(UserService.class);
+        userService = retrofit.create(UserService.class);
     }
 
     private OkHttpClient createClient() {

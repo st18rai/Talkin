@@ -40,8 +40,6 @@ public interface RegistrationContract {
 
         void setUserPicUri(Uri uri);
 
-        Uri getUserPicUri();
-
         void setFormatWatcher();
 
         void addPicToGallery();
@@ -50,11 +48,17 @@ public interface RegistrationContract {
 
         void signUp(String email,String password, String fullName, String phone, String website);
 
-        void uploadPhoto(Uri photoUri,String email,String password);
+        void uploadPhoto(Uri photoUri, String email, String password);
+
+        void checkPasswordStrength(String password);
 
     }
 
     interface RegistrationView {
+
+        void showProgress();
+
+        void hideProgress();
 
         void startCameraForCapture();
 
@@ -72,12 +76,12 @@ public interface RegistrationContract {
 
         void checkEmail();
 
-        void checkPasswordLength();
+        void checkPassword();
 
         void comparePasswords();
 
-        void navigatetoMainScreen();
+        void navigateToMainScreen();
 
-        public void askPermissionWriteExternal();
+        void askPermissionWriteExternal();
     }
 }

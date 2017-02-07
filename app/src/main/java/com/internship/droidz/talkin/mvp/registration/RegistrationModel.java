@@ -61,9 +61,8 @@ public class RegistrationModel implements RegistrationContract.RegistrationModel
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File imageFile = File.createTempFile(imageFileName, ".jpg", storageDir);
-        currentPhotoPath = imageFile.getAbsolutePath();
-        userPicFile = new File(currentPhotoPath);
+        userPicFile = new File(storageDir + imageFileName + ".jpg");
+        currentPhotoPath = userPicFile.getAbsolutePath();
         return userPicFile;
     }
 
@@ -75,4 +74,5 @@ public class RegistrationModel implements RegistrationContract.RegistrationModel
         );
         return formatWatcher;
     }
+
 }

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.mvp.main.MainScreen;
+import com.internship.droidz.talkin.utils.Validator;
 import com.jakewharton.rxbinding.view.RxView;
 
 import ru.tinkoff.decoro.watchers.FormatWatcher;
@@ -41,6 +42,7 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     EditText phoneEditText;
     EditText fullName;
     EditText website;
+    Validator validator;
 
     AppCompatButton signUpButtonReg;
     @Override
@@ -60,12 +62,13 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
 
         presenter = new RegistrationPresenter(new RegistrationModel(), this, this);
         presenter.setFormatWatcher();
+        validator = new Validator();
         email = (EditText) findViewById(R.id.emailEditTextReg);
         password = (EditText) findViewById(R.id.passwordEditTextReg);
         confirmPassword = (EditText) findViewById(R.id.confirmPasswordEditText);
 
         checkEmail();
-        checkPasswordLength();
+        checkPassword();
         comparePasswords();
 
         Subscription buttonSub = RxView.clicks(signUpButtonReg)
@@ -74,7 +77,11 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
                         password.getText().toString(),
                         fullName.getText().toString(),
                         phoneEditText.getText().toString()
-                                .replaceAll("[\\n\\-\\(\\)]",""),
+//                            .replaceAll(" ", "")
+//                                .replaceAll("-", "")
+//                                .replaceAll("\\(", "")
+//                                .replaceAll("\\)", ""),
+                                .replaceAll("[ \\-\\(\\)]",""),
                         website.getText().toString());
         });
     }
@@ -103,6 +110,16 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     public void setPhoneMask(FormatWatcher formatWatcher) {
 
         formatWatcher.installOn(phoneEditText);
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
     }
 
     @Override
@@ -150,7 +167,8 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     }
 
     @Override
-    public void navigatetoMainScreen() {
+    public void navigateToMainScreen() {
+
         Intent intent = new Intent(RegistrationScreen.this, MainScreen.class);
         startActivity(intent);
     }
@@ -201,13 +219,18 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     }
 
     @Override
-    public void checkPasswordLength() {
+    public void checkPassword() {
 
         password.setOnFocusChangeListener((view, focus) -> {
-                if (!focus && !isValidPasswordLength(password.getText().toString())) {
+            String input = password.getText().toString();
+                if (!focus && !isValidPasswordLength(input)) {
                     password.setError(getResources().getString(R.string.invalid_password_length_toast));
-                    Toast toast = Toast.makeText(getApplication(), R.string.invalid_password_length_toast, Toast.LENGTH_SHORT);
-                    toast.show();
+                    Toast.makeText(getApplication(), R.string.invalid_password_length_toast, Toast.LENGTH_SHORT).show();
+                } else {
+                    if (!validator.checkPasswordStrength(input)) {
+                        password.setError(getResources().getString(R.string.password_is_weak_toast));
+                        Toast.makeText(getApplication(), R.string.invalid_password_length_toast, Toast.LENGTH_SHORT).show();
+                    }
                 }
         });
     }

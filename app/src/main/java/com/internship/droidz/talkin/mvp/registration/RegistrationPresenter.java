@@ -28,8 +28,6 @@ import com.internship.droidz.talkin.data.web.response.file.UploadFileResponse;
 import com.internship.droidz.talkin.mvp.login.LoginScreen;
 import com.internship.droidz.talkin.utils.Validator;
 
-import org.jivesoftware.smack.util.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -39,7 +37,6 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.adapter.rxjava.HttpException;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -53,9 +50,10 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
 
     private String TAG = "RegistrationPresenter";
 
+    Context context;
     RegistrationModel model;
     RegistrationContract.RegistrationView view;
-    Context context;
+
 
     private Validator validator = new Validator();
 
@@ -65,22 +63,18 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
         this.context = context;
     }
 
-
-
     @Override
     public void signUp(String email, String password, String fullName, String phone, String website) {
         int nonce= WebUtils.getNonce();
         long timestamp = System.currentTimeMillis()/1000l;
         ApiRetrofit.getRetrofitApi().getUserService()
-                .getSession(new SessionRequest(ApiRetrofit.APP_ID,ApiRetrofit.APP_AUTH_KEY,
-                        String.valueOf(nonce),String.valueOf(timestamp),WebUtils.calcSignature(nonce,timestamp)))
+                .getSession(new SessionRequest(ApiRetrofit.APP_ID, ApiRetrofit.APP_AUTH_KEY,
+                        String.valueOf(nonce), String.valueOf(timestamp), WebUtils.calcSignature(nonce, timestamp)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SessionModel>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
+                    public void onCompleted() {}
 
                     @Override
                     public void onError(Throwable e) {
@@ -90,9 +84,8 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
                     @Override
                     public void onNext(SessionModel sessionModel) {
 
-
                         UserSignUpRequest requestReg = new UserSignUpRequest(email,
-                                password,fullName,phone,website);
+                                password, fullName, phone, website);
                         RegistrationRequest request = new RegistrationRequest(requestReg);
                         ApiRetrofit.getRetrofitApi().getUserService().requestSignUp(request,sessionModel.getSession().getToken())
                                 .subscribeOn(Schedulers.io())
@@ -100,15 +93,14 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
                                 .subscribe(new Subscriber<UserModel>() {
                                     @Override
                                     public void onCompleted() {
-                                        Log.i("registration","registered");
-                                        uploadPhoto(model.userPicFileUri,email,password);
-                                        view.navigatetoMainScreen();
-
+                                        Log.i("registration", "registered");
+                                        view.navigateToMainScreen();
+                                        uploadPhoto(model.userPicFileUri, email, password);
                                     }
 
                                     @Override
                                     public void onError(Throwable e) {
-                                        Log.i("registration","failed :( "+ e.getMessage());
+                                        Log.i("registration","failed :( " + e.getMessage());
                                     }
 
                                     @Override
@@ -120,6 +112,7 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
                 });
     }
 
+
     @Override
     public void uploadPhoto(Uri photoUri, String email,String password) {
         MultipartBody.Part body = prepareFilePart("userPhoto", photoUri);
@@ -129,8 +122,8 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
         int nonce= WebUtils.getNonce();
         long timestamp = System.currentTimeMillis()/1000l;
         ApiRetrofit.getRetrofitApi().getUserService()
-                .getSession(new SessionRequest(ApiRetrofit.APP_ID,ApiRetrofit.APP_AUTH_KEY,
-                        String.valueOf(nonce),String.valueOf(timestamp),WebUtils.calcSignature(nonce,timestamp)))
+                .getSession(new SessionRequest(ApiRetrofit.APP_ID, ApiRetrofit.APP_AUTH_KEY,
+                        String.valueOf(nonce), String.valueOf(timestamp), WebUtils.calcSignature(nonce,timestamp)))
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -142,11 +135,11 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("error","message: "+e.getMessage());
+                        Log.i("error", "message: " + e.getMessage());
                         if (e instanceof HttpException) {
                             try
                             {
-                                Log.i("retrofit error,",((HttpException) e).response().errorBody().string());
+                                Log.i("retrofit error,", ((HttpException) e).response().errorBody().string());
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }
@@ -155,9 +148,9 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
 
                     @Override
                     public void onNext(SessionModel sessionModel) {
-                        int nonce= WebUtils.getNonce();
+                        int nonce = WebUtils.getNonce();
                         long timestamp = System.currentTimeMillis()/1000l;
-                        SessionWithAuthRequest request=  new SessionWithAuthRequest(
+                        SessionWithAuthRequest request = new SessionWithAuthRequest(
                                 new UserRequestModel(email, password),
                                 ApiRetrofit.APP_ID,
                                 ApiRetrofit.APP_AUTH_KEY,
@@ -168,7 +161,7 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
                                         password));
 
                         ApiRetrofit.getRetrofitApi().getUserService()
-                                .getSessionWithAuth(request,sessionModel.getSession().getToken())
+                                .getSessionWithAuth(request, sessionModel.getSession().getToken())
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Subscriber<SessionModel>() {
@@ -207,7 +200,7 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
                                                 .subscribe(createFileResponse -> {
                                                     Map<String,RequestBody> map= new HashMap<>();
                                                     service.getContentService().uploadFile(createFileResponse.getBlob().getBlobObjectAccess().getParams(),
-                                                            map,prepareFilePart("partName",photoUri))
+                                                            map, prepareFilePart("partName", photoUri))
                                                     .subscribe(new Subscriber<UploadFileResponse>() {
                                                         @Override
                                                         public void onCompleted() {
@@ -237,6 +230,11 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
                 });
 
 
+
+    }
+
+    @Override
+    public void checkPasswordStrength(String password) {
 
     }
 
@@ -280,7 +278,7 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
 
     @Override
     public void checkImageSizeAndSetToView() {
-        if (validator.checkUserPicUriSize(model.userPicFileUri)) {
+        if (validator.checkUserPicSize(model.userPicFileUri)) {
             try {
                 view.setImageUriToView(model.userPicFileUri);
             } catch (Exception e) {
@@ -294,11 +292,6 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
     @Override
     public void setUserPicUri(Uri uri) {
         model.userPicFileUri = uri;
-    }
-
-    @Override
-    public Uri getUserPicUri() {
-        return model.userPicFileUri;
     }
 
     @Override
@@ -322,7 +315,7 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
         // create RequestBody instance from file
         RequestBody requestFile =
                 RequestBody.create(
-                        MediaType.parse("image/*"), file);
+                        MediaType.parse("image/*"), model.userPicFile);
 
         // MultipartBody.Part is used to send also the actual file name
         return MultipartBody.Part.createFormData(partName, file.getName(), requestFile);
