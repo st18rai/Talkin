@@ -77,10 +77,6 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
                         password.getText().toString(),
                         fullName.getText().toString(),
                         phoneEditText.getText().toString()
-//                            .replaceAll(" ", "")
-//                                .replaceAll("-", "")
-//                                .replaceAll("\\(", "")
-//                                .replaceAll("\\)", ""),
                                 .replaceAll("[ \\-\\(\\)]",""),
                         website.getText().toString());
         });
@@ -229,7 +225,7 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
                 } else {
                     if (!validator.checkPasswordStrength(input)) {
                         password.setError(getResources().getString(R.string.password_is_weak_toast));
-                        Toast.makeText(getApplication(), R.string.invalid_password_length_toast, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(), R.string.password_is_weak_toast, Toast.LENGTH_SHORT).show();
                     }
                 }
         });

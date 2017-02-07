@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import com.internship.droidz.talkin.App;
 import com.internship.droidz.talkin.data.CacheSharedPrefence;
-import com.internship.droidz.talkin.data.model.UserModel;
 import com.internship.droidz.talkin.data.web.AmazonConstants;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
 import com.internship.droidz.talkin.data.web.requests.UpdateUserRequest;
@@ -48,7 +47,7 @@ public class ContentRepository {
     }
 
     public Observable<Response<Void>> uploadFile(String contentType, File file, String name) {
-        Blob blob = new Blob(contentType,file.getName());
+        Blob blob = new Blob(contentType, file.getName());
         CreateFileRequest fileCreateRequest = new CreateFileRequest(blob);
         return service.createFile( fileCreateRequest,cache.getToken())
                 .flatMap(new Func1<CreateFileResponse, Observable<UploadFileResponse>>() {

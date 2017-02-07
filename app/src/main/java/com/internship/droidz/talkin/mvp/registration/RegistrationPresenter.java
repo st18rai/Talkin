@@ -6,10 +6,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.internship.droidz.talkin.App;
 import com.internship.droidz.talkin.data.CacheSharedPrefence;
@@ -21,33 +19,18 @@ import com.internship.droidz.talkin.data.web.WebUtils;
 import com.internship.droidz.talkin.data.web.requests.RegistrationRequest;
 import com.internship.droidz.talkin.data.web.requests.SessionRequest;
 import com.internship.droidz.talkin.data.web.requests.SessionWithAuthRequest;
-import com.internship.droidz.talkin.data.web.requests.UpdateUserRequest;
 import com.internship.droidz.talkin.data.web.requests.UserRequestModel;
 import com.internship.droidz.talkin.data.web.requests.UserSignUpRequest;
-import com.internship.droidz.talkin.data.web.requests.file.Blob;
-import com.internship.droidz.talkin.data.web.requests.file.CreateFileRequest;
-import com.internship.droidz.talkin.data.web.requests.file.FileConfirmUploadRequest;
-import com.internship.droidz.talkin.data.web.response.file.UploadFileResponse;
-import com.internship.droidz.talkin.mvp.login.LoginScreen;
 import com.internship.droidz.talkin.repository.ContentRepository;
 import com.internship.droidz.talkin.utils.Validator;
 
-import org.jivesoftware.smack.util.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -59,10 +42,10 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
 
     private String TAG = "RegistrationPresenter";
 
-    Context context;
     RegistrationModel model;
     RegistrationContract.RegistrationView view;
-    Context context;CacheSharedPrefence cache =CacheSharedPrefence.getInstance(App.getApp().getApplicationContext());
+    Context context;
+    CacheSharedPrefence cache = CacheSharedPrefence.getInstance(App.getApp().getApplicationContext());
 
     private Validator validator = new Validator();
 
@@ -104,7 +87,7 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
                                     public void onCompleted() {
                                         Log.i("registration","registered");
                                         signIn(email,password);
-                                        view.navigatetoMainScreen();
+                                        view.navigateToMainScreen();
 
                                     }
 
@@ -123,6 +106,11 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
     }
 
     @Override
+    public void uploadPhoto(Uri photoUri, String email, String password) {
+
+    }
+
+    /*@Override
     public void uploadPhoto(Uri photoUri, String email,String password) {
         MultipartBody.Part body = prepareFilePart("userPhoto", photoUri);
         HashMap<String, RequestBody> map = new HashMap<>();
@@ -212,7 +200,7 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
                                                 .subscribe(createFileResponse -> {
                                                     Map<String,RequestBody> map= new HashMap<>();
                                                     service.getContentService().uploadFile(createFileResponse.getBlob().getBlobObjectAccess().getParams(),
-                                                            map,prepareFilePart("partName",model.userPicFile))
+                                                            map, prepareFilePart("partName", model.userPicFile))
                                                             .subscribeOn(Schedulers.io())
                                                             .observeOn(AndroidSchedulers.mainThread())
                                                     .subscribe(new Subscriber<UploadFileResponse>() {
@@ -329,6 +317,7 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
 
     @Override
     public Intent getCameraPictureIntent(PackageManager packageManager) {
+
         Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (pictureIntent.resolveActivity(packageManager) != null) {
             try {
@@ -360,13 +349,13 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
 
     @Override
     public void setupUserPicFromGallery(Intent intent) {
-        setUserPicUri(intent.getData());
+        setUserPicToModel(intent.getData());
         checkImageSizeAndSetToView();
     }
 
     @Override
     public void checkImageSizeAndSetToView() {
-        if (validator.checkUserPicUriSize(model.userPicFileUri)) {
+        if (validator.checkUserPicSize(model.userPicFileUri)) {
             try {
                 view.setImageUriToView(model.userPicFileUri);
             } catch (Exception e) {
@@ -378,8 +367,10 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
     }
 
     @Override
-    public void setUserPicUri(Uri uri) {
+    public void setUserPicToModel(Uri uri) {
         model.userPicFileUri = uri;
+        model.currentPhotoPath = model.userPicFileUri.getPath();
+        model.userPicFile = new File(model.currentPhotoPath);
     }
 
     @Override
@@ -401,21 +392,18 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
         ApiRetrofit.getRetrofitApi().getUserService()
                 .getSession(new SessionRequest(ApiRetrofit.APP_ID,ApiRetrofit.APP_AUTH_KEY,
                         String.valueOf(nonce),String.valueOf(timestamp),WebUtils.calcSignature(nonce,timestamp)))
-
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 //  .subscribe(sessionModel -> {})
                 .subscribe(new Subscriber<SessionModel>() {
                     @Override
-                    public void onCompleted() {
-                    }
+                    public void onCompleted() {}
 
                     @Override
                     public void onError(Throwable e) {
                         Log.i("error","message: "+e.getMessage());
                         if (e instanceof HttpException) {
-                            try
-                            {
+                            try {
                                 Log.i("retrofit error,",((HttpException) e).response().errorBody().string());
                             } catch (IOException e1) {
                                 e1.printStackTrace();
@@ -427,7 +415,7 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
                     public void onNext(SessionModel sessionModel) {
                         int nonce= WebUtils.getNonce();
                         long timestamp = System.currentTimeMillis()/1000l;
-                        SessionWithAuthRequest request=  new SessionWithAuthRequest(
+                        SessionWithAuthRequest request =  new SessionWithAuthRequest(
                                 new UserRequestModel(email, password),
                                 ApiRetrofit.APP_ID,
                                 ApiRetrofit.APP_AUTH_KEY,
@@ -445,56 +433,22 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
                                     @Override
                                     public void onCompleted() {
                                         Log.i("debug","logged in");
-
-                                        ContentRepository repo = new ContentRepository(ApiRetrofit.getRetrofitApi());
-                                        //konec govnokoda
-                                        repo.uploadFile(AmazonConstants.CONTENT_TYPE_JPEG
-                                                ,model.userPicFile,"AVATAR")
-                                                .subscribeOn(Schedulers.io())
-                                                .observeOn(AndroidSchedulers.mainThread())
-                                                .subscribe(new Subscriber<Response<Void>>() {
-                                                    @Override
-                                                    public void onCompleted() {
-
-                                                    }
-
-                                                    @Override
-                                                    public void onError(Throwable e) {
-                                                        Log.i("error","message: "+e.getMessage());
-                                                        if (e instanceof HttpException) {
-                                                            try
-                                                            {
-                                                                Log.i("retrofit error photo,",((HttpException) e).response().errorBody().string());
-                                                            } catch (IOException e1) {
-                                                                e1.printStackTrace();
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            Log.i("error photo",""+e.getMessage());
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onNext(Response<Void> voidResponse) {
-
-                                                    }
-                                                });
+                                        if (model.userPicFile != null) {
+                                            uploadUserPic();
+                                        }
                                     }
 
                                     @Override
                                     public void onError(Throwable e) {
                                         if (e instanceof HttpException) {
-                                            try
-                                            {
+                                            try {
                                                 Log.i("retrofit error,",((HttpException) e).response().errorBody().string());
                                              //   Toast.makeText((LoginScreen)view,"Wrong login or password",Toast.LENGTH_LONG).show();
                                             } catch (IOException e1) {
                                                 e1.printStackTrace();
                                             }
                                         }
-                                        else
-                                        {
+                                        else {
                                             Log.i("error","some error");
                                         }
                                     }
@@ -506,6 +460,40 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
                                     }
                                 });
                     }
+                });
+    }
+
+    @Override
+    public void uploadUserPic() {
+
+        ContentRepository repo = new ContentRepository(ApiRetrofit.getRetrofitApi());
+        Log.i("USERPICFILECANREAD", "" + model.userPicFile.canRead());
+        repo.uploadFile(AmazonConstants.CONTENT_TYPE_JPEG, model.userPicFile, "AVATAR")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<Void>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i("userPic", "File uploaded");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("error","message: " + e.getMessage());
+                        if (e instanceof HttpException) {
+                            try {
+                                Log.i("retrofit error photo,",((HttpException) e).response().errorBody().string());
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                        else {
+                            Log.i("error photo",""+e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Response<Void> voidResponse) {}
                 });
     }
 }

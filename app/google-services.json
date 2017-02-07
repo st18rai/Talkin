@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "117251225953",
+    "firebase_url": "https://talkin-a1ca8.firebaseio.com",
+    "project_id": "talkin-a1ca8",
+    "storage_bucket": "talkin-a1ca8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117251225953:android:0df9846834910351",
+        "android_client_info": {
+          "package_name": "com.internship.droidz.talkin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "117251225953-c9ugg4nt4r9jmfuujvolnsggnnn54dth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjctN9WCtUClUNZ_dAbKmaeNXfguJoiko"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "117251225953-c9ugg4nt4r9jmfuujvolnsggnnn54dth.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

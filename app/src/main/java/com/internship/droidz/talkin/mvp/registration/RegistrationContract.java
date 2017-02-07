@@ -38,7 +38,7 @@ public interface RegistrationContract {
 
         void checkImageSizeAndSetToView();
 
-        void setUserPicUri(Uri uri);
+        void setUserPicToModel(Uri uri);
 
         void setFormatWatcher();
 
@@ -51,6 +51,8 @@ public interface RegistrationContract {
         void uploadPhoto(Uri photoUri, String email, String password);
 
         void checkPasswordStrength(String password);
+
+        void uploadUserPic();
 
     }
 
