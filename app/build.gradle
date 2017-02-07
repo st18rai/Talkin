@@ -45,6 +45,10 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+
+    dexOptions {
+        incremental true
+    }
 }
 
 dependencies {
@@ -76,6 +80,7 @@ dependencies {
     // Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.retrofit2:converter-simplexml:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     //RxAndroid
     compile 'io.reactivex:rxandroid:1.2.1'

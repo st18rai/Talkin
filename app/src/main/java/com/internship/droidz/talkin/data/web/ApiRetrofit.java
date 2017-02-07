@@ -1,4 +1,6 @@
 package com.internship.droidz.talkin.data.web;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.internship.droidz.talkin.data.web.service.ContentService;
 import com.internship.droidz.talkin.data.web.service.UserService;
 
@@ -8,6 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 
 /**
@@ -45,18 +48,22 @@ public class ApiRetrofit {
 
     private ApiRetrofit() {
         logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient okHttpClient = createClient();
-
+        Gson gson = new GsonBuilder().setLenient().create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(SRV)
                 .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(new QualifiedTypeConverterFactory(
+                        GsonConverterFactory.create(gson),
+                        SimpleXmlConverterFactory.create()
+                ))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        userService = retrofit.create(UserService.class);
+        userService=retrofit.create(UserService.class);
+        contentService=retrofit.create(ContentService.class);
     }
 
     private OkHttpClient createClient() {
