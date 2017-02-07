@@ -52,7 +52,8 @@
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/white"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -66,7 +67,8 @@
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/white"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -80,7 +82,8 @@
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/white"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -94,7 +97,8 @@
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/white"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -108,7 +112,8 @@
             android:textColorHint="@color/white"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" />
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/white"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -123,7 +128,8 @@
             android:textColor="@color/white"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/white"/>
 
         <android.support.v7.widget.AppCompatButton
             android:text="@string/link_facebook_button"
