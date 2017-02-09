@@ -1,10 +1,7 @@
 package com.internship.droidz.talkin.data.web;
 
-import android.icu.text.LocaleDisplayNames;
-import android.util.Base64;
 import android.util.Log;
 
-import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;

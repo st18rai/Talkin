@@ -7,6 +7,7 @@ import com.internship.droidz.talkin.data.web.requests.RegistrationRequest;
 import com.internship.droidz.talkin.data.web.requests.SessionRequest;
 import com.internship.droidz.talkin.data.web.requests.SessionWithAuthRequest;
 import com.internship.droidz.talkin.data.web.requests.UpdateUserRequest;
+import com.internship.droidz.talkin.data.web.requests.UserSignUpRequest;
 
 
 import retrofit2.Response;
@@ -30,7 +31,7 @@ public interface UserService {
 
     @Headers({"Content-Type: application/json"})
     @POST("/session.json")
-    Observable<SessionModel> getSessionWithAuth(@Body SessionWithAuthRequest body,@Header("QB-Token") String token);
+    Observable<SessionModel> getSessionWithAuth(@Body SessionWithAuthRequest body, @Header("QB-Token") String token);
 
     @Headers({"Content-Type: application/json"})
     @POST("/login.json")

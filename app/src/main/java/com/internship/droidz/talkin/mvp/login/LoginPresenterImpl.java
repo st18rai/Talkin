@@ -37,7 +37,7 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter {
     LoginContract.LoginModel model;
     LoginContract.LoginView view;
 
-    int TIME_TO_SEND_GCM = 15 * 60;
+    int TIME_TO_SEND_NOTIFICATION = 15 * 60;
 
     public LoginPresenterImpl(LoginContract.LoginModel model, LoginContract.LoginView view) {
         this.model = model;
@@ -51,7 +51,7 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter {
             AlarmManager processTimer = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
             Intent intent = new Intent(context, ProcessTimerReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            processTimer.set(AlarmManager.RTC, System.currentTimeMillis() + TIME_TO_SEND_GCM * 1000, pendingIntent);
+            processTimer.set(AlarmManager.RTC, System.currentTimeMillis() + TIME_TO_SEND_NOTIFICATION * 1000, pendingIntent);
         }
     }
 

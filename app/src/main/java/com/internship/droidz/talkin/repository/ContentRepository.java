@@ -48,7 +48,7 @@ public class ContentRepository {
     }
 
     public Observable<Response<Void>> uploadFile(String contentType, File file, String name) {
-        Blob blob = new Blob(contentType,file.getName());
+        Blob blob = new Blob(contentType, file.getName());
         CreateFileRequest fileCreateRequest = new CreateFileRequest(blob);
         Log.i("rx","inside create file");
         return contentService.createFile( fileCreateRequest,cache.getToken())

@@ -12,7 +12,8 @@ apply plugin: 'io.fabric'
 
 repositories {
     //Crashlytics
-    maven { url 'https://maven.fabric.io/public'
+    maven {
+        url 'https://maven.fabric.io/public'
     }
     //Mockito
     jcenter()
@@ -44,28 +45,34 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
-
-    dexOptions {
-        incremental true
-    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //Crashlytics
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true;
+    }
+
+    // xml serialize\deserialize
+    compile('org.simpleframework:simple-xml:2.7.+') {
+        exclude module: 'stax'
+        exclude module: 'stax-api'
+        exclude module: 'xpp3'
+    }
+
+    compile 'com.android.support:support-v4:25.1.0'
+    //Espresso
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     //phone mask
-    compile "ru.tinkoff.decoro:decoro:1.1.1"
+    compile 'ru.tinkoff.decoro:decoro:1.1.1'
     //circle view
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    //Crashlytics
-    compile ('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
-    }
-    // Leakcanary
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     // Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
@@ -83,22 +90,23 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
     //Quickblox
-    compile("com.quickblox:quickblox-android-sdk-chat:3.3.0")
+    compile 'com.quickblox:quickblox-android-sdk-chat:3.3.0'
+    compile 'com.android.support:multidex:1.0.1'
+    //Firebase
+    compile 'com.google.firebase:firebase-core:10.0.1'
+    compile 'com.google.firebase:firebase-messaging:10.0.1'
+    //Multidex
+    compile 'com.android.support:multidex:1.0.1'
     //Mockito
-    testCompile "org.mockito:mockito-core:2.0.57-beta"
-    // xml serialize\deserialize
-    compile('org.simpleframework:simple-xml:2.7.+'){
-        exclude module: 'stax'
-        exclude module: 'stax-api'
-        exclude module: 'xpp3'
-    }
-
-    compile 'com.android.support:multidex:1.0.0'
-
+    testCompile 'org.mockito:mockito-core:2.0.57-beta'
     //JUnit
     testCompile 'junit:junit:4.12'
-    //Espresso
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    }
+    // Leakcanary
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }
+
+apply plugin: 'com.google.gms.google-services'
+
+

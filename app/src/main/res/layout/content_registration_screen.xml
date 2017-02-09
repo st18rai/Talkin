@@ -50,7 +50,8 @@
                 android:inputType="textEmailAddress"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:backgroundTint="@color/white"/>
 
             <EditText
                 android:id="@+id/passwordEditTextReg"
@@ -64,7 +65,8 @@
                 android:inputType="textPassword"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:backgroundTint="@color/white"/>
 
             <EditText
                 android:id="@+id/confirmPasswordEditText"
@@ -78,7 +80,8 @@
                 android:inputType="textPassword"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:backgroundTint="@color/white"/>
 
             <EditText
                 android:id="@+id/nameEditText"
@@ -92,7 +95,8 @@
                 android:inputType="textPersonName"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:backgroundTint="@color/white"/>
 
             <EditText
                 android:id="@+id/phoneEditText"
@@ -106,7 +110,8 @@
                 android:inputType="phone"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:backgroundTint="@color/white"/>
 
             <EditText
                 android:id="@+id/siteEditText"
@@ -121,7 +126,8 @@
                 android:inputType="textUri"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:backgroundTint="@color/white"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/linkFacebookButtonReg"

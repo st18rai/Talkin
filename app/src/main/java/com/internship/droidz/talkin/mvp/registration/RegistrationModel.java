@@ -36,6 +36,7 @@ public class RegistrationModel implements RegistrationContract.RegistrationModel
 
     @Override
     public void getAllPermissionsToUserPicFile(Context context, Intent intent) {
+
         List<ResolveInfo> resInfoList = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         for (ResolveInfo resolveInfo : resInfoList) {
             String packageName = resolveInfo.activityInfo.packageName;
@@ -45,6 +46,7 @@ public class RegistrationModel implements RegistrationContract.RegistrationModel
 
     @Override
     public void addPicToGallery(Context context) {
+
         if (currentPhotoPath != null) {
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             userPicFile = new File(currentPhotoPath);
@@ -58,21 +60,23 @@ public class RegistrationModel implements RegistrationContract.RegistrationModel
 
     @Override
     public File createImageFile() throws IOException {
+
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File imageFile = File.createTempFile(imageFileName, ".jpg", storageDir);
-        currentPhotoPath = imageFile.getAbsolutePath();
-        userPicFile = new File(currentPhotoPath);
+        userPicFile = new File(storageDir + imageFileName + ".jpg");
+        currentPhotoPath = userPicFile.getAbsolutePath();
         return userPicFile;
     }
 
     @Override
     public FormatWatcher getFormatWatcher() {
+
         Slot[] slots = new UnderscoreDigitSlotsParser().parseSlots(PHONE_MASK);
         formatWatcher = new MaskFormatWatcher(
                 MaskImpl.createTerminated(slots)
         );
         return formatWatcher;
     }
+
 }

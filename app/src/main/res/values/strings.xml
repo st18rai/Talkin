@@ -6,6 +6,7 @@
     <string name="sign_in_button">SIGN IN</string>
     <string name="sign_up_button">SIGN UP</string>
     <string name="login_forgot_password">Forgot password</string>
+    <string name="login_notification">Seems like you forgot to authorize the app?</string>
     <string name="title_activity_main_screen">MainScreen</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -24,4 +25,5 @@
     <string name="compare_passwords_toast">Passwords do not match</string>
     <string name="invalid_email_toast">Invalid email</string>
     <string name="invalid_password_length_toast">Password length should be 6-12 symbols</string>
+    <string name="password_is_weak_toast">Password is weak. Please use at least two digits and two capitalized letters</string>
 </resources>

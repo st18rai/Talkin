@@ -2,8 +2,6 @@ package com.internship.droidz.talkin.data.web.requests;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.internship.droidz.talkin.data.web.ApiRetrofit;
-import com.internship.droidz.talkin.data.web.WebUtils;
 
 /**
  * Created by Novak Alexandr on 26.01.2017.

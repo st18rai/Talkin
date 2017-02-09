@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.mvp.main.MainScreen;
+import com.internship.droidz.talkin.utils.Validator;
 import com.jakewharton.rxbinding.view.RxView;
 
 import ru.tinkoff.decoro.watchers.FormatWatcher;
@@ -41,8 +42,10 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     EditText phoneEditText;
     EditText fullName;
     EditText website;
+    Validator validator;
 
     AppCompatButton signUpButtonReg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +63,13 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
 
         presenter = new RegistrationPresenter(new RegistrationModel(), this, this);
         presenter.setFormatWatcher();
+        validator = new Validator();
         email = (EditText) findViewById(R.id.emailEditTextReg);
         password = (EditText) findViewById(R.id.passwordEditTextReg);
         confirmPassword = (EditText) findViewById(R.id.confirmPasswordEditText);
 
         checkEmail();
-        checkPasswordLength();
+        checkPassword();
         comparePasswords();
 
         Subscription buttonSub = RxView.clicks(signUpButtonReg)
@@ -84,11 +88,11 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
 
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case REQUEST_IMAGE_CAPTURE : {
+                case REQUEST_IMAGE_CAPTURE: {
                     presenter.setupUserPicFromCamera();
                     break;
                 }
-                case REQUEST_IMAGE_EXT : {
+                case REQUEST_IMAGE_EXT: {
                     presenter.setupUserPicFromGallery(returnedData);
                     break;
                 }
@@ -97,12 +101,25 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     }
 
     @Override
-    public void setImageUriToView(Uri uri) { userPicImageView.setImageURI(uri); }
+    public void setImageUriToView(Uri uri) {
+
+        userPicImageView.setImageURI(uri);
+    }
 
     @Override
     public void setPhoneMask(FormatWatcher formatWatcher) {
 
         formatWatcher.installOn(phoneEditText);
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
     }
 
     @Override
@@ -141,16 +158,17 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     public void comparePasswords() {
 
         confirmPassword.setOnFocusChangeListener((view, focus) -> {
-                if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
-                    confirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
-                    Toast toast = Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+            if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
+                confirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
+                Toast toast = Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT);
+                toast.show();
+            }
         });
     }
 
     @Override
-    public void navigatetoMainScreen() {
+    public void navigateToMainScreen() {
+
         Intent intent = new Intent(RegistrationScreen.this, MainScreen.class);
         startActivity(intent);
     }
@@ -179,9 +197,9 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     }
 
     @Override
-    public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults){
+    public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults) {
 
-        switch(permsRequestCode){
+        switch (permsRequestCode) {
             case 200:
                 boolean writeAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                 break;
@@ -192,33 +210,39 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     public void checkEmail() {
 
         email.setOnFocusChangeListener((view, focus) -> {
-                if (!focus && !isValidEmail(email.getText().toString())) {
-                    email.setError(getResources().getString(R.string.invalid_email_toast));
-                    Toast toast = Toast.makeText(getApplication(), R.string.invalid_email_toast, Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+            if (!focus && !isValidEmail(email.getText().toString())) {
+                email.setError(getResources().getString(R.string.invalid_email_toast));
+                Toast toast = Toast.makeText(getApplication(), R.string.invalid_email_toast, Toast.LENGTH_SHORT);
+                toast.show();
+            }
         });
     }
 
     @Override
-    public void checkPasswordLength() {
+    public void checkPassword() {
 
         password.setOnFocusChangeListener((view, focus) -> {
-                if (!focus && !isValidPasswordLength(password.getText().toString())) {
-                    password.setError(getResources().getString(R.string.invalid_password_length_toast));
-                    Toast toast = Toast.makeText(getApplication(), R.string.invalid_password_length_toast, Toast.LENGTH_SHORT);
-                    toast.show();
+            String input = password.getText().toString();
+            if (!focus && !isValidPasswordLength(input)) {
+                password.setError(getResources().getString(R.string.invalid_password_length_toast));
+                Toast.makeText(getApplication(), R.string.invalid_password_length_toast, Toast.LENGTH_SHORT).show();
+            } else {
+                if (!focus && !validator.checkPasswordStrength(input)) {
+                    password.setError(getResources().getString(R.string.password_is_weak_toast));
+                    Toast.makeText(getApplication(), R.string.password_is_weak_toast, Toast.LENGTH_SHORT).show();
                 }
+            }
         });
     }
 
     @Override
     public void showDialogChooseSource() {
 
-        CharSequence sourcesOfImage[] = new CharSequence[] {"Device Camera", "Photo Gallery"};
+        CharSequence sourcesOfImage[] = new CharSequence[]{"Device Camera", "Photo Gallery"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Choose source:")
-                .setNegativeButton("BACK", (DialogInterface dialog, int which) -> {})
+                .setNegativeButton("BACK", (DialogInterface dialog, int which) -> {
+                })
                 .setItems(sourcesOfImage, (DialogInterface dialog, int which) -> {
                     if (which == 0) {
                         startCameraForCapture();

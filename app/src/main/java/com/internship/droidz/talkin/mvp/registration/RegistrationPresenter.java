@@ -14,10 +14,17 @@ import com.internship.droidz.talkin.data.CacheSharedPrefence;
 import com.internship.droidz.talkin.data.model.SessionModel;
 import com.internship.droidz.talkin.data.web.AmazonConstants;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
+import com.internship.droidz.talkin.data.web.WebUtils;
+import com.internship.droidz.talkin.data.web.requests.RegistrationRequest;
+import com.internship.droidz.talkin.data.web.requests.SessionRequest;
+import com.internship.droidz.talkin.data.web.requests.SessionWithAuthRequest;
+import com.internship.droidz.talkin.data.web.requests.UserRequestModel;
+import com.internship.droidz.talkin.data.web.requests.UserSignUpRequest;
 import com.internship.droidz.talkin.repository.ContentRepository;
 import com.internship.droidz.talkin.repository.SessionRepository;
 import com.internship.droidz.talkin.utils.Validator;
 
+import java.io.File;
 import java.io.IOException;
 
 import retrofit2.Response;
@@ -25,10 +32,7 @@ import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-
-
 
 /**
  * Created by st18r on 20.01.2017.
@@ -42,7 +46,7 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
     RegistrationModel model;
     RegistrationContract.RegistrationView view;
     Context context;
-    CacheSharedPrefence cache =CacheSharedPrefence.getInstance(App.getApp().getApplicationContext());
+    CacheSharedPrefence cache = CacheSharedPrefence.getInstance(App.getApp().getApplicationContext());
 
     private Validator validator = new Validator();
 
@@ -51,6 +55,8 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
         this.view = view;
         this.context = context;
     }
+
+
 
     @Override
     public void signUp(String email, String password, String fullName, String phone, String website) {
@@ -104,7 +110,13 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
     }
 
     @Override
+    public void checkPasswordStrength(String password) {
+
+    }
+
+    @Override
     public Intent getCameraPictureIntent(PackageManager packageManager) {
+
         Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (pictureIntent.resolveActivity(packageManager) != null) {
             try {
@@ -136,13 +148,13 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
 
     @Override
     public void setupUserPicFromGallery(Intent intent) {
-        setUserPicUri(intent.getData());
+        setUserPicToModel(intent.getData());
         checkImageSizeAndSetToView();
     }
 
     @Override
     public void checkImageSizeAndSetToView() {
-        if (validator.checkUserPicUriSize(model.userPicFileUri)) {
+        if (validator.checkUserPicSize(model.userPicFileUri)) {
             try {
                 view.setImageUriToView(model.userPicFileUri);
             } catch (Exception e) {
@@ -154,13 +166,10 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
     }
 
     @Override
-    public void setUserPicUri(Uri uri) {
+    public void setUserPicToModel(Uri uri) {
         model.userPicFileUri = uri;
-    }
-
-    @Override
-    public Uri getUserPicUri() {
-        return model.userPicFileUri;
+        model.currentPhotoPath = model.userPicFileUri.getPath();
+        model.userPicFile = new File(model.currentPhotoPath);
     }
 
     @Override
@@ -170,6 +179,7 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
 
     @Override
     public boolean shouldAskPermission(){
+
         return(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
     }
 

@@ -1,7 +1,5 @@
 package com.internship.droidz.talkin.data.web.requests;
 
-import android.util.Log;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
