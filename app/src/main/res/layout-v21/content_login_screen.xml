@@ -42,7 +42,8 @@
                 android:textSize="16sp"
                 android:textColorHint="@color/white"
                 android:textColor="@color/white"
-                android:layout_margin="10dp"/>
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/white"/>
 
             <EditText
                 android:layout_width="match_parent"
@@ -54,7 +55,8 @@
                 android:textSize="16sp"
                 android:textColorHint="@color/white"
                 android:textColor="@color/white"
-                android:layout_margin="10dp"/>
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/white"/>
 
             <CheckBox
                 android:text="@string/login_checkbox_text"

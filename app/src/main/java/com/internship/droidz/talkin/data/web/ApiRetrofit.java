@@ -51,12 +51,12 @@ public class ApiRetrofit {
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient okHttpClient = createClient();
-        Gson gson = new GsonBuilder().setLenient().create();
+        //Gson gson = new GsonBuilder().setLenient().create();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(SRV)
                 .client(okHttpClient)
                 .addConverterFactory(new QualifiedTypeConverterFactory(
-                        GsonConverterFactory.create(gson),
+                        GsonConverterFactory.create(),
                         SimpleXmlConverterFactory.create()
                 ))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

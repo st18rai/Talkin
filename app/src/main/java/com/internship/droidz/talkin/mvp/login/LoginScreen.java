@@ -12,6 +12,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.mvp.main.MainScreen;
@@ -134,5 +135,15 @@ public class LoginScreen extends AppCompatActivity implements LoginContract.Logi
     public void navigationToMainScreen() {
         Intent intent = new Intent(LoginScreen.this, MainScreen.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void showLoginError() {
+        Toast.makeText(this,"Wrong email or password",Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showNetworkError() {
+        Toast.makeText(this,"No internet connection",Toast.LENGTH_LONG).show();
     }
 }

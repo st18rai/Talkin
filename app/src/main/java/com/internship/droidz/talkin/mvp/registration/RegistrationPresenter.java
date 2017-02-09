@@ -1,33 +1,32 @@
 package com.internship.droidz.talkin.mvp.registration;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.facebook.login.widget.LoginButton;
 import com.internship.droidz.talkin.App;
 import com.internship.droidz.talkin.data.CacheSharedPrefence;
 import com.internship.droidz.talkin.data.model.SessionModel;
-import com.internship.droidz.talkin.data.model.UserModel;
 import com.internship.droidz.talkin.data.web.AmazonConstants;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
-import com.internship.droidz.talkin.data.web.WebUtils;
-import com.internship.droidz.talkin.data.web.requests.RegistrationRequest;
-import com.internship.droidz.talkin.data.web.requests.SessionRequest;
-import com.internship.droidz.talkin.data.web.requests.SessionWithAuthRequest;
-import com.internship.droidz.talkin.data.web.requests.UserRequestModel;
-import com.internship.droidz.talkin.data.web.requests.UserSignUpRequest;
 import com.internship.droidz.talkin.repository.ContentRepository;
+import com.internship.droidz.talkin.repository.SessionRepository;
 import com.internship.droidz.talkin.utils.Validator;
 
 import java.io.IOException;
 
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -43,6 +42,7 @@ public class RegistrationPresenter implements
 
     RegistrationModel model;
     RegistrationContract.RegistrationView view;
+    Context context;
     CacheSharedPrefence cache = CacheSharedPrefence.getInstance(App.getApp().getApplicationContext());
 
     private Validator mValidator = new Validator();
@@ -51,56 +51,70 @@ public class RegistrationPresenter implements
 
         this.model = model;
         this.view = view;
+        this.context = context;
     }
 
     @Override
     public void signUp(String email, String password, String fullName, String phone, String website) {
-
-        int nonce= WebUtils.getNonce();
-        long timestamp = System.currentTimeMillis()/1000l;
-        ApiRetrofit.getRetrofitApi().getUserService()
-                .getSession(new SessionRequest(ApiRetrofit.APP_ID,ApiRetrofit.APP_AUTH_KEY,
-                        String.valueOf(nonce),String.valueOf(timestamp),WebUtils.calcSignature(nonce,timestamp)))
+        SessionRepository sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());
+        ContentRepository contentRepository  = new ContentRepository(ApiRetrofit.getRetrofitApi());
+        sessionRepository.signUp(email,password,fullName,phone,website)
+                .flatMap(new Func1<SessionModel, Observable<Response<Void>>>() {
+                    @Override
+                    public Observable<Response<Void>> call(SessionModel sessionModel) {
+                        cache.putToken(sessionModel.getSession().getToken());
+                        cache.putUserId(Long.valueOf(sessionModel.getSession().getUser_id()));
+                       return contentRepository.uploadFile(AmazonConstants.CONTENT_TYPE_JPEG,
+                               model.userPicFile,cache.CURRENT_AVATAR);
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SessionModel>() {
+                .subscribe(new Subscriber<Response<Void>>() {
                     @Override
-                    public void onCompleted() {}
+                    public void onCompleted() {
+                        Log.i("victory","user created, ava uploaded and updated");
+                        view.navigateToMainScreen();
+                    }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.i("error reg", "msg: "+e.getMessage());
+                        if (e instanceof HttpException) {
+                            try {
+                                Log.i("retrofit registration,",((HttpException) e).response().errorBody().string());
+                             //   view.showLoginError();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                        else {
+                            Log.i("error_reg_user","error: "+e.getMessage());
+                           // view.showNetworkError();
+                            e.printStackTrace();
+                        }
+
                     }
 
                     @Override
-                    public void onNext(SessionModel sessionModel) {
+                    public void onNext(Response<Void> voidResponse) {
 
-                        UserSignUpRequest requestReg = new UserSignUpRequest(email,
-                                password,fullName,phone,website);
-                        RegistrationRequest request = new RegistrationRequest(requestReg);
-                        ApiRetrofit.getRetrofitApi().getUserService().requestSignUp(request,sessionModel.getSession().getToken())
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber<UserModel>() {
-                                    @Override
-                                    public void onCompleted() {
-                                        Log.i("registration","registered");
-                                        createSession(email,password);
-                                        view.navigateToMainScreen();
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        Log.i("registration","failed :( "+ e.getMessage());
-                                    }
-
-                                    @Override
-                                    public void onNext(UserModel userModel) {
-                                        Log.i("user_id",userModel.getUser().getId().toString());
-                                    }
-                                });
                     }
                 });
+    }
+
+    @Override
+    public void uploadPhoto(Uri photoUri, String email, String password) {
+
+    }
+
+    @Override
+    public void checkPasswordStrength(String password) {
+
+    }
+
+    @Override
+    public void uploadUserPic() {
+
     }
 
     @Override
@@ -159,123 +173,6 @@ public class RegistrationPresenter implements
     public boolean shouldAskPermission(){
 
         return(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
-    }
-
-
-    @Override
-    public void createSession(String email, String password) {
-
-        int nonce= WebUtils.getNonce();
-        long timestamp = System.currentTimeMillis()/1000l;
-        ApiRetrofit.getRetrofitApi().getUserService()
-                .getSession(new SessionRequest(ApiRetrofit.APP_ID,ApiRetrofit.APP_AUTH_KEY,
-                        String.valueOf(nonce),String.valueOf(timestamp),WebUtils.calcSignature(nonce,timestamp)))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                //  .subscribe(sessionModel -> {})
-                .subscribe(new Subscriber<SessionModel>() {
-                    @Override
-                    public void onCompleted() {}
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.i("error","message: "+e.getMessage());
-                        if (e instanceof HttpException) {
-                            try {
-                                Log.i("retrofit error,",((HttpException) e).response().errorBody().string());
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onNext(SessionModel sessionModel) {
-                        createAuthSession(email, password, sessionModel);
-                    }
-                });
-    }
-
-    @Override
-    public void createAuthSession(String email, String password, SessionModel sessionModel) {
-
-        int nonce= WebUtils.getNonce();
-        long timestamp = System.currentTimeMillis()/1000l;
-        SessionWithAuthRequest request =  new SessionWithAuthRequest(
-                new UserRequestModel(email, password),
-                ApiRetrofit.APP_ID,
-                ApiRetrofit.APP_AUTH_KEY,
-                String.valueOf(nonce),
-                String.valueOf(timestamp),
-                WebUtils.calcSignature(nonce, timestamp,
-                        email,
-                        password));
-
-        ApiRetrofit.getRetrofitApi().getUserService()
-                .getSessionWithAuth(request,sessionModel.getSession().getToken())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SessionModel>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i("debug","logged in");
-//                        if (model.userPicFile != null) {
-                            uploadUserPic();
-//                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (e instanceof HttpException) {
-                            try {
-                                Log.i("retrofit error,",((HttpException) e).response().errorBody().string());
-                                //   Toast.makeText((LoginScreen)view,"Wrong login or password",Toast.LENGTH_LONG).show();
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                        else Log.i("error","some error");
-                    }
-
-                    @Override
-                    public void onNext(SessionModel sessionModel) {
-                        Log.i("user",String.valueOf(sessionModel.getSession().getUser_id()));
-                        cache.putToken(String.valueOf(sessionModel.getSession().getToken()));
-                    }
-                });
-    }
-
-    @Override
-    public void uploadUserPic() {
-
-        ContentRepository repo = new ContentRepository(ApiRetrofit.getRetrofitApi());
-        repo.uploadFile(AmazonConstants.CONTENT_TYPE_JPEG, model.userPicFile, "AVATAR")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<Void>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i("userPic", "File uploaded");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.i("error","message: " + e.getMessage());
-                        if (e instanceof HttpException) {
-                            try {
-                                Log.i("retrofit error photo,",((HttpException) e).response().errorBody().string());
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                        else {
-                            Log.i("error photo",""+e.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public void onNext(Response<Void> voidResponse) {}
-                });
     }
 
     @Override

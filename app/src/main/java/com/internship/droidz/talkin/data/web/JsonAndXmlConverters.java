@@ -1,6 +1,7 @@
 package com.internship.droidz.talkin.data.web;
 
 import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -9,10 +10,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 
 public final class JsonAndXmlConverters {
-    @Retention(RUNTIME)
-    @interface Json {
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface Json {
     }
 
-    @Retention(RUNTIME)
-    @interface Xml {
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface Xml {
     }}

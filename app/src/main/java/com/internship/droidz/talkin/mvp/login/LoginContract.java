@@ -23,6 +23,8 @@ public interface LoginContract {
         void forgotPassword();
         void navigateToRegistrationScreen();
         void navigationToMainScreen();
+        void showLoginError();
+        void showNetworkError();
     }
 
 }

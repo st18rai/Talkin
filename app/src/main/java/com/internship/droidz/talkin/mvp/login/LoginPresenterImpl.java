@@ -14,13 +14,18 @@ import com.internship.droidz.talkin.data.web.WebUtils;
 import com.internship.droidz.talkin.data.web.requests.SessionRequest;
 import com.internship.droidz.talkin.data.web.requests.SessionWithAuthRequest;
 import com.internship.droidz.talkin.data.web.requests.UserRequestModel;
+import com.internship.droidz.talkin.data.web.response.file.CreateFileResponse;
+import com.internship.droidz.talkin.data.web.response.file.UploadFileResponse;
+import com.internship.droidz.talkin.repository.SessionRepository;
 import com.internship.droidz.talkin.utils.ProcessTimerReceiver;
 
 import java.io.IOException;
 
 import retrofit2.adapter.rxjava.HttpException;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -34,14 +39,14 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter {
 
     int TIME_TO_SEND_NOTIFICATION = 15 * 60;
 
-    public LoginPresenterImpl (LoginContract.LoginModel model, LoginContract.LoginView view){
+    public LoginPresenterImpl(LoginContract.LoginModel model, LoginContract.LoginView view) {
         this.model = model;
         this.view = view;
     }
 
     @Override
     public void checkAndStartTimer(Context context) {
-        if ( !App.getApp().getBackgroundChecker().isAppInForeground()) {
+        if (!App.getApp().getBackgroundChecker().isAppInForeground()) {
             Log.i("TAG", "checkAndStartTimer: ");
             AlarmManager processTimer = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
             Intent intent = new Intent(context, ProcessTimerReceiver.class);
@@ -61,84 +66,7 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter {
 
     @Override
     public void signIn(String email, String password) {
-
-        int nonce= WebUtils.getNonce();
-        long timestamp = System.currentTimeMillis()/1000l;
-        ApiRetrofit.getRetrofitApi().getUserService()
-                .getSession(new SessionRequest(ApiRetrofit.APP_ID,ApiRetrofit.APP_AUTH_KEY,
-                        String.valueOf(nonce),String.valueOf(timestamp),WebUtils.calcSignature(nonce,timestamp)))
-
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                //  .subscribe(sessionModel -> {})
-                .subscribe(new Subscriber<SessionModel>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.i("error","message: "+e.getMessage());
-                        if (e instanceof HttpException) {
-                            try
-                            {
-                                Log.i("retrofit error,",((HttpException) e).response().errorBody().string());
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onNext(SessionModel sessionModel) {
-                        int nonce= WebUtils.getNonce();
-                        long timestamp = System.currentTimeMillis()/1000l;
-                        SessionWithAuthRequest request=  new SessionWithAuthRequest(
-                                new UserRequestModel(email, password),
-                                ApiRetrofit.APP_ID,
-                                ApiRetrofit.APP_AUTH_KEY,
-                                String.valueOf(nonce),
-                                String.valueOf(timestamp),
-                                WebUtils.calcSignature(nonce, timestamp,
-                                        email,
-                                        password));
-
-                        ApiRetrofit.getRetrofitApi().getUserService()
-                                .getSessionWithAuth(request,sessionModel.getSession().getToken())
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber<SessionModel>() {
-                                    @Override
-                                    public void onCompleted() {
-                                        Log.i("debug","logged in");
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        if (e instanceof HttpException) {
-                                            try
-                                            {
-                                                Log.i("retrofit error,",((HttpException) e).response().errorBody().string());
-                                                Toast.makeText((LoginScreen)view,"Wrong login or password",Toast.LENGTH_LONG).show();
-                                            } catch (IOException e1) {
-                                                e1.printStackTrace();
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Log.i("error","some error");
-                                        }
-
-                                    }
-
-                                    @Override
-                                    public void onNext(SessionModel sessionModel) {
-                                        Log.i("user",String.valueOf(sessionModel.getSession().getUser_id()));
-                                        Log.i("token",String.valueOf(sessionModel.getSession().getToken()));
-                                        view.navigationToMainScreen();
-                                    }
-                                });
-                    }
-                });
+        SessionRepository repository = new SessionRepository(ApiRetrofit.getRetrofitApi());
+        repository.signIn(email,password,view);
+        }
     }
-}

@@ -37,12 +37,12 @@ public class ContentRepository {
     private String name;
     private CacheSharedPrefence cache;
     private volatile String blobId = "";
-    private ContentService service;
+    private ContentService contentService;
     private UserService userService;
 
     public ContentRepository(ApiRetrofit retrofitApi)
     {
-        this.service=retrofitApi.getContentService();
+        this.contentService =retrofitApi.getContentService();
         this.userService=retrofitApi.getUserService();
         cache=CacheSharedPrefence.getInstance(App.getApp().getApplicationContext());
     }
@@ -50,26 +50,26 @@ public class ContentRepository {
     public Observable<Response<Void>> uploadFile(String contentType, File file, String name) {
         Blob blob = new Blob(contentType, file.getName());
         CreateFileRequest fileCreateRequest = new CreateFileRequest(blob);
-        return service.createFile( fileCreateRequest,cache.getToken())
+        Log.i("rx","inside create file");
+        return contentService.createFile( fileCreateRequest,cache.getToken())
                 .flatMap(new Func1<CreateFileResponse, Observable<UploadFileResponse>>() {
                     @Override
                     public Observable<UploadFileResponse> call(CreateFileResponse createFileResponse) {
-
+                        Log.i("rx","inside upload");
                         blobId = createFileResponse.getBlob().getId();
                         String params = createFileResponse.getBlob().getBlobObjectAccess().getParams();
                         params = params.replaceAll("&amp;", "&");
 
                         Map<String, RequestBody> paramsMap = composeFormParamsMap(params);
                         MultipartBody.Part filePart = prepareFilePart(file, contentType, name);
-
-                        Log.i("TAG", "call: uploadFile" );
-                        return service.uploadFile(AmazonConstants.AMAZON_END_POINT, paramsMap, filePart);
+                        Log.i("rx","inside upload,,uploading");
+                        return contentService.uploadFile(AmazonConstants.AMAZON_END_POINT, paramsMap, filePart);
                     }
                 })
                 .flatMap(new Func1<UploadFileResponse, Observable<Response<Void>>>() {
                     @Override
                     public Observable<Response<Void>> call(UploadFileResponse uploadFileResponse) {
-                        Log.i("TAG", "enter to 2nd chain" );
+                        Log.i("rx","inside file confirm upload");
                         String size = String.valueOf(file.getTotalSpace());
                         FileConfirmUploadRequest.Blob confirmBlob = new FileConfirmUploadRequest.Blob(size);
                         FileConfirmUploadRequest confirmRequest = new FileConfirmUploadRequest(confirmBlob);
@@ -77,12 +77,11 @@ public class ContentRepository {
                         if (name.equals(cache.CURRENT_AVATAR))
                             cache.putAccountAvatarBlobId(Long.parseLong(blobId));
 
-                        Log.i("TAG", "call: confirmUpload" );
-                        return service.fileConfirmUpload(blobId,cache.getToken(),confirmRequest)
+                        return contentService.fileConfirmUpload(blobId,cache.getToken(),confirmRequest)
                                 .flatMap(new Func1<Response<Void>, Observable<Response<Void>>>() {
                                     @Override
                             public Observable<Response<Void>> call(Response<Void> response) {
-                                Log.i("TAG", "call: updateUser" );
+                                        Log.i("rx","inside update user");
                                 return userService.updateUser(cache.getUserId().toString(),
                                         new UpdateUserRequest(new UpdateUserRequest.User(blobId)),
                                         cache.getToken());
