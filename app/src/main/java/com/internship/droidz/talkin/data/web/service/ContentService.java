@@ -21,6 +21,7 @@ import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Url;
 import rx.Observable;
+import com.internship.droidz.talkin.data.web.JsonAndXmlConverters.*;
 
 /**
  * Created by Novak Alexandr on 30.01.2017.
@@ -35,7 +36,9 @@ public interface ContentService {
 
     @Multipart
     @POST
-    Observable<UploadFileResponse> uploadFile(@Url String url, @PartMap Map<String, RequestBody> params, @Part MultipartBody.Part file);
+    @Xml
+    Observable<UploadFileResponse> uploadFile(@Url String url,
+                                              @PartMap Map<String, RequestBody> params, @Part MultipartBody.Part file);
 
     @Headers("Content-Type: application/json")
     @PUT("/blobs/{blob_id}/complete.json")

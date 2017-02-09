@@ -74,7 +74,7 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
                         password.getText().toString(),
                         fullName.getText().toString(),
                         phoneEditText.getText().toString()
-                                .replaceAll("[\\n\\-\\(\\)]",""),
+                                .replaceAll("[\\n\\-\\(\\)\\s]",""),
                         website.getText().toString());
         });
     }
