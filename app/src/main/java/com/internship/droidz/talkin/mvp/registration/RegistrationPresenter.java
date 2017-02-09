@@ -14,12 +14,6 @@ import com.internship.droidz.talkin.data.CacheSharedPrefence;
 import com.internship.droidz.talkin.data.model.SessionModel;
 import com.internship.droidz.talkin.data.web.AmazonConstants;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
-import com.internship.droidz.talkin.data.web.WebUtils;
-import com.internship.droidz.talkin.data.web.requests.RegistrationRequest;
-import com.internship.droidz.talkin.data.web.requests.SessionRequest;
-import com.internship.droidz.talkin.data.web.requests.SessionWithAuthRequest;
-import com.internship.droidz.talkin.data.web.requests.UserRequestModel;
-import com.internship.droidz.talkin.data.web.requests.UserSignUpRequest;
 import com.internship.droidz.talkin.repository.ContentRepository;
 import com.internship.droidz.talkin.repository.SessionRepository;
 import com.internship.droidz.talkin.utils.Validator;
@@ -32,6 +26,7 @@ import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -78,6 +73,7 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
                     @Override
                     public void onCompleted() {
                         Log.i("victory","user created, ava uploaded and updated");
+                        view.navigateToMainScreen();
                     }
 
                     @Override
@@ -110,7 +106,17 @@ public class RegistrationPresenter implements RegistrationContract.RegistrationP
     }
 
     @Override
+    public void uploadPhoto(Uri photoUri, String email, String password) {
+
+    }
+
+    @Override
     public void checkPasswordStrength(String password) {
+
+    }
+
+    @Override
+    public void uploadUserPic() {
 
     }
 
