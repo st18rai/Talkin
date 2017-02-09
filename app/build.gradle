@@ -97,6 +97,8 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:10.0.1'
     //Multidex
     compile 'com.android.support:multidex:1.0.1'
+    //Facebook
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     //Mockito
     testCompile 'org.mockito:mockito-core:2.0.57-beta'
     //JUnit

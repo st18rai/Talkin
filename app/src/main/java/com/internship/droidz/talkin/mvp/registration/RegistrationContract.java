@@ -1,9 +1,11 @@
 package com.internship.droidz.talkin.mvp.registration;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+
+import com.facebook.login.widget.LoginButton;
+import com.internship.droidz.talkin.data.model.SessionModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,13 +20,25 @@ public interface RegistrationContract {
 
     interface RegistrationModel {
 
-        void getAllPermissionsToUserPicFile(Context context, Intent intent);
+        Intent getMediaScanIntent();
 
-        void addPicToGallery(Context context);
+        void grantAllPermissionsToUserPicFile(Intent intent);
+
+        void setUserPic(Uri uri);
+
+        Intent getCameraPictureIntent(PackageManager packageManager);
+
+        interface RegistrationModelListener {
+
+            void onFacebookLogin();
+
+        }
 
         File createImageFile() throws IOException;
 
         FormatWatcher getFormatWatcher();
+
+        void linkFacebook(LoginButton linkFacebookButtonReg, RegistrationModelListener listener);
 
     }
 
@@ -36,8 +50,6 @@ public interface RegistrationContract {
 
         void setupUserPicFromGallery(Intent intent);
 
-        void checkImageSizeAndSetToView();
-
         void setUserPicToModel(Uri uri);
 
         void setFormatWatcher();
@@ -46,14 +58,21 @@ public interface RegistrationContract {
 
         boolean shouldAskPermission();
 
+        void createSession(String email, String password);
+
         void signUp(String email,String password, String fullName, String phone, String website);
 
-        void uploadPhoto(Uri photoUri, String email, String password);
-
-        void checkPasswordStrength(String password);
+        void createAuthSession(String email, String password, SessionModel sessionModel);
 
         void uploadUserPic();
 
+        void linkFacebook(LoginButton linkFacebookButtonReg);
+
+        void setUserPicFile(Uri uri);
+
+        String getCurrentPhotoPath();
+
+        Uri getUserPicFileUri();
     }
 
     interface RegistrationView {
@@ -85,5 +104,9 @@ public interface RegistrationContract {
         void navigateToMainScreen();
 
         void askPermissionWriteExternal();
+
+        void changeTextFacebookLoginButton();
+
+        void sendBroadcast(Intent mediaScanIntent);
     }
 }

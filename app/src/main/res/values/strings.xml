@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Talkin</string>
     <string name="email_address_hint">Email Address</string>
     <string name="password_hint">Password</string>
@@ -13,8 +14,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_registration_screen">RegistrationScreen</string>
-    <string name="confirm_password_hint">Confirm Password</string>
+
     <string name="name_hint">Full Name</string>
     <string name="phone_hint">Phone</string>
     <string name="website_hint">Website</string>
@@ -24,6 +24,18 @@
     <string name="dialog_negative_button">CANCEL</string>
     <string name="compare_passwords_toast">Passwords do not match</string>
     <string name="invalid_email_toast">Invalid email</string>
-    <string name="invalid_password_length_toast">Password length should be 6-12 symbols</string>
+    <string name="invalid_password_length_toast">Password length should be 6&#8211;12 symbols</string>
     <string name="password_is_weak_toast">Password is weak. Please use at least two digits and two capitalized letters</string>
+
+    <!--Registration Screen-->
+    <string name="title_activity_registration_screen">RegistrationScreen</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="alert_max_size_of_image">File is bigger than 1MB</string>
+    <string name="alert_failed_to_load">Failed to load</string>
+
+    <!--Facebook-->
+    <string name="button_facebook_log_in">Link Facebook</string>
+    <string name="button_facebook_linked">Link</string>
+    <string name="facebook_app_id">1792891837702820</string>
+
 </resources>

@@ -2,6 +2,7 @@ package com.internship.droidz.talkin.repository;
 
 import android.net.UrlQuerySanitizer;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.internship.droidz.talkin.App;
 import com.internship.droidz.talkin.data.CacheSharedPrefence;
@@ -61,12 +62,14 @@ public class ContentRepository {
                         Map<String, RequestBody> paramsMap = composeFormParamsMap(params);
                         MultipartBody.Part filePart = prepareFilePart(file, contentType, name);
 
+                        Log.i("TAG", "call: uploadFile" );
                         return service.uploadFile(AmazonConstants.AMAZON_END_POINT, paramsMap, filePart);
                     }
                 })
                 .flatMap(new Func1<UploadFileResponse, Observable<Response<Void>>>() {
                     @Override
                     public Observable<Response<Void>> call(UploadFileResponse uploadFileResponse) {
+                        Log.i("TAG", "enter to 2nd chain" );
                         String size = String.valueOf(file.getTotalSpace());
                         FileConfirmUploadRequest.Blob confirmBlob = new FileConfirmUploadRequest.Blob(size);
                         FileConfirmUploadRequest confirmRequest = new FileConfirmUploadRequest(confirmBlob);
@@ -74,10 +77,12 @@ public class ContentRepository {
                         if (name.equals(cache.CURRENT_AVATAR))
                             cache.putAccountAvatarBlobId(Long.parseLong(blobId));
 
+                        Log.i("TAG", "call: confirmUpload" );
                         return service.fileConfirmUpload(blobId,cache.getToken(),confirmRequest)
                                 .flatMap(new Func1<Response<Void>, Observable<Response<Void>>>() {
                                     @Override
                             public Observable<Response<Void>> call(Response<Void> response) {
+                                Log.i("TAG", "call: updateUser" );
                                 return userService.updateUser(cache.getUserId().toString(),
                                         new UpdateUserRequest(new UpdateUserRequest.User(blobId)),
                                         cache.getToken());

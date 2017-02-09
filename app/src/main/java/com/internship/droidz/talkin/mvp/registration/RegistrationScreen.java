@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
+import com.facebook.login.widget.LoginButton;
 import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.mvp.main.MainScreen;
 import com.internship.droidz.talkin.utils.Validator;
@@ -43,11 +45,14 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     EditText fullName;
     EditText website;
     Validator validator;
-
+    LoginButton linkFacebookButtonReg;
+    AppCompatButton linkFacebookButtonView;
     AppCompatButton signUpButtonReg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_registration_screen);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -56,11 +61,14 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
         fullName = (EditText) findViewById(R.id.nameEditText);
         website = (EditText) findViewById(R.id.siteEditText);
         signUpButtonReg = (AppCompatButton) findViewById(R.id.signUpButtonReg);
+        linkFacebookButtonReg = (LoginButton) findViewById(R.id.linkFacebookButtonReg);
+        linkFacebookButtonView = (AppCompatButton) findViewById(R.id.linkFacebookButtonView);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        presenter = new RegistrationPresenter(new RegistrationModel(), this, this);
+        presenter = new RegistrationPresenter(new RegistrationModel(), this);
         presenter.setFormatWatcher();
         validator = new Validator();
         email = (EditText) findViewById(R.id.emailEditTextReg);
@@ -73,16 +81,23 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
 
         Subscription buttonSub = RxView.clicks(signUpButtonReg)
                 .subscribe((Void aVoid) -> {
-                    presenter.signUp(email.getText().toString(),
-                        password.getText().toString(),
-                        fullName.getText().toString(),
-                        phoneEditText.getText().toString()
-                                .replaceAll("[ \\-\\(\\)]",""),
-                        website.getText().toString());
+                    presenter.signUp(
+                            email.getText().toString(),
+                            password.getText().toString(),
+                            fullName.getText().toString(),
+                            phoneEditText.getText().toString().replaceAll("[ \\-\\(\\)]",""),
+                            website.getText().toString());
         });
+
+        linkFacebookButtonView.setOnClickListener(view -> {
+            presenter.linkFacebook(linkFacebookButtonReg);
+        });
+
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent returnedData) {
+
         super.onActivityResult(requestCode, resultCode, returnedData);
 
         if (resultCode == RESULT_OK) {
@@ -135,16 +150,16 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     @Override
     public void showAlertMaxSizeOfImage() {
 
-        Toast.makeText(this, "File is bigger than 1MB", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.alert_max_size_of_image, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showAlertFailedToLoad() {
 
-        Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.alert_failed_to_load, Toast.LENGTH_SHORT).show();
     }
 
-    public void userPicOnClick(View view) {
+    public void onClickUserPicView(View view) {
 
         askPermissionWriteExternal();
         showDialogChooseSource();
@@ -156,8 +171,7 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
         confirmPassword.setOnFocusChangeListener((view, focus) -> {
                 if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
                     confirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
-                    Toast toast = Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT);
-                    toast.show();
+                    Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT).show();
                 }
         });
     }
@@ -193,6 +207,12 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     }
 
     @Override
+    public void changeTextFacebookLoginButton() {
+
+        linkFacebookButtonView.setText(R.string.button_facebook_linked);
+    }
+
+    @Override
     public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults){
 
         switch(permsRequestCode){
@@ -208,8 +228,7 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
         email.setOnFocusChangeListener((view, focus) -> {
                 if (!focus && !isValidEmail(email.getText().toString())) {
                     email.setError(getResources().getString(R.string.invalid_email_toast));
-                    Toast toast = Toast.makeText(getApplication(), R.string.invalid_email_toast, Toast.LENGTH_SHORT);
-                    toast.show();
+//                    Toast.makeText(getApplication(), R.string.invalid_email_toast, Toast.LENGTH_SHORT).show();
                 }
         });
     }
@@ -221,11 +240,11 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
             String input = password.getText().toString();
                 if (!focus && !isValidPasswordLength(input)) {
                     password.setError(getResources().getString(R.string.invalid_password_length_toast));
-                    Toast.makeText(getApplication(), R.string.invalid_password_length_toast, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplication(), R.string.invalid_password_length_toast, Toast.LENGTH_SHORT).show();
                 } else {
                     if (!validator.checkPasswordStrength(input)) {
                         password.setError(getResources().getString(R.string.password_is_weak_toast));
-                        Toast.makeText(getApplication(), R.string.password_is_weak_toast, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplication(), R.string.password_is_weak_toast, Toast.LENGTH_SHORT).show();
                     }
                 }
         });
