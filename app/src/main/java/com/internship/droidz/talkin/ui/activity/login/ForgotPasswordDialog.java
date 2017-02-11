@@ -1,4 +1,4 @@
-package com.internship.droidz.talkin.mvp.login;
+package com.internship.droidz.talkin.ui.activity.login;
 
 import android.app.Dialog;
 import android.app.DialogFragment;

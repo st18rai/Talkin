@@ -1,4 +1,4 @@
-package com.internship.droidz.talkin.mvp.splash;
+package com.internship.droidz.talkin.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,12 +6,11 @@ import android.content.SharedPreferences;
 import static android.content.Context.MODE_PRIVATE;
 
 /**
- * Created by Joyker on 18.01.2017.
+ * Created by st18r on 10.02.2017.
  */
 
-public class SplashModelImpl implements SplashContract.SplashModel {
-
-    public SplashModelImpl(Context context)
+public class SplashModel {
+    public SplashModel(Context context)
     {
         this.context = context;
         sPref = context.getSharedPreferences("SplashPref", MODE_PRIVATE);
@@ -23,12 +22,10 @@ public class SplashModelImpl implements SplashContract.SplashModel {
 
     private static final String LOGGED_IN_KEY = "loggedIn";
 
-    @Override
     public boolean isLoggedIn() {
         return sPref.getBoolean(LOGGED_IN_KEY, false);
     }
 
-    @Override
     public void setLoggedIn(boolean value) {
         ed = sPref.edit();
         ed.putBoolean(LOGGED_IN_KEY, value);

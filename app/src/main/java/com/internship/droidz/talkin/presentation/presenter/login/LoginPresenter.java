@@ -1,50 +1,34 @@
-package com.internship.droidz.talkin.mvp.login;
+package com.internship.droidz.talkin.presentation.presenter.login;
+
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
 import com.internship.droidz.talkin.App;
-import com.internship.droidz.talkin.data.model.SessionModel;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
-import com.internship.droidz.talkin.data.web.WebUtils;
-import com.internship.droidz.talkin.data.web.requests.SessionRequest;
-import com.internship.droidz.talkin.data.web.requests.SessionWithAuthRequest;
-import com.internship.droidz.talkin.data.web.requests.UserRequestModel;
-import com.internship.droidz.talkin.data.web.response.file.CreateFileResponse;
-import com.internship.droidz.talkin.data.web.response.file.UploadFileResponse;
+import com.internship.droidz.talkin.model.LoginModel;
+import com.internship.droidz.talkin.presentation.view.login.LoginView;
 import com.internship.droidz.talkin.repository.SessionRepository;
 import com.internship.droidz.talkin.utils.ProcessTimerReceiver;
 
-import java.io.IOException;
+@InjectViewState
+public class LoginPresenter extends MvpPresenter<LoginView> {
 
-import retrofit2.adapter.rxjava.HttpException;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
-
-/**
- * Created by Joyker on 19.01.2017.
- */
-
-public class LoginPresenterImpl implements LoginContract.LoginPresenter {
-
-    LoginContract.LoginModel model;
-    LoginContract.LoginView view;
+    LoginModel model;
+    LoginView view;
 
     int TIME_TO_SEND_NOTIFICATION = 15 * 60;
 
-    public LoginPresenterImpl(LoginContract.LoginModel model, LoginContract.LoginView view) {
+    public LoginPresenter(LoginModel model, LoginView view) {
         this.model = model;
         this.view = view;
     }
 
-    @Override
     public void checkAndStartTimer(Context context) {
         if (!App.getApp().getBackgroundChecker().isAppInForeground()) {
             Log.i("TAG", "checkAndStartTimer: ");
@@ -55,7 +39,6 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter {
         }
     }
 
-    @Override
     public void stopTimer(Context context) {
         Log.i("TAG", "stopTimer: ");
         Intent intent = new Intent(context, ProcessTimerReceiver.class);
@@ -64,9 +47,8 @@ public class LoginPresenterImpl implements LoginContract.LoginPresenter {
         alarmManager.cancel(pendingIntent);
     }
 
-    @Override
     public void signIn(String email, String password) {
         SessionRepository repository = new SessionRepository(ApiRetrofit.getRetrofitApi());
-        repository.signIn(email,password,view);
-        }
+        repository.signIn(email, password, view);
     }
+}

@@ -1,9 +1,9 @@
-package com.internship.droidz.talkin.mvp.login;
+package com.internship.droidz.talkin.ui.activity.login;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -14,14 +14,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.internship.droidz.talkin.R;
-import com.internship.droidz.talkin.mvp.main.MainScreen;
-import com.internship.droidz.talkin.mvp.registration.RegistrationScreen;
+import com.internship.droidz.talkin.model.LoginModel;
+import com.internship.droidz.talkin.presentation.presenter.login.LoginPresenter;
+import com.internship.droidz.talkin.presentation.view.login.LoginView;
+import com.internship.droidz.talkin.ui.activity.main.MainActivity;
+import com.internship.droidz.talkin.ui.activity.registration.RegistrationActivity;
 import com.jakewharton.rxbinding.view.RxView;
 
 import rx.Subscription;
 
-public class LoginScreen extends AppCompatActivity implements LoginContract.LoginView {
+public class LoginActivity extends MvpAppCompatActivity implements LoginView {
+    public static final String TAG = "LoginActivity";
+    @InjectPresenter
+    LoginPresenter mLoginPresenter;
 
     EditText email;
     EditText password;
@@ -29,12 +37,19 @@ public class LoginScreen extends AppCompatActivity implements LoginContract.Logi
     Toolbar toolbar;
     AppCompatButton btnSignIn;
     AppCompatButton btnSignUp;
-    LoginContract.LoginPresenter presenter;
+
+    public static Intent getIntent(final Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+
+        return intent;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         email = (EditText) findViewById(R.id.emailEditText);
@@ -42,7 +57,7 @@ public class LoginScreen extends AppCompatActivity implements LoginContract.Logi
         tvForgotPassword = (TextView) findViewById(R.id.forgotPasswordTextView);
         btnSignIn = (AppCompatButton) findViewById(R.id.signInButton);
         btnSignUp = (AppCompatButton) findViewById(R.id.signUpButton);
-        presenter = new LoginPresenterImpl(new LoginModelImpl(), this);
+        mLoginPresenter = new LoginPresenter(new LoginModel(), this);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -59,7 +74,7 @@ public class LoginScreen extends AppCompatActivity implements LoginContract.Logi
 
         Subscription SubscrBtnSignIn = RxView.clicks(btnSignIn)
                 .subscribe((aVoid) -> {
-                    presenter.signIn(email.getText().toString(), password.getText().toString());
+                    mLoginPresenter.signIn(email.getText().toString(), password.getText().toString());
                 });
 
     }
@@ -67,13 +82,13 @@ public class LoginScreen extends AppCompatActivity implements LoginContract.Logi
     @Override
     protected void onStop() {
         super.onStop();
-        presenter.checkAndStartTimer(getApplicationContext());
+        mLoginPresenter.checkAndStartTimer(getApplicationContext());
     }
 
     @Override
     protected void onStart() {
         super.onStop();
-        presenter.stopTimer(getApplicationContext());
+        mLoginPresenter.stopTimer(getApplicationContext());
     }
 
     @Override
@@ -127,23 +142,23 @@ public class LoginScreen extends AppCompatActivity implements LoginContract.Logi
 
     @Override
     public void navigateToRegistrationScreen() {
-        Intent intent = new Intent(LoginScreen.this, RegistrationScreen.class);
+        Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
         startActivity(intent);
     }
 
     @Override
     public void navigationToMainScreen() {
-        Intent intent = new Intent(LoginScreen.this, MainScreen.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
     @Override
     public void showLoginError() {
-        Toast.makeText(this,"Wrong email or password",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Wrong email or password", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showNetworkError() {
-        Toast.makeText(this,"No internet connection",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
     }
 }
