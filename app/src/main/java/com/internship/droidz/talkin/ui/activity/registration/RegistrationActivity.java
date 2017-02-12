@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
@@ -55,6 +56,9 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     LoginButton linkFacebookButtonReg;
     AppCompatButton linkFacebookButtonView;
     AppCompatButton signUpButtonReg;
+    TextInputLayout tilEmail;
+    TextInputLayout tilPassword;
+    TextInputLayout tilConfirmPassword;
 
     public static Intent getIntent(final Context context) {
         Intent intent = new Intent(context, RegistrationActivity.class);
@@ -89,6 +93,10 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         email = (EditText) findViewById(R.id.emailEditTextReg);
         password = (EditText) findViewById(R.id.passwordEditTextReg);
         confirmPassword = (EditText) findViewById(R.id.confirmPasswordEditText);
+
+        tilEmail = (TextInputLayout) findViewById(R.id.til_emailAddress);
+        tilPassword = (TextInputLayout) findViewById(R.id.til_textPassword);
+        tilConfirmPassword = (TextInputLayout) findViewById(R.id.til_confirmTextPassword);
 
         checkEmail();
         checkPassword();
@@ -188,9 +196,11 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
 
         confirmPassword.setOnFocusChangeListener((view, focus) -> {
             if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
-                confirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
-                Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT).show();
+                tilConfirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
+               // Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT).show();
             }
+            else
+                tilConfirmPassword.setError(null);
         });
     }
 
@@ -245,9 +255,11 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
 
         email.setOnFocusChangeListener((view, focus) -> {
             if (!focus && !isValidEmail(email.getText().toString())) {
-                email.setError(getResources().getString(R.string.invalid_email_toast));
+                tilEmail.setError(getResources().getString(R.string.invalid_email_toast));
 //                    Toast.makeText(getApplication(), R.string.invalid_email_toast, Toast.LENGTH_SHORT).show();
             }
+            else
+                tilEmail.setError(null);
         });
     }
 
@@ -257,13 +269,16 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         password.setOnFocusChangeListener((view, focus) -> {
             String input = password.getText().toString();
             if (!focus && !isValidPasswordLength(input)) {
-                password.setError(getResources().getString(R.string.invalid_password_length_toast));
+                tilPassword.setError(getResources().getString(R.string.invalid_password_length_toast));
 //                Toast.makeText(getApplication(), R.string.invalid_password_length_toast, Toast.LENGTH_SHORT).show();
             } else {
+                tilPassword.setError(null);
                 if (!focus && !validator.checkPasswordStrength(input)) {
-                    password.setError(getResources().getString(R.string.password_is_weak_toast));
+                    tilPassword.setError(getResources().getString(R.string.password_is_weak_toast));
 //                    Toast.makeText(getApplication(), R.string.password_is_weak_toast, Toast.LENGTH_SHORT).show();
                 }
+                else
+                    tilPassword.setError(null);
             }
         });
     }
