@@ -37,7 +37,7 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> implem
     private String TAG = "RegistrationPresenter";
 
     RegistrationModel model;
-    RegistrationView view;
+    RegistrationView view = getViewState();
     Context context;
     CacheSharedPrefence cache = CacheSharedPrefence.getInstance(App.getApp().getApplicationContext());
 

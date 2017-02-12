@@ -20,7 +20,7 @@ import com.internship.droidz.talkin.utils.ProcessTimerReceiver;
 public class LoginPresenter extends MvpPresenter<LoginView> {
 
     LoginModel model;
-    LoginView view;
+    LoginView view = getViewState();
 
     int TIME_TO_SEND_NOTIFICATION = 15 * 60;
 

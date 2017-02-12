@@ -9,7 +9,7 @@ import com.arellomobile.mvp.MvpPresenter;
 @InjectViewState
 public class SplashPresenter extends MvpPresenter<SplashView> {
     SplashModel model;
-    SplashView view;
+    SplashView view = getViewState();
 
     public SplashPresenter(SplashModel model, SplashView view) {
         this.model = model;
