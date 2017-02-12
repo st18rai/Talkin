@@ -31,4 +31,9 @@
     <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
+
+    <style name="errorAppearance" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/errorTextColor</item>
+    </style>
+
 </resources>

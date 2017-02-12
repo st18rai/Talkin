@@ -12,4 +12,5 @@
     <color name="pressedFacebookButton">#3a899d</color>
     <color name="loginScreenBackground">#327780</color>
     <color name="talkinUserPicBorder">#9bbcc2</color>
+    <color name="errorTextColor">#ff7070</color>
 </resources>

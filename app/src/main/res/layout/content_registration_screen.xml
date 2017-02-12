@@ -11,7 +11,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.internship.droidz.talkin.mvp.registration.RegistrationScreen"
+    tools:context="com.internship.droidz.talkin.ui.activity.registration.RegistrationActivity"
     tools:showIn="@layout/activity_registration_screen">
 
     <ScrollView
@@ -27,107 +27,166 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/userPicImageView"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/userpic"
-            app:civ_border_width="3dp"
-            app:civ_border_color="@color/talkinUserPicBorder"
-            android:onClick="onClickUserPicView" />
-
-            <EditText
-                android:id="@+id/emailEditTextReg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:ems="10"
-                android:hint="@string/email_address_hint"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="16sp"
-                app:backgroundTint="@color/white"/>
-
-            <EditText
-                android:id="@+id/passwordEditTextReg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/userPicImageView"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:ems="10"
-                android:hint="@string/password_hint"
-                android:inputType="textPassword"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="16sp"
-                app:backgroundTint="@color/white"/>
+                android:layout_marginTop="16dp"
+                android:onClick="onClickUserPicView"
+                android:src="@drawable/userpic"
+                app:civ_border_color="@color/talkinUserPicBorder"
+                app:civ_border_width="3dp" />
 
-            <EditText
-                android:id="@+id/confirmPasswordEditText"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_emailAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:ems="10"
-                android:hint="@string/confirm_password_hint"
-                android:inputType="textPassword"
-                android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="16sp"
-                app:backgroundTint="@color/white"/>
+                app:errorTextAppearance="@style/errorAppearance">
 
-            <EditText
-                android:id="@+id/nameEditText"
+                <EditText
+                    android:id="@+id/emailEditTextReg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/email_address_hint"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="16sp"
+                    app:backgroundTint="@color/white" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:ems="10"
-                android:hint="@string/name_hint"
-                android:inputType="textPersonName"
-                android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="16sp"
-                app:backgroundTint="@color/white"/>
+                app:errorTextAppearance="@style/errorAppearance">
 
-            <EditText
-                android:id="@+id/phoneEditText"
+                <EditText
+                    android:id="@+id/passwordEditTextReg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ems="10"
+                    android:hint="@string/password_hint"
+                    android:inputType="textPassword"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="16sp"
+                    app:backgroundTint="@color/white" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_confirmTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:ems="10"
-                android:hint="@string/phone_hint"
-                android:inputType="phone"
-                android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="16sp"
-                app:backgroundTint="@color/white"/>
+                app:errorTextAppearance="@style/errorAppearance">
 
-            <EditText
-                android:id="@+id/siteEditText"
+                <EditText
+                    android:id="@+id/confirmPasswordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ems="10"
+                    android:hint="@string/confirm_password_hint"
+                    android:inputType="textPassword"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="16sp"
+                    app:backgroundTint="@color/white" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_textName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:ems="10"
-                android:hint="@string/website_hint"
-                android:inputType="textUri"
-                android:textColor="@color/white"
                 android:textColorHint="@color/white"
-                android:textSize="16sp"
-                app:backgroundTint="@color/white"/>
+                app:errorTextAppearance="@style/errorAppearance">
+
+
+                <EditText
+                    android:id="@+id/nameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ems="10"
+                    android:hint="@string/name_hint"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="16sp"
+                    app:backgroundTint="@color/white" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textColorHint="@color/white"
+                app:errorTextAppearance="@style/errorAppearance">
+
+                <EditText
+                    android:id="@+id/phoneEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ems="10"
+                    android:hint="@string/phone_hint"
+                    android:inputType="phone"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="16sp"
+                    app:backgroundTint="@color/white" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_site"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:textColorHint="@color/white"
+                app:errorTextAppearance="@style/errorAppearance">
+
+                <EditText
+                    android:id="@+id/siteEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ems="10"
+                    android:hint="@string/website_hint"
+                    android:inputType="textUri"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="16sp"
+                    app:backgroundTint="@color/white" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/linkFacebookButtonReg"
@@ -136,14 +195,14 @@
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:visibility="gone"
-                android:textSize="18sp"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
                 android:drawablePadding="6dp"
+                android:paddingBottom="10dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:textColor="@color/com_facebook_share_button_text_color"/>
+                android:paddingTop="10dp"
+                android:textColor="@color/com_facebook_share_button_text_color"
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/linkFacebookButtonView"

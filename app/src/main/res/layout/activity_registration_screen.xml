@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
     android:background="@color/colorPrimary"
-    tools:context="com.internship.droidz.talkin.mvp.registration.RegistrationScreen">
+    tools:context=".ui.activity.registration.RegistrationActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

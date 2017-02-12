@@ -9,7 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.internship.droidz.talkin.R;
-import com.internship.droidz.talkin.mvp.login.LoginScreen;
+import com.internship.droidz.talkin.ui.activity.login.LoginActivity;
 
 /**
  * Created by Koroqe on 29-Jan-17.
@@ -28,7 +28,7 @@ public class ProcessTimerReceiver extends BroadcastReceiver {
     }
 
     private void createNotification(Context context, String title, String text) {
-        PendingIntent notificationIntent = PendingIntent.getActivity(context, 0, new Intent(context, LoginScreen.class), 0);
+        PendingIntent notificationIntent = PendingIntent.getActivity(context, 0, new Intent(context, LoginActivity.class), 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setContentIntent(notificationIntent)
                 .setSmallIcon(R.drawable.logo)
