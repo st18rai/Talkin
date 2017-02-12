@@ -1,6 +1,7 @@
-package com.internship.droidz.talkin.mvp.registration;
+package com.internship.droidz.talkin.ui.activity.registration;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -20,22 +20,29 @@ import android.widget.Toast;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.LoginButton;
 import com.internship.droidz.talkin.R;
-import com.internship.droidz.talkin.mvp.main.MainScreen;
+import com.internship.droidz.talkin.model.RegistrationModel;
+import com.internship.droidz.talkin.presentation.view.registration.RegistrationView;
+import com.internship.droidz.talkin.presentation.presenter.registration.RegistrationPresenter;
+
+import com.arellomobile.mvp.MvpAppCompatActivity;
+
+
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.internship.droidz.talkin.ui.activity.main.MainActivity;
 import com.internship.droidz.talkin.utils.Validator;
 import com.jakewharton.rxbinding.view.RxView;
 
 import ru.tinkoff.decoro.watchers.FormatWatcher;
 import rx.Subscription;
 
-
-public class RegistrationScreen extends AppCompatActivity implements RegistrationContract.RegistrationView {
-
-    private final String TAG = "RegistrationScreen";
+public class RegistrationActivity extends MvpAppCompatActivity implements RegistrationView {
+    public static final String TAG = "RegistrationActivity";
     private final int REQUEST_IMAGE_CAPTURE = 0;
     private final int REQUEST_IMAGE_EXT = 1;
     private final int REQUEST_PERMISSION_WRITE_EXTERNAL = 200;
 
-    private RegistrationContract.RegistrationPresenter presenter;
+    @InjectPresenter
+    RegistrationPresenter mRegistrationPresenter;
 
     EditText email;
     EditText password;
@@ -49,11 +56,19 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     AppCompatButton linkFacebookButtonView;
     AppCompatButton signUpButtonReg;
 
+    public static Intent getIntent(final Context context) {
+        Intent intent = new Intent(context, RegistrationActivity.class);
+
+        return intent;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_registration_screen);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         userPicImageView = (ImageView) findViewById(R.id.userPicImageView);
@@ -68,8 +83,8 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        presenter = new RegistrationPresenter(new RegistrationModel(), this);
-        presenter.setFormatWatcher();
+        mRegistrationPresenter = new RegistrationPresenter(new RegistrationModel(), this);
+        mRegistrationPresenter.setFormatWatcher();
         validator = new Validator();
         email = (EditText) findViewById(R.id.emailEditTextReg);
         password = (EditText) findViewById(R.id.passwordEditTextReg);
@@ -81,17 +96,17 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
 
         Subscription buttonSub = RxView.clicks(signUpButtonReg)
                 .subscribe((Void aVoid) -> {
-                    presenter.signUp(
+                    mRegistrationPresenter.signUp(
                             email.getText().toString(),
                             password.getText().toString(),
                             fullName.getText().toString(),
                             phoneEditText.getText().toString()
-                                .replaceAll("[\\n\\-\\(\\)\\s]",""),
+                                    .replaceAll("[\\n\\-\\(\\)\\s]",""),
                             website.getText().toString());
-        });
+                });
 
         linkFacebookButtonView.setOnClickListener(view -> {
-            presenter.linkFacebook(linkFacebookButtonReg);
+            mRegistrationPresenter.linkFacebook(linkFacebookButtonReg);
         });
 
     }
@@ -103,11 +118,11 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE: {
-                    presenter.setupUserPicFromCamera();
+                    mRegistrationPresenter.setupUserPicFromCamera();
                     break;
                 }
                 case REQUEST_IMAGE_EXT: {
-                    presenter.setupUserPicFromGallery(returnedData);
+                    mRegistrationPresenter.setupUserPicFromGallery(returnedData);
                     break;
                 }
             }
@@ -139,7 +154,7 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     @Override
     public void startCameraForCapture() {
 
-        startActivityForResult(presenter.getCameraPictureIntent(getPackageManager()), REQUEST_IMAGE_CAPTURE);
+        startActivityForResult(mRegistrationPresenter.getCameraPictureIntent(getPackageManager()), REQUEST_IMAGE_CAPTURE);
     }
 
 
@@ -172,17 +187,17 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     public void comparePasswords() {
 
         confirmPassword.setOnFocusChangeListener((view, focus) -> {
-                if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
-                    confirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
-                    Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT).show();
-                }
+            if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
+                confirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
+                Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
     @Override
     public void navigateToMainScreen() {
 
-        Intent intent = new Intent(RegistrationScreen.this, MainScreen.class);
+        Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
         startActivity(intent);
     }
 
@@ -203,7 +218,7 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     @TargetApi(23)
     public void askPermissionWriteExternal() {
 
-        if (presenter.shouldAskPermission()) {
+        if (mRegistrationPresenter.shouldAskPermission()) {
             String[] perms = {"android.permission.WRITE_EXTERNAL_STORAGE"};
             requestPermissions(perms, REQUEST_PERMISSION_WRITE_EXTERNAL);
         }
@@ -229,10 +244,10 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     public void checkEmail() {
 
         email.setOnFocusChangeListener((view, focus) -> {
-                if (!focus && !isValidEmail(email.getText().toString())) {
-                    email.setError(getResources().getString(R.string.invalid_email_toast));
+            if (!focus && !isValidEmail(email.getText().toString())) {
+                email.setError(getResources().getString(R.string.invalid_email_toast));
 //                    Toast.makeText(getApplication(), R.string.invalid_email_toast, Toast.LENGTH_SHORT).show();
-                }
+            }
         });
     }
 

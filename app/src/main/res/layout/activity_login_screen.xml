@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
     android:background="@color/colorPrimary"
-    tools:context=".mvp.login.LoginScreen">
+    tools:context=".ui.activity.login.LoginActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"

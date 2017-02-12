@@ -1,4 +1,4 @@
-package com.internship.droidz.talkin.mvp.registration;
+package com.internship.droidz.talkin.model;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,11 +33,10 @@ import ru.tinkoff.decoro.watchers.FormatWatcher;
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher;
 
 /**
- * Created by st18r on 20.01.2017.
+ * Created by st18r on 10.02.2017.
  */
 
-public class RegistrationModel implements RegistrationContract.RegistrationModel {
-
+public class RegistrationModel {
     private final String TAG = "RegistrationModel";
     private static final String PHONE_MASK = "+38 (0__) ___-__-__";
 
@@ -49,8 +48,13 @@ public class RegistrationModel implements RegistrationContract.RegistrationModel
 
     private String mFacebookUserID;
 
+   public interface RegistrationModelListener {
 
-    @Override
+        void onFacebookLogin();
+
+    }
+
+
     public File createImageFile() throws IOException {
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -70,7 +74,6 @@ public class RegistrationModel implements RegistrationContract.RegistrationModel
         return mFormatWatcher;
     }
 
-    @Override
     public void linkFacebook(LoginButton linkFacebookButtonReg, RegistrationModelListener listener) {
 
         mCallbackManager = CallbackManager.Factory.create();
@@ -111,7 +114,6 @@ public class RegistrationModel implements RegistrationContract.RegistrationModel
         });
     }
 
-    @Override
     public Intent getMediaScanIntent() {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File userPicFile = new File(currentPhotoPath);
@@ -120,7 +122,6 @@ public class RegistrationModel implements RegistrationContract.RegistrationModel
         return mediaScanIntent;
     }
 
-    @Override
     public void grantAllPermissionsToUserPicFile(Intent intent) {
 
         List<ResolveInfo> resInfoList = App.getApp().getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
@@ -130,7 +131,6 @@ public class RegistrationModel implements RegistrationContract.RegistrationModel
         }
     }
 
-    @Override
     public void setUserPic(Uri uri) {
 
         userPicFileUri = uri;
@@ -138,7 +138,6 @@ public class RegistrationModel implements RegistrationContract.RegistrationModel
         currentPhotoPath = userPicFile.getAbsolutePath();
     }
 
-    @Override
     public Intent getCameraPictureIntent(PackageManager packageManager) {
         Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (pictureIntent.resolveActivity(packageManager) != null) {
@@ -157,4 +156,5 @@ public class RegistrationModel implements RegistrationContract.RegistrationModel
         }
         return pictureIntent;
     }
+
 }
