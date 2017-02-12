@@ -131,19 +131,35 @@
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/white"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:text="@string/link_facebook_button"
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/linkFacebookButtonReg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/linkFacebookButtonReg"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:backgroundTint="@color/linkFacebookButton"
-            style="@style/LinkFacebookButtonStyle"
+            android:layout_centerInParent="true"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:visibility="gone"
+            android:textSize="18sp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:drawablePadding="6dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textColor="@color/com_facebook_share_button_text_color"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/linkFacebookButtonView"
+            style="@style/LinkFacebookButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/link_facebook_button_state"
             android:drawableStart="@drawable/fb_icon"
-            android:textAllCaps="false" />
+            android:text="@string/link_facebook_button"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
         <android.support.v7.widget.AppCompatButton
             android:text="@string/sign_up_button"

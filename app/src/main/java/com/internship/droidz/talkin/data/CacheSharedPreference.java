@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
  * Created by Novak Alexandr on 06.02.2017.
  */
 
-public class CacheSharedPrefence {
+public class CacheSharedPreference {
 
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
@@ -22,20 +22,20 @@ public class CacheSharedPrefence {
     protected static final String CURRENT_USER_KEEP_ME_SIGN_IN = "CURRENT_ACCOUNT_KEEP_ME_SIGN_IN";
     public static final String CURRENT_AVATAR = "AVATAR.jpg";
 
-    private static  CacheSharedPrefence INSTANCE;
+    private static CacheSharedPreference INSTANCE;
 
-    private CacheSharedPrefence(Context context) {
+    private CacheSharedPreference(Context context) {
         mSharedPreferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
     }
 
-    public static CacheSharedPrefence getInstance(Context context) {
-        CacheSharedPrefence pref = INSTANCE;
+    public static CacheSharedPreference getInstance(Context context) {
+        CacheSharedPreference pref = INSTANCE;
         if (pref == null) {
-            synchronized (CacheSharedPrefence.class) {
+            synchronized (CacheSharedPreference.class) {
                 pref = INSTANCE;
                 if (pref == null) {
-                    INSTANCE = pref = new CacheSharedPrefence(context);
+                    INSTANCE = pref = new CacheSharedPreference(context);
                 }
             }
         }
@@ -117,12 +117,12 @@ public class CacheSharedPrefence {
             return id;
     }
 
-    public void putKeppMeLoggedIn(boolean keepMeSignIn) {
+    public void putKeepMeLoggedIn(boolean keepMeSignIn) {
         mEditor.putBoolean(CURRENT_USER_KEEP_ME_SIGN_IN, keepMeSignIn);
         mEditor.apply();
     }
 
-    public boolean getKeppMeSignIn() {
+    public boolean getKeepMeSignIn() {
         return mSharedPreferences.getBoolean(CURRENT_USER_KEEP_ME_SIGN_IN, true);
     }
 

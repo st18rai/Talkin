@@ -5,7 +5,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 
 import com.facebook.login.widget.LoginButton;
-import com.internship.droidz.talkin.data.model.SessionModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,15 +27,30 @@ public interface RegistrationContract {
 
         Intent getCameraPictureIntent(PackageManager packageManager);
 
+        File getmUserPicFile();
+
+        Uri getUserPicFileUri();
+
+        void setUserPicFileUri(Uri userPicFileUri);
+
+        void setmUserPicFile(File mUserPicFile);
+
         interface RegistrationModelListener {
 
             void onFacebookLogin();
 
+            void onRegistrationCompleted();
+
+            void onRegistrationError();
+
+            void onNetworkError();
         }
 
         File createImageFile() throws IOException;
 
         FormatWatcher getFormatWatcher();
+
+        void signUp(RegistrationModelListener listener, String email, String password, String fullName, String phone, String website);
 
         void linkFacebook(LoginButton linkFacebookButtonReg, RegistrationModelListener listener);
 
@@ -50,7 +64,7 @@ public interface RegistrationContract {
 
         void setupUserPicFromGallery(Intent intent);
 
-        void setUserPicToModel(Uri uri);
+        File getUserPicFile();
 
         void setFormatWatcher();
 
@@ -58,21 +72,10 @@ public interface RegistrationContract {
 
         boolean shouldAskPermission();
 
-        void createSession(String email, String password);
-
-        void signUp(String email,String password, String fullName, String phone, String website);
-
-        void createAuthSession(String email, String password, SessionModel sessionModel);
-
-        void uploadUserPic();
+        void signUp(String email, String password, String fullName, String phone, String website);
 
         void linkFacebook(LoginButton linkFacebookButtonReg);
 
-        void setUserPicFile(Uri uri);
-
-        String getCurrentPhotoPath();
-
-        Uri getUserPicFileUri();
     }
 
     interface RegistrationView {
@@ -107,6 +110,10 @@ public interface RegistrationContract {
 
         void changeTextFacebookLoginButton();
 
-        void sendBroadcast(Intent mediaScanIntent);
+        void activitySendBroadcast(Intent mediaScanIntent);
+
+        void showRegistrationError();
+
+        void showNetworkError();
     }
 }

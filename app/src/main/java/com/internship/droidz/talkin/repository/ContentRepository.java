@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.internship.droidz.talkin.App;
-import com.internship.droidz.talkin.data.CacheSharedPrefence;
+import com.internship.droidz.talkin.data.CacheSharedPreference;
 import com.internship.droidz.talkin.data.web.AmazonConstants;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
 import com.internship.droidz.talkin.data.web.requests.UpdateUserRequest;
@@ -35,22 +35,24 @@ import rx.functions.Func1;
 public class ContentRepository {
 
     private String name;
-    private CacheSharedPrefence cache;
+    private CacheSharedPreference cache;
     private volatile String blobId = "";
     private ContentService contentService;
     private UserService userService;
 
-    public ContentRepository(ApiRetrofit retrofitApi)
-    {
+    public ContentRepository(ApiRetrofit retrofitApi) {
+
         this.contentService =retrofitApi.getContentService();
         this.userService=retrofitApi.getUserService();
-        cache=CacheSharedPrefence.getInstance(App.getApp().getApplicationContext());
+        cache = CacheSharedPreference.getInstance(App.getApp().getApplicationContext());
     }
 
     public Observable<Response<Void>> uploadFile(String contentType, File file, String name) {
+
         Blob blob = new Blob(contentType, file.getName());
         CreateFileRequest fileCreateRequest = new CreateFileRequest(blob);
         Log.i("rx","inside create file");
+
         return contentService.createFile( fileCreateRequest,cache.getToken())
                 .flatMap(new Func1<CreateFileResponse, Observable<UploadFileResponse>>() {
                     @Override
@@ -92,10 +94,12 @@ public class ContentRepository {
     }
 
     private RequestBody createPartFromString(String source) {
+
         return RequestBody.create(MediaType.parse("text/plain"), source);
     }
 
     private Map<String, RequestBody> composeFormParamsMap(String source) {
+
         UrlQuerySanitizer sanitizer = new UrlQuerySanitizer();
         sanitizer.registerParameter(AmazonConstants.AMAZON_EXPIRES, UrlQuerySanitizer.getSpaceLegal());
         sanitizer.setAllowUnregisteredParamaters(true);
@@ -128,6 +132,7 @@ public class ContentRepository {
 
     @NonNull
     private MultipartBody.Part prepareFilePart(File file, String contentType, String name) {
+
         RequestBody requestFile = RequestBody.create(MediaType.parse(contentType), file);
         if (name == null)
             this.name = file.getName();

@@ -3,7 +3,7 @@ package com.internship.droidz.talkin.repository;
 import android.util.Log;
 
 import com.internship.droidz.talkin.App;
-import com.internship.droidz.talkin.data.CacheSharedPrefence;
+import com.internship.droidz.talkin.data.CacheSharedPreference;
 import com.internship.droidz.talkin.data.model.SessionModel;
 import com.internship.droidz.talkin.data.model.UserModel;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
@@ -13,17 +13,12 @@ import com.internship.droidz.talkin.data.web.requests.SessionRequest;
 import com.internship.droidz.talkin.data.web.requests.SessionWithAuthRequest;
 import com.internship.droidz.talkin.data.web.requests.UserRequestModel;
 import com.internship.droidz.talkin.data.web.requests.UserSignUpRequest;
-import com.internship.droidz.talkin.data.web.requests.file.Blob;
-import com.internship.droidz.talkin.data.web.requests.file.CreateFileRequest;
-import com.internship.droidz.talkin.data.web.response.file.CreateFileResponse;
 import com.internship.droidz.talkin.data.web.service.ContentService;
 import com.internship.droidz.talkin.data.web.service.UserService;
 import com.internship.droidz.talkin.mvp.login.LoginContract;
 
-import java.io.File;
 import java.io.IOException;
 
-import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
@@ -39,16 +34,17 @@ public class SessionRepository {
 
     private UserService userService;
     private ContentService contentService;
-    private CacheSharedPrefence cache;
+    private CacheSharedPreference cache;
 
     public SessionRepository(ApiRetrofit retrofit) {
+
         this.userService = retrofit.getUserService();
         this.contentService=retrofit.getContentService();
-        cache=CacheSharedPrefence.getInstance(App.getApp().getApplicationContext());
+        cache= CacheSharedPreference.getInstance(App.getApp().getApplicationContext());
     }
 
-    public Observable<SessionModel> createSession()
-    {
+    public Observable<SessionModel> createSession() {
+
         int nonce= WebUtils.getNonce();
         long timestamp = System.currentTimeMillis()/1000l;
         SessionRequest request =new SessionRequest(ApiRetrofit.APP_ID,ApiRetrofit.APP_AUTH_KEY,
@@ -56,8 +52,8 @@ public class SessionRepository {
         return userService.getSession(request);
     }
 
-    private Observable<SessionModel> createSessionWithAuth(String email, String password,String token)
-    {
+    private Observable<SessionModel> createSessionWithAuth(String email, String password,String token) {
+
         int nonce= WebUtils.getNonce();
         long timestamp = System.currentTimeMillis()/1000l;
         SessionWithAuthRequest request=  new SessionWithAuthRequest(
@@ -70,11 +66,10 @@ public class SessionRepository {
                         email,
                         password));
         return userService.getSessionWithAuth(request,token);
-
     }
 
-    public void signIn(String email, String password,LoginContract.LoginView view)
-    {
+    public void signIn(String email, String password,LoginContract.LoginView view) {
+
         createSession().flatMap(sessionModel ->
                 createSessionWithAuth(email,password,sessionModel.getSession().getToken()))
                 .subscribeOn(Schedulers.io())
@@ -89,22 +84,18 @@ public class SessionRepository {
                     @Override
                     public void onError(Throwable e) {
                         if (e instanceof HttpException) {
-                            try
-                            {
+                            try {
                                 Log.i("retrofit login,",((HttpException) e).response().errorBody().string());
                                 view.showLoginError();
-
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }
                         }
-                        else
-                        {
+                        else {
                             Log.i("error_login_user","error: "+e.getMessage());
                             view.showNetworkError();
                             e.printStackTrace();
                         }
-
                     }
 
                     @Override
@@ -114,9 +105,13 @@ public class SessionRepository {
                 });
     }
 
-    public Observable<SessionModel> signUp(String email, String password,
-                       String fullName, String phone, String website)
-    {
+    public Observable<SessionModel> signUp(
+            String email,
+            String password,
+            String fullName,
+            String phone,
+            String website) {
+
         return createSession()
                 .flatMap(new Func1<SessionModel, Observable<UserModel>>() {
                     @Override

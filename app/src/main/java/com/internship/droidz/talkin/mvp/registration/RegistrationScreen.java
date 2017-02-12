@@ -51,6 +51,7 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_registration_screen);
@@ -91,6 +92,7 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
         });
 
         linkFacebookButtonView.setOnClickListener(view -> {
+
             presenter.linkFacebook(linkFacebookButtonReg);
         });
 
@@ -153,13 +155,13 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     @Override
     public void showAlertMaxSizeOfImage() {
 
-        Toast.makeText(this, R.string.alert_max_size_of_image, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.alert_max_size_of_image, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showAlertFailedToLoad() {
 
-        Toast.makeText(this, R.string.alert_failed_to_load, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.alert_failed_to_load, Toast.LENGTH_LONG).show();
     }
 
     public void onClickUserPicView(View view) {
@@ -213,6 +215,18 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
     public void changeTextFacebookLoginButton() {
 
         linkFacebookButtonView.setText(R.string.button_facebook_linked);
+    }
+
+    @Override
+    public void showRegistrationError() {
+
+        Toast.makeText(this, R.string.registration_error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showNetworkError() {
+
+        Toast.makeText(this, R.string.network_error, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -270,5 +284,11 @@ public class RegistrationScreen extends AppCompatActivity implements Registratio
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public void activitySendBroadcast(Intent mediaScanIntent) {
+
+        this.sendBroadcast(mediaScanIntent);
     }
 }

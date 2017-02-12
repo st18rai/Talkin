@@ -32,6 +32,8 @@
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="alert_max_size_of_image">File is bigger than 1MB</string>
     <string name="alert_failed_to_load">Failed to load</string>
+    <string name="registration_error">Registration failed</string>
+    <string name="network_error">Network error</string>
 
     <!--Facebook-->
     <string name="button_facebook_log_in">Link Facebook</string>
