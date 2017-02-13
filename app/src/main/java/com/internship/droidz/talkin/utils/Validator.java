@@ -10,8 +10,8 @@ import java.io.File;
 
 public class Validator {
 
-    public static float MAX_SIZE_USER_PIC = 1.0f;
-    public static String PASSWORD_STRENGTH_MASK = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{0,}$";
+    private static float MAX_SIZE_USER_PIC = 1.0f;
+    private static String PASSWORD_STRENGTH_MASK = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{0,}$";
 
     public static boolean checkUserPicSize(File file) {
 

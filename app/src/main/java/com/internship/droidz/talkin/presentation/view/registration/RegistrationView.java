@@ -27,6 +27,10 @@ public interface RegistrationView extends MvpView {
 
     void setPhoneMask(FormatWatcher formatWatcher);
 
+    void showRegistrationError();
+
+    void showNetworkError();
+
     void checkEmail();
 
     void checkPassword();
@@ -42,4 +46,5 @@ public interface RegistrationView extends MvpView {
     void sendBroadcast(Intent mediaScanIntent);
 
 
+    void activitySendBroadcast(Intent mediaScanIntent);
 }

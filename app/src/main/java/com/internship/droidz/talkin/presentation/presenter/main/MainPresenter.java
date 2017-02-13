@@ -9,11 +9,11 @@ import com.arellomobile.mvp.MvpPresenter;
 @InjectViewState
 public class MainPresenter extends MvpPresenter<MainView> {
 
-    MainModel model;
-    MainView view = getViewState();
+    MainModel mModel;
+    MainView mView;
 
-    public MainPresenter(MainModel model, MainView view) {
-        this.model = model;
-        this.view = view;
+    public MainPresenter() {
+        mModel = new MainModel();
+        mView = getViewState();;
     }
 }

@@ -1,7 +1,8 @@
 package com.internship.droidz.talkin.model;
 
-import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.internship.droidz.talkin.App;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -10,13 +11,12 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class SplashModel {
-    public SplashModel(Context context)
-    {
-        this.context = context;
-        sPref = context.getSharedPreferences("SplashPref", MODE_PRIVATE);
+
+    public SplashModel() {
+
+        sPref = App.getApp().getApplicationContext().getSharedPreferences("SplashPref", MODE_PRIVATE);
     }
 
-    Context context;
     SharedPreferences sPref;
     SharedPreferences.Editor ed;
 
@@ -27,6 +27,7 @@ public class SplashModel {
     }
 
     public void setLoggedIn(boolean value) {
+
         ed = sPref.edit();
         ed.putBoolean(LOGGED_IN_KEY, value);
         ed.commit();

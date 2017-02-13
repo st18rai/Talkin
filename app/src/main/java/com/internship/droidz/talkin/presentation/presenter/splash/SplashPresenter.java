@@ -1,23 +1,23 @@
 package com.internship.droidz.talkin.presentation.presenter.splash;
 
 
-import com.internship.droidz.talkin.model.SplashModel;
-import com.internship.droidz.talkin.presentation.view.splash.SplashView;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.internship.droidz.talkin.model.SplashModel;
+import com.internship.droidz.talkin.presentation.view.splash.SplashView;
 
 @InjectViewState
 public class SplashPresenter extends MvpPresenter<SplashView> {
-    SplashModel model;
-    SplashView view = getViewState();
 
-    public SplashPresenter(SplashModel model, SplashView view) {
-        this.model = model;
-        this.view = view;
+    SplashModel mModel;
+
+    public SplashPresenter() {
+
+        mModel = new SplashModel();
     }
 
     public boolean checkLoggedIn() {
-        return model.isLoggedIn();
+        return mModel.isLoggedIn();
     }
 
     public void onResume() {
@@ -29,14 +29,15 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
     }
 
     public void setLoggedIn(boolean value) {
-        model.setLoggedIn(value);
+        mModel.setLoggedIn(value);
     }
 
     public void checkLoggedInAndNavigate() {
+
         if (checkLoggedIn()) {
-            view.navigateToMainScreen();
+            getViewState().navigateToMainScreen();
         } else {
-            view.navigateToLoginScreen();
+            getViewState().navigateToLoginScreen();
         }
     }
 }

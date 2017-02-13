@@ -64,14 +64,14 @@ public class ContentRepository {
 
                         Map<String, RequestBody> paramsMap = composeFormParamsMap(params);
                         MultipartBody.Part filePart = prepareFilePart(file, contentType, name);
-                        Log.i("rx","inside upload,,uploading");
+                        Log.i("rx", "inside upload,uploading");
                         return contentService.uploadFile(AmazonConstants.AMAZON_END_POINT, paramsMap, filePart);
                     }
                 })
                 .flatMap(new Func1<UploadFileResponse, Observable<Response<Void>>>() {
                     @Override
                     public Observable<Response<Void>> call(UploadFileResponse uploadFileResponse) {
-                        Log.i("rx","inside file confirm upload");
+                        Log.i("rx", "inside file confirm upload");
                         String size = String.valueOf(file.getTotalSpace());
                         FileConfirmUploadRequest.Blob confirmBlob = new FileConfirmUploadRequest.Blob(size);
                         FileConfirmUploadRequest confirmRequest = new FileConfirmUploadRequest(confirmBlob);
@@ -79,7 +79,7 @@ public class ContentRepository {
                         if (name.equals(cache.CURRENT_AVATAR))
                             cache.putAccountAvatarBlobId(Long.parseLong(blobId));
 
-                        return contentService.fileConfirmUpload(blobId,cache.getToken(),confirmRequest)
+                        return contentService.fileConfirmUpload(blobId,cache.getToken(), confirmRequest)
                                 .flatMap(new Func1<Response<Void>, Observable<Response<Void>>>() {
                                     @Override
                             public Observable<Response<Void>> call(Response<Void> response) {
