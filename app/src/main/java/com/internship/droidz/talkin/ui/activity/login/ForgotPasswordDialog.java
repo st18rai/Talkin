@@ -5,13 +5,13 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
 import com.internship.droidz.talkin.R;
+import com.internship.droidz.talkin.utils.Validator;
 
 /**
  * Created by st18r on 02.02.2017.
@@ -41,8 +41,7 @@ public class ForgotPasswordDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!isValidEmail(etForgotPassword.getText().toString())) {
-                    etForgotPassword.setError(getResources().getString(R.string.invalid_email_toast));
+                if (!Validator.isValidEmail(etForgotPassword.getText().toString())) {
                     AlertDialog dialog = (AlertDialog) getDialog();
                     dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
                 } else {
@@ -72,10 +71,5 @@ public class ForgotPasswordDialog extends DialogFragment {
         // disable positive button by default
         AlertDialog dialog = (AlertDialog) getDialog();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-    }
-
-    // check entered data
-    private boolean isValidEmail(CharSequence target) {
-        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }

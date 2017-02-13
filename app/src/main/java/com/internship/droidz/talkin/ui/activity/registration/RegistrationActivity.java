@@ -190,7 +190,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         confirmPassword.setOnFocusChangeListener((view, focus) -> {
             if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
                 tilConfirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
-                Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT).show();
             }
             else
                 tilConfirmPassword.setError(null);
