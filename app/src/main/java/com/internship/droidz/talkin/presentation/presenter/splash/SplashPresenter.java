@@ -10,10 +10,12 @@ import com.internship.droidz.talkin.presentation.view.splash.SplashView;
 public class SplashPresenter extends MvpPresenter<SplashView> {
 
     SplashModel mModel;
+    SplashView mView;
 
     public SplashPresenter() {
 
         mModel = new SplashModel();
+        mView = getViewState();
     }
 
     public boolean checkLoggedIn() {
@@ -35,9 +37,9 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
     public void checkLoggedInAndNavigate() {
 
         if (checkLoggedIn()) {
-            getViewState().navigateToMainScreen();
+            mView.navigateToMainScreen();
         } else {
-            getViewState().navigateToLoginScreen();
+            mView.navigateToLoginScreen();
         }
     }
 }

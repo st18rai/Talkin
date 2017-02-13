@@ -13,7 +13,8 @@ public class MainPresenter extends MvpPresenter<MainView> {
     MainView mView;
 
     public MainPresenter() {
+
         mModel = new MainModel();
-        mView = getViewState();;
+        mView = getViewState();
     }
 }
