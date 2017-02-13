@@ -99,6 +99,10 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     //Facebook
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    // Moxy
+    compile 'com.arello-mobile:moxy:1.4.5'
+    annotationProcessor 'com.arello-mobile:moxy-compiler:1.4.5'
+    compile 'com.arello-mobile:moxy-app-compat:1.4.5'
     //Mockito
     testCompile 'org.mockito:mockito-core:2.0.57-beta'
     //JUnit
@@ -107,10 +111,6 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    // Moxy
-    compile 'com.arello-mobile:moxy:1.1.2'
-    provided 'com.arello-mobile:moxy-compiler:1.1.2'
-    compile 'com.arello-mobile:moxy-app-compat:1.1.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

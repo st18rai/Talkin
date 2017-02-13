@@ -31,7 +31,6 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         return intent;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

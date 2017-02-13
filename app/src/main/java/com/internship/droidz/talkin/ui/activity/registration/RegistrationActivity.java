@@ -1,14 +1,12 @@
 package com.internship.droidz.talkin.ui.activity.registration;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
@@ -18,17 +16,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.LoginButton;
 import com.internship.droidz.talkin.R;
-import com.internship.droidz.talkin.model.RegistrationModel;
-import com.internship.droidz.talkin.presentation.view.registration.RegistrationView;
 import com.internship.droidz.talkin.presentation.presenter.registration.RegistrationPresenter;
-
-import com.arellomobile.mvp.MvpAppCompatActivity;
-
-
-import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.internship.droidz.talkin.presentation.view.registration.RegistrationView;
 import com.internship.droidz.talkin.ui.activity.main.MainActivity;
 import com.internship.droidz.talkin.utils.Validator;
 import com.jakewharton.rxbinding.view.RxView;
@@ -37,6 +31,7 @@ import ru.tinkoff.decoro.watchers.FormatWatcher;
 import rx.Subscription;
 
 public class RegistrationActivity extends MvpAppCompatActivity implements RegistrationView {
+
     public static final String TAG = "RegistrationActivity";
     private final int REQUEST_IMAGE_CAPTURE = 0;
     private final int REQUEST_IMAGE_EXT = 1;
@@ -52,27 +47,16 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     EditText phoneEditText;
     EditText fullName;
     EditText website;
-    Validator validator;
     LoginButton linkFacebookButtonReg;
     AppCompatButton linkFacebookButtonView;
     AppCompatButton signUpButtonReg;
-    TextInputLayout tilEmail;
-    TextInputLayout tilPassword;
-    TextInputLayout tilConfirmPassword;
-
-    public static Intent getIntent(final Context context) {
-        Intent intent = new Intent(context, RegistrationActivity.class);
-
-        return intent;
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_registration_screen);
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         userPicImageView = (ImageView) findViewById(R.id.userPicImageView);
@@ -87,16 +71,10 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        mRegistrationPresenter = new RegistrationPresenter(new RegistrationModel(), this);
         mRegistrationPresenter.setFormatWatcher();
-        validator = new Validator();
         email = (EditText) findViewById(R.id.emailEditTextReg);
         password = (EditText) findViewById(R.id.passwordEditTextReg);
         confirmPassword = (EditText) findViewById(R.id.confirmPasswordEditText);
-
-        tilEmail = (TextInputLayout) findViewById(R.id.til_emailAddress);
-        tilPassword = (TextInputLayout) findViewById(R.id.til_textPassword);
-        tilConfirmPassword = (TextInputLayout) findViewById(R.id.til_confirmTextPassword);
 
         checkEmail();
         checkPassword();
@@ -108,12 +86,12 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
                             email.getText().toString(),
                             password.getText().toString(),
                             fullName.getText().toString(),
-                            phoneEditText.getText().toString()
-                                    .replaceAll("[\\n\\-\\(\\)\\s]",""),
+                            phoneEditText.getText().toString().replaceAll("[\\n\\-\\(\\)\\s]",""),
                             website.getText().toString());
                 });
 
         linkFacebookButtonView.setOnClickListener(view -> {
+
             mRegistrationPresenter.linkFacebook(linkFacebookButtonReg);
         });
 
@@ -176,13 +154,13 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     @Override
     public void showAlertMaxSizeOfImage() {
 
-        Toast.makeText(this, R.string.alert_max_size_of_image, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.alert_max_size_of_image, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void showAlertFailedToLoad() {
 
-        Toast.makeText(this, R.string.alert_failed_to_load, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.alert_failed_to_load, Toast.LENGTH_LONG).show();
     }
 
     public void onClickUserPicView(View view) {
@@ -196,18 +174,16 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
 
         confirmPassword.setOnFocusChangeListener((view, focus) -> {
             if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
-                tilConfirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
-               // Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT).show();
+                confirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
+                Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT).show();
             }
-            else
-                tilConfirmPassword.setError(null);
         });
     }
 
     @Override
     public void navigateToMainScreen() {
 
-        Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
@@ -241,6 +217,18 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     }
 
     @Override
+    public void showRegistrationError() {
+
+        Toast.makeText(this, R.string.registration_error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showNetworkError() {
+
+        Toast.makeText(this, R.string.network_error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults) {
 
         switch (permsRequestCode) {
@@ -255,11 +243,9 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
 
         email.setOnFocusChangeListener((view, focus) -> {
             if (!focus && !isValidEmail(email.getText().toString())) {
-                tilEmail.setError(getResources().getString(R.string.invalid_email_toast));
+                email.setError(getResources().getString(R.string.invalid_email_toast));
 //                    Toast.makeText(getApplication(), R.string.invalid_email_toast, Toast.LENGTH_SHORT).show();
             }
-            else
-                tilEmail.setError(null);
         });
     }
 
@@ -269,16 +255,13 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         password.setOnFocusChangeListener((view, focus) -> {
             String input = password.getText().toString();
             if (!focus && !isValidPasswordLength(input)) {
-                tilPassword.setError(getResources().getString(R.string.invalid_password_length_toast));
+                password.setError(getResources().getString(R.string.invalid_password_length_toast));
 //                Toast.makeText(getApplication(), R.string.invalid_password_length_toast, Toast.LENGTH_SHORT).show();
             } else {
-                tilPassword.setError(null);
-                if (!focus && !validator.checkPasswordStrength(input)) {
-                    tilPassword.setError(getResources().getString(R.string.password_is_weak_toast));
+                if (!focus && !Validator.checkPasswordStrength(input)) {
+                    password.setError(getResources().getString(R.string.password_is_weak_toast));
 //                    Toast.makeText(getApplication(), R.string.password_is_weak_toast, Toast.LENGTH_SHORT).show();
                 }
-                else
-                    tilPassword.setError(null);
             }
         });
     }
@@ -301,4 +284,11 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
                 })
                 .show();
     }
+
+    @Override
+    public void activitySendBroadcast(Intent mediaScanIntent) {
+
+        this.sendBroadcast(mediaScanIntent);
+    }
 }
+

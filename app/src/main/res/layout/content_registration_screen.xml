@@ -16,7 +16,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -195,14 +197,14 @@
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:drawablePadding="6dp"
+                android:visibility="gone"
+                android:textSize="18sp"
                 android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:drawablePadding="6dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:paddingTop="10dp"
-                android:textColor="@color/com_facebook_share_button_text_color"
-                android:textSize="18sp"
-                android:visibility="gone" />
+                android:textColor="@color/com_facebook_share_button_text_color"/>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/linkFacebookButtonView"
@@ -219,16 +221,16 @@
                 android:textSize="18sp" />
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/signUpButtonReg"
-                style="@style/SignUpButtonRegStyle"
+                android:text="@string/sign_up_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/signUpButtonReg"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/signInButton"
+                style="@style/SignUpButtonRegStyle"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/signup_button_reg_state"
-                android:text="@string/sign_up_button"
-                android:textColor="@color/white" />
+                android:layout_marginRight="16dp"/>
 
         </LinearLayout>
 

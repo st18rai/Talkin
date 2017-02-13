@@ -5,4 +5,5 @@ package com.internship.droidz.talkin.model;
  */
 
 public class LoginModel {
+
 }

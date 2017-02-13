@@ -3,7 +3,7 @@ package com.internship.droidz.talkin.repository;
 import android.util.Log;
 
 import com.internship.droidz.talkin.App;
-import com.internship.droidz.talkin.data.CacheSharedPrefence;
+import com.internship.droidz.talkin.data.CacheSharedPreference;
 import com.internship.droidz.talkin.data.model.SessionModel;
 import com.internship.droidz.talkin.data.model.UserModel;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
@@ -34,12 +34,12 @@ public class SessionRepository {
 
     private UserService userService;
     private ContentService contentService;
-    private CacheSharedPrefence cache;
+    private CacheSharedPreference cache;
 
     public SessionRepository(ApiRetrofit retrofit) {
         this.userService = retrofit.getUserService();
         this.contentService = retrofit.getContentService();
-        cache = CacheSharedPrefence.getInstance(App.getApp().getApplicationContext());
+        cache = CacheSharedPreference.getInstance(App.getApp().getApplicationContext());
     }
 
     public Observable<SessionModel> createSession() {
