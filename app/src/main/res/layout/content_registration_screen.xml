@@ -226,7 +226,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/signUpButtonReg"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/signInButton"
+                android:background="@drawable/signup_button_reg_state"
                 style="@style/SignUpButtonRegStyle"
                 android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"

@@ -1,5 +1,6 @@
 package com.internship.droidz.talkin.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
@@ -31,5 +32,20 @@ public class Validator {
 
         return true;
     }
+
+
+    public static boolean isValidEmail(CharSequence target) {
+
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
+    public static boolean isValidPasswordLength(String password) {
+
+        if (password != null && password.length() > 6) {
+            return true;
+        }
+        return false;
+    }
+
 
 }
