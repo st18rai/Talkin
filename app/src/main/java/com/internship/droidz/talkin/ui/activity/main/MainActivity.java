@@ -2,6 +2,7 @@ package com.internship.droidz.talkin.ui.activity.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -10,15 +11,22 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.presentation.presenter.main.MainPresenter;
 import com.internship.droidz.talkin.presentation.view.main.MainView;
+import com.internship.droidz.talkin.ui.activity.inviteFriends.InviteFriendsActivity;
 
 public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView {
     public static final String TAG = "MainActivity";
@@ -54,6 +62,9 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        inviteFriendsTextClick();
+
     }
 
     @Override
@@ -94,22 +105,44 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_chat) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_users) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_friends) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_settings) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void inviteFriendsTextClick() {
+
+        SpannableString spannableString = new SpannableString(getResources().getString(R.string.main_screen_text));
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View textView) {
+                startActivity(new Intent(MainActivity.this, InviteFriendsActivity.class));
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(true);
+            }
+        };
+        spannableString.setSpan(clickableSpan, 37, 51, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        TextView inviteFriendsTextView = (TextView) findViewById(R.id.textViewMain);
+        inviteFriendsTextView.setText(spannableString);
+        inviteFriendsTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        inviteFriendsTextView.setHighlightColor(Color.TRANSPARENT);
     }
 }

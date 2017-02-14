@@ -8,7 +8,7 @@
     <string name="sign_up_button">SIGN UP</string>
     <string name="login_forgot_password">Forgot password</string>
     <string name="login_notification">Seems like you forgot to authorize the app?</string>
-    <string name="title_activity_main_screen">MainScreen</string>
+    <string name="title_activity_main_screen">CHAT</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -39,5 +39,11 @@
     <string name="button_facebook_log_in">Link Facebook</string>
     <string name="button_facebook_linked">Link</string>
     <string name="facebook_app_id">1792891837702820</string>
+
+    <string name="main_screen_text">
+        "           There are no chats yet."\n
+        "<u>Invite friends</u> and start new chat."
+    </string>
+    <string name="invite_friends_label">INVITE FRIENDS</string>
 
 </resources>

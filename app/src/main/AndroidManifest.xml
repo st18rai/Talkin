@@ -84,13 +84,19 @@
             android:name="com.internship.droidz.talkin.ui.activity.main.MainActivity"
             android:label="@string/title_activity_main_screen"
             android:noHistory="true"
-            android:theme="@style/AppTheme">
+            android:theme="@style/MainScreenTheme">
         </activity>
 
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.registration.RegistrationActivity"
             android:label="@string/sign_up_button">
         </activity>
+
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.inviteFriends.InviteFriendsActivity"
+            android:label="@string/invite_friends_label">
+        </activity>
+
 
     </application>
 
