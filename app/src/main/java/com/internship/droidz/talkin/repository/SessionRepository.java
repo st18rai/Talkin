@@ -128,4 +128,19 @@ public class SessionRepository {
                 });
 
     }
+
+    public Observable<UserModel> signUpWithoutPhoto(String email, String password,
+                                           String fullName, String phone, String website) {
+        return createSession()
+                .flatMap(new Func1<SessionModel, Observable<UserModel>>() {
+                    @Override
+                    public Observable<UserModel> call(SessionModel sessionModel) {
+                        UserSignUpRequest requestReg = new UserSignUpRequest(email,
+                                password, fullName, phone, website);
+                        RegistrationRequest request = new RegistrationRequest(requestReg);
+                        return userService.requestSignUp(request, sessionModel.getSession().getToken());
+                    }
+                });
+
+    }
 }

@@ -83,8 +83,8 @@ public class RegistrationModel {
         return mFormatWatcher;
     }
 
-    public void signUp(RegistrationListener listener, String email, String password, String fullName, String phone, String website) {
-
+    private void signUpWithPhoto(RegistrationListener listener, String email, String password, String fullName, String phone, String website)
+    {
         SessionRepository sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());
         ContentRepository contentRepository  = new ContentRepository(ApiRetrofit.getRetrofitApi());
 
@@ -132,6 +132,62 @@ public class RegistrationModel {
 
                     }
                 });
+    }
+
+    private void signUpWithoutPhoto(RegistrationListener listener, String email, String password, String fullName, String phone, String website)
+    {
+
+        SessionRepository sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());
+        sessionRepository.signUp(email,password,fullName,phone,website)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<SessionModel>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                        Log.i("victory","user created, ava uploaded and updated");
+                        listener.onRegistrationCompleted();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                        if (e instanceof HttpException) {
+                            try {
+                                Log.i("retrofit registration,",((HttpException) e).response().errorBody().string());
+                                listener.onRegistrationError();
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                        else {
+                            Log.i("error_reg_user","error: "+e.getMessage());
+                            listener.onNetworkError();
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onNext(SessionModel sessionModel) {
+                        cache.putToken(sessionModel.getSession().getToken());
+                        cache.putUserId(Long.valueOf(sessionModel.getSession().getUser_id()));
+                    }
+
+                });
+    }
+
+
+    public void signUp(RegistrationListener listener, String email, String password, String fullName, String phone, String website) {
+        if(mUserPicFile==null)
+        {
+            signUpWithoutPhoto(listener, email, password, fullName, phone, website);
+        }
+        else
+        {
+           signUpWithPhoto(listener, email, password, fullName, phone, website);
+        }
     }
 
     public void linkFacebook(LoginButton linkFacebookButtonReg, RegistrationListener listener) {
