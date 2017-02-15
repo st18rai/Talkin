@@ -64,7 +64,7 @@ public class RegistrationModel {
     private CallbackManager mCallbackManager;
     CacheSharedPreference cache = CacheSharedPreference.getInstance(App.getApp().getApplicationContext());
 
-    private String mFacebookUserID;
+    private String mFacebookUserID="";
 
     public File createImageFile() throws IOException {
 
@@ -88,7 +88,7 @@ public class RegistrationModel {
         SessionRepository sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());
         ContentRepository contentRepository  = new ContentRepository(ApiRetrofit.getRetrofitApi());
 
-        sessionRepository.signUp(email,password,fullName,phone,website)
+        sessionRepository.signUp(email,password,fullName,phone,website,mFacebookUserID)
                 .flatMap(new Func1<SessionModel, Observable<Response<Void>>>() {
                     @Override
                     public Observable<Response<Void>> call(SessionModel sessionModel) {
@@ -136,9 +136,8 @@ public class RegistrationModel {
 
     private void signUpWithoutPhoto(RegistrationListener listener, String email, String password, String fullName, String phone, String website)
     {
-
         SessionRepository sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());
-        sessionRepository.signUp(email,password,fullName,phone,website)
+        sessionRepository.signUp(email,password,fullName,phone,website,mFacebookUserID)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SessionModel>() {
@@ -146,7 +145,7 @@ public class RegistrationModel {
                     @Override
                     public void onCompleted() {
 
-                        Log.i("victory","user created, ava uploaded and updated");
+                        Log.i("victory","user created");
                         listener.onRegistrationCompleted();
                     }
 

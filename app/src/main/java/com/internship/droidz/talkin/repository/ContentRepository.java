@@ -8,8 +8,7 @@ import com.internship.droidz.talkin.App;
 import com.internship.droidz.talkin.data.CacheSharedPreference;
 import com.internship.droidz.talkin.data.web.AmazonConstants;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
-import com.internship.droidz.talkin.data.web.requests.UpdateUserRequest;
-import com.internship.droidz.talkin.data.web.requests.file.Blob;
+import com.internship.droidz.talkin.data.web.requests.user.UpdateUserRequest;
 import com.internship.droidz.talkin.data.web.requests.file.CreateFileRequest;
 import com.internship.droidz.talkin.data.web.requests.file.FileConfirmUploadRequest;
 import com.internship.droidz.talkin.data.web.response.file.CreateFileResponse;
@@ -49,7 +48,7 @@ public class ContentRepository {
 
     public Observable<Response<Void>> uploadFile(String contentType, File file, String name) {
 
-        Blob blob = new Blob(contentType, file.getName());
+        CreateFileRequest.Blob blob = new CreateFileRequest.Blob(contentType, file.getName());
         CreateFileRequest fileCreateRequest = new CreateFileRequest(blob);
         Log.i("rx","inside create file");
 

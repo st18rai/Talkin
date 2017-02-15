@@ -3,15 +3,16 @@ package com.internship.droidz.talkin.data.web.service;
 import com.internship.droidz.talkin.data.model.SessionModel;
 
 import com.internship.droidz.talkin.data.model.UserModel;
-import com.internship.droidz.talkin.data.web.requests.RegistrationRequest;
-import com.internship.droidz.talkin.data.web.requests.SessionRequest;
-import com.internship.droidz.talkin.data.web.requests.SessionWithAuthRequest;
-import com.internship.droidz.talkin.data.web.requests.UpdateUserRequest;
-import com.internship.droidz.talkin.data.web.requests.UserSignUpRequest;
+import com.internship.droidz.talkin.data.web.requests.auth.RegistrationRequest;
+import com.internship.droidz.talkin.data.web.requests.auth.SessionRequest;
+import com.internship.droidz.talkin.data.web.requests.auth.SessionWithAuthRequest;
+import com.internship.droidz.talkin.data.web.requests.user.ResetPasswordRequest;
+import com.internship.droidz.talkin.data.web.requests.user.UpdateUserRequest;
 
 
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -46,5 +47,9 @@ public interface UserService {
     Observable<Response<Void>> updateUser(@Path(value = "user_id") String userId,
                                           @Body UpdateUserRequest body,
                                           @Header("QB-Token") String token);
+
+    @Headers({"Content-Type: application/json"})
+    @GET("/users/password/reset.json")
+    Observable<Response<Void>> resetPassword(@Body ResetPasswordRequest body, @Header("QB-Token") String token);
 
 }

@@ -1,4 +1,4 @@
-package com.internship.droidz.talkin.data.web.requests;
+package com.internship.droidz.talkin.data.web.requests.user;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -26,6 +26,10 @@ public class UserSignUpRequest {
     @Expose
     private String website = null;
 
+    @SerializedName("facebook_id")
+    @Expose
+    private String facebook_id = null;
+
 
     public UserSignUpRequest(String email, String password, String fullName, String phone, String website) {
         this.email = email;
@@ -33,6 +37,15 @@ public class UserSignUpRequest {
         this.fullName = fullName;
         this.phone = phone;
         this.website = website;
+    }
+
+    public UserSignUpRequest(String email, String password, String fullName, String phone, String website, String facebook_id) {
+        this.password = password;
+        this.email = email;
+        this.fullName = fullName;
+        this.phone = phone;
+        this.website = website;
+        this.facebook_id = facebook_id;
     }
 
     public String getEmail() {
