@@ -18,6 +18,7 @@ import com.facebook.GraphRequest;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.internship.droidz.talkin.App;
+import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.data.CacheSharedPreference;
 import com.internship.droidz.talkin.data.model.SessionModel;
 import com.internship.droidz.talkin.data.web.AmazonConstants;

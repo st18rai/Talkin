@@ -17,4 +17,5 @@ public class MainPresenter extends MvpPresenter<MainView> {
         mModel = new MainModel();
         mView = getViewState();
     }
+
 }
