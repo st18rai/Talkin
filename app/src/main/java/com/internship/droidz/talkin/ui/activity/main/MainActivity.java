@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -26,7 +25,10 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.presentation.presenter.main.MainPresenter;
 import com.internship.droidz.talkin.presentation.view.main.MainView;
+import com.internship.droidz.talkin.ui.activity.createChat.CreateChatActivity;
 import com.internship.droidz.talkin.ui.activity.inviteFriends.InviteFriendsActivity;
+import com.internship.droidz.talkin.ui.activity.settings.SettingsActivity;
+import com.internship.droidz.talkin.ui.activity.users.UsersActivity;
 
 public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView {
     public static final String TAG = "MainActivity";
@@ -49,8 +51,9 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                navigateToCreateChat();
+                // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //       .setAction("Action", null).show();
             }
         });
 
@@ -106,12 +109,16 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         int id = item.getItemId();
 
         if (id == R.id.nav_chat) {
+            navigateToCreateChat();
 
         } else if (id == R.id.nav_users) {
+            navigateToUsers();
 
         } else if (id == R.id.nav_friends) {
+            navigateToInviteFriends();
 
         } else if (id == R.id.nav_settings) {
+            navigateToSettings();
 
         } else if (id == R.id.nav_logout) {
 
@@ -128,7 +135,7 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View textView) {
-                startActivity(new Intent(MainActivity.this, InviteFriendsActivity.class));
+                navigateToInviteFriends();
             }
 
             @Override
@@ -144,5 +151,21 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         inviteFriendsTextView.setText(spannableString);
         inviteFriendsTextView.setMovementMethod(LinkMovementMethod.getInstance());
         inviteFriendsTextView.setHighlightColor(Color.TRANSPARENT);
+    }
+
+    public void navigateToCreateChat() {
+        startActivity(new Intent(MainActivity.this, CreateChatActivity.class));
+    }
+
+    public void navigateToInviteFriends() {
+        startActivity(new Intent(MainActivity.this, InviteFriendsActivity.class));
+    }
+
+    public void navigateToUsers() {
+        startActivity(new Intent(MainActivity.this, UsersActivity.class));
+    }
+
+    public void navigateToSettings() {
+        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
     }
 }

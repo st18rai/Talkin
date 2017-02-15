@@ -45,5 +45,8 @@
         "<u>Invite friends</u> and start new chat."
     </string>
     <string name="invite_friends_label">INVITE FRIENDS</string>
+    <string name="create_chat_label">NEW CHAT</string>
+    <string name="users_label">FRIENDS</string>
+    <string name="settings_label">SETTINGS</string>
 
 </resources>

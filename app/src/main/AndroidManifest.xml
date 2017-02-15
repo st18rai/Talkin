@@ -83,7 +83,7 @@
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.main.MainActivity"
             android:label="@string/title_activity_main_screen"
-            android:noHistory="true"
+            android:noHistory="false"
             android:theme="@style/MainScreenTheme">
         </activity>
 
@@ -96,6 +96,23 @@
             android:name="com.internship.droidz.talkin.ui.activity.inviteFriends.InviteFriendsActivity"
             android:label="@string/invite_friends_label">
         </activity>
+
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.createChat.CreateChatActivity"
+            android:label="@string/create_chat_label">
+        </activity>
+
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.users.UsersActivity"
+            android:label="@string/users_label">
+        </activity>
+
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.settings.SettingsActivity"
+            android:label="@string/settings_label">
+        </activity>
+
+
 
 
     </application>

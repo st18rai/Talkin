@@ -2,8 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group
-        android:id="@+id/chat_group"
-        android:checkableBehavior="single">
+        android:id="@+id/chat_group">
         <item
             android:id="@+id/nav_chat"
             android:icon="@drawable/ic_add_box"
