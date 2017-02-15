@@ -37,7 +37,7 @@
 
     <!--Facebook-->
     <string name="button_facebook_log_in">Link Facebook</string>
-    <string name="button_facebook_linked">Link</string>
+    <string name="button_facebook_linked">Linked</string>
     <string name="facebook_app_id">1792891837702820</string>
 
 </resources>

@@ -4,6 +4,6 @@ import com.arellomobile.mvp.MvpView;
 
 public interface MainView extends MvpView {
 
-    void shoeAddFriendsAlert();
+    void showAddFriendsAlert();
 
 }

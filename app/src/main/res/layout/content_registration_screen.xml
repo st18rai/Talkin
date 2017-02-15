@@ -218,7 +218,8 @@
                 android:text="@string/link_facebook_button"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                tools:textSize="14sp" />
 
             <android.support.v7.widget.AppCompatButton
                 android:text="@string/sign_up_button"

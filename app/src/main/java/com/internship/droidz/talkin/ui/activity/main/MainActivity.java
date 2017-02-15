@@ -112,4 +112,9 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    public void showAddFriendsAlert() {
+
+    }
 }

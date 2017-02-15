@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -35,18 +34,9 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> implem
         return mModel.getCameraPictureIntent(packageManager);
     }
 
-    public void addPicToGallery() {
-
-        if (mModel.getmUserPicFile() != null) {
-            mView.activitySendBroadcast(mModel.getMediaScanIntent());
-        } else {
-            Log.i(TAG, "File doesn't exist");
-        }
-    }
-
     public void setupUserPicFromCamera() {
 
-        addPicToGallery();
+        mModel.addPicToGallery();
         if (Validator.checkUserPicSize(mModel.getmUserPicFile())) {
             try {
                 mView.setImageUriToView(mModel.getUserPicFileUri());
@@ -118,5 +108,10 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> implem
     public void onNetworkError() {
 
         mView.showNetworkError();
+    }
+
+    public void setOnActivityResultFacebookManager(int requestCode, int resultCode, Intent returnedData) {
+
+        mModel.setOnActivityResultFacebookManager(requestCode, resultCode, returnedData);
     }
 }

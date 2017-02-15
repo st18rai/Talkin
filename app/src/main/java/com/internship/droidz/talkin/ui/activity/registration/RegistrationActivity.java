@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.LoginButton;
 import com.internship.droidz.talkin.R;
@@ -55,6 +56,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     TextInputLayout tilEmail;
     TextInputLayout tilPassword;
     TextInputLayout tilConfirmPassword;
+    CallbackManager mCallbackManager;
 
     public static Intent getIntent(final Context context) {
         Intent intent = new Intent(context, RegistrationActivity.class);
@@ -126,6 +128,9 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
                     mRegistrationPresenter.setupUserPicFromGallery(returnedData);
                     break;
                 }
+            }
+            if (FacebookSdk.isFacebookRequestCode(requestCode)) {
+                mRegistrationPresenter.setOnActivityResultFacebookManager(requestCode, resultCode, returnedData);
             }
         }
     }
@@ -297,7 +302,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     @Override
     public void activitySendBroadcast(Intent mediaScanIntent) {
 
-        this.sendBroadcast(mediaScanIntent);
+
     }
 }
 

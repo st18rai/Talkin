@@ -18,7 +18,6 @@ import com.facebook.GraphRequest;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.internship.droidz.talkin.App;
-import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.data.CacheSharedPreference;
 import com.internship.droidz.talkin.data.model.SessionModel;
 import com.internship.droidz.talkin.data.web.AmazonConstants;
@@ -145,7 +144,7 @@ public class RegistrationModel {
             public void onSuccess(LoginResult loginResult) {
 
                 String accessToken = loginResult.getAccessToken().getToken();
-                Log.i(TAG, "onSuccess: " + accessToken);
+                Log.i(TAG, "Facebook onSuccess: " + accessToken);
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         (object, response) -> {
@@ -179,6 +178,11 @@ public class RegistrationModel {
         });
     }
 
+    public void setOnActivityResultFacebookManager(int requestCode, int resultCode, Intent returnedData) {
+
+        mCallbackManager.onActivityResult(requestCode, resultCode, returnedData);
+    }
+
     public Intent getMediaScanIntent() {
 
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -209,6 +213,15 @@ public class RegistrationModel {
         } else {
             mUserPicFile = null;
             mUserPicFileUri = null;
+        }
+    }
+
+    public void addPicToGallery() {
+
+        if (mUserPicFile != null) {
+            App.getApp().sendBroadcast(getMediaScanIntent());;
+        } else {
+            Log.i(TAG, "File doesn't exist");
         }
     }
 
@@ -265,4 +278,5 @@ public class RegistrationModel {
 
         this.mUserPicFile = mUserPicFile;
     }
+
 }
