@@ -8,8 +8,10 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <include
-        layout="@layout/app_bar_main_screen"
+    <ViewStub
+        android:id="@+id/layout_stub"
+        android:inflatedId="@+id/main_content"
+        layout="@layout/chats_list_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

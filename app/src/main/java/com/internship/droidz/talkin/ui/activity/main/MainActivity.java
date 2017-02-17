@@ -6,7 +6,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +23,7 @@ import android.text.style.ClickableSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -30,6 +36,9 @@ import com.internship.droidz.talkin.ui.activity.inviteFriends.InviteFriendsActiv
 import com.internship.droidz.talkin.ui.activity.settings.SettingsActivity;
 import com.internship.droidz.talkin.ui.activity.users.UsersActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView {
     public static final String TAG = "MainActivity";
     @InjectPresenter
@@ -41,12 +50,40 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         return intent;
     }
 
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private ViewStub stub;
+
+
+    Boolean chatsExist = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        stub = (ViewStub) findViewById(R.id.layout_stub);
+
+        if (chatsExist) {
+            stub.setLayoutResource(R.layout.chats_list_layout);
+            View inflated = stub.inflate();
+
+            viewPager = (ViewPager) findViewById(R.id.container);
+            setupViewPager(viewPager);
+            tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(viewPager);
+        } else {
+            stub.setLayoutResource(R.layout.app_bar_main_screen);
+            View inflated = stub.inflate();
+
+            inviteFriendsTextClick();
+        }
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +103,6 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        inviteFriendsTextClick();
 
     }
 
@@ -151,6 +187,42 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         inviteFriendsTextView.setText(spannableString);
         inviteFriendsTextView.setMovementMethod(LinkMovementMethod.getInstance());
         inviteFriendsTextView.setHighlightColor(Color.TRANSPARENT);
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new PublicChatFragment(), "PUBLIC");
+        adapter.addFragment(new PrivateChatFragment(), "PRIVATE");
+        viewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 
     public void navigateToCreateChat() {
