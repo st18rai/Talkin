@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout_members_list"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageViewMembersListItem"
+        android:layout_width="40dp"
+        android:layout_height="45dp"
+        android:layout_weight="0.31"
+        android:paddingBottom="4dp"
+        android:src="@drawable/userpic" />
+
+    <TextView
+        android:id="@+id/textViewMembersListItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="Name Surname" />
+
+    <CheckBox
+        android:id="@+id/checkBoxMembersListItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

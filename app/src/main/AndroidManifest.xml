@@ -99,7 +99,8 @@
 
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.createChat.CreateChatActivity"
-            android:label="@string/create_chat_label">
+            android:label="@string/create_chat_label"
+            android:theme="@style/MainScreenTheme">
         </activity>
 
         <activity
