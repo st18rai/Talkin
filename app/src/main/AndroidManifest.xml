@@ -94,7 +94,8 @@
 
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.inviteFriends.InviteFriendsActivity"
-            android:label="@string/invite_friends_label">
+            android:label="@string/invite_friends_label"
+            android:theme="@style/MainScreenTheme">
         </activity>
 
         <activity
@@ -105,12 +106,14 @@
 
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.users.UsersActivity"
-            android:label="@string/users_label">
+            android:label="@string/users_label"
+            android:theme="@style/MainScreenTheme">
         </activity>
 
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.settings.SettingsActivity"
-            android:label="@string/settings_label">
+            android:label="@string/settings_label"
+            android:theme="@style/MainScreenTheme">
         </activity>
 
 

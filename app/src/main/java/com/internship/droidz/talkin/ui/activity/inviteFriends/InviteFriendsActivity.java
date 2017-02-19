@@ -3,6 +3,8 @@ package com.internship.droidz.talkin.ui.activity.inviteFriends;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -22,7 +24,6 @@ public class InviteFriendsActivity extends MvpAppCompatActivity implements Invit
         return intent;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,13 @@ public class InviteFriendsActivity extends MvpAppCompatActivity implements Invit
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerViewInviteFriends);
+
+        InviteFriendsAdapter adapter = new InviteFriendsAdapter();
+        recyclerView.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
     }
 }
