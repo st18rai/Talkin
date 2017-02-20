@@ -69,6 +69,18 @@ public class MessageModel {
             this.type = type;
             this.url = url;
         }
+
+        public String getType() {
+            return type;
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public String getUrl() {
+            return url;
+        }
     }
 
     public Integer get_id() {
