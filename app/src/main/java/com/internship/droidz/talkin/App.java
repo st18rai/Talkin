@@ -8,6 +8,8 @@ import com.internship.droidz.talkin.utils.BackgroundChecker;
 import com.squareup.leakcanary.LeakCanary;
 
 import io.fabric.sdk.android.Fabric;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by Novak Alexandr on 19.01.2017.
@@ -32,6 +34,9 @@ public class   App extends MultiDexApplication {
         LeakCanary.install(this);
     //    Fabric.with(this, new Crashlytics());
         Log.i("crashlytics","it created");
+
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder().build();
+        Realm.setDefaultConfiguration(realmConfig);
     }
 
     public static App getApp() {

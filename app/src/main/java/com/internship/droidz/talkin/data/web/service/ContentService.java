@@ -3,14 +3,17 @@ package com.internship.droidz.talkin.data.web.service;
 import com.internship.droidz.talkin.data.web.requests.file.CreateFileRequest;
 import com.internship.droidz.talkin.data.web.requests.file.FileConfirmUploadRequest;
 import com.internship.droidz.talkin.data.web.response.file.CreateFileResponse;
+import com.internship.droidz.talkin.data.web.response.file.GetFileResponse;
 import com.internship.droidz.talkin.data.web.response.file.UploadFileResponse;
 
 import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
@@ -19,6 +22,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
+import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 import rx.Observable;
 import com.internship.droidz.talkin.data.web.JsonAndXmlConverters.*;
@@ -45,4 +49,16 @@ public interface ContentService {
     Observable<Response<Void>> fileConfirmUpload(@Path(value = "blob_id") String blobId,
                                                   @Header("QB-Token") String token,
                                                    @Body FileConfirmUploadRequest request);
+
+    @Headers("Content-Type: application/json")
+    @GET("/blobs/{id)/download.json")
+    @Streaming
+    Observable<ResponseBody> downloadFile(@Path(value = "id") String fileId,
+                                          @Header("QB-Token") String token);
+
+    @Headers("Content-Type: application/json")
+    @GET("/blobs/{blob_id}.json")
+    @Streaming
+    Observable<GetFileResponse> getFile(@Path(value = "blob_id") String fileId,
+                                        @Header("QB-Token") String token);
 }

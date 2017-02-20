@@ -9,6 +9,7 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'realm-android'
 
 repositories {
     //Crashlytics
@@ -49,7 +50,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
     //Crashlytics
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
