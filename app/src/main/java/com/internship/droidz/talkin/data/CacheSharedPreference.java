@@ -29,6 +29,8 @@ public class CacheSharedPreference {
         mEditor = mSharedPreferences.edit();
     }
 
+    // TODO: 2/20/17 [Code Review] if someone passes Activity's context as parameter you will have memory leak here
+    // you'd better create CacheSharedPreference instance in Application class and use it wherever you want
     public static CacheSharedPreference getInstance(Context context) {
         CacheSharedPreference pref = INSTANCE;
         if (pref == null) {

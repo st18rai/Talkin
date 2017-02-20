@@ -32,6 +32,7 @@ import rx.Subscription;
 public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
     public static final String TAG = "LoginActivity";
+    // TODO: 2/20/17 [Code Review] This is a part of business logic, move to model layer
     int TIME_TO_SEND_NOTIFICATION = 15 * 60;
 
     @InjectPresenter
@@ -68,9 +69,11 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
         getSupportActionBar().setHomeButtonEnabled(true);
         signInButtonState();
 
+        // TODO: 2/20/17 you do not need subscription entity here (and below)
         Subscription buttonSub = RxView.clicks(btnSignUp).subscribe((aVoid) -> {
             Log.i("rx login", email.getText().toString());
             Log.i("rx password", password.getText().toString());
+            // TODO: 2/20/17 you have to call presenter method instead of direct call of this method
             navigateToRegistrationScreen();
         });
 
@@ -87,6 +90,8 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
     protected void onStop() {
 
         super.onStop();
+
+        // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
         checkAndStartTimer();
     }
 
@@ -94,6 +99,8 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
     protected void onStart() {
 
         super.onStop();
+
+        // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
         stopTimer();
     }
 
@@ -114,6 +121,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
                 if (TextUtils.isEmpty(email.getText().toString()))
                     btnSignIn.setEnabled(false);
             }
@@ -131,6 +139,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
                 if (TextUtils.isEmpty(email.getText().toString()))
                     btnSignIn.setEnabled(false);
                 else

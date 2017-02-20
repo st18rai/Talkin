@@ -41,6 +41,7 @@ public class ForgotPasswordDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
                 if (!Validator.isValidEmail(etForgotPassword.getText().toString())) {
                     AlertDialog dialog = (AlertDialog) getDialog();
                     dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
