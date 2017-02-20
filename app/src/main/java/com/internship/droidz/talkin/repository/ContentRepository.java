@@ -18,6 +18,7 @@ import com.internship.droidz.talkin.data.web.service.ContentService;
 import com.internship.droidz.talkin.data.web.service.UserService;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okio.BufferedSink;
+import okio.Okio;
 import retrofit2.Response;
 import rx.Observable;
 import rx.functions.Func1;
@@ -90,9 +93,30 @@ public class ContentRepository {
                 });
     }
 
-    public void downloadFile(String id, String token)
+    public void downloadFile(String id, String token,File dstFile)
     {
-        // not implemented yet
+       contentService.downloadFile(id,token)
+               .flatMap(new Func1<Response<ResponseBody>, Observable<File>>() {
+                   @Override
+                   public Observable<File> call(Response<ResponseBody> responseBodyResponse) {
+                      return saveFile(responseBodyResponse,dstFile);
+                   }
+               });
+    }
+
+    public Observable<File> saveFile(Response<ResponseBody> response,File dstFile) {
+        return Observable.create((Observable.OnSubscribe<File>) subscriber -> {
+            try {
+                BufferedSink sink = Okio.buffer(Okio.sink(dstFile));
+                sink.writeAll(response.body().source());
+                sink.close();
+                subscriber.onNext(dstFile);
+                subscriber.onCompleted();
+            } catch (IOException e) {
+                e.printStackTrace();
+                subscriber.onError(e);
+            }
+        });
     }
 
     public Observable<GetFileResponse> uploadFile(String contentType, File file, String name)

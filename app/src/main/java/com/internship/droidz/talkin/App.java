@@ -37,6 +37,7 @@ public class   App extends MultiDexApplication {
 
         RealmConfiguration realmConfig = new RealmConfiguration.Builder().build();
         Realm.setDefaultConfiguration(realmConfig);
+        Realm.init(this);
     }
 
     public static App getApp() {

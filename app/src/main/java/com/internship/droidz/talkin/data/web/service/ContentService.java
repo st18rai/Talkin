@@ -53,7 +53,7 @@ public interface ContentService {
     @Headers("Content-Type: application/json")
     @GET("/blobs/{id)/download.json")
     @Streaming
-    Observable<ResponseBody> downloadFile(@Path(value = "id") String fileId,
+    Observable<Response<ResponseBody>> downloadFile(@Path(value = "id") String fileId,
                                           @Header("QB-Token") String token);
 
     @Headers("Content-Type: application/json")
