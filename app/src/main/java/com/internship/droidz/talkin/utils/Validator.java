@@ -28,9 +28,11 @@ public class Validator {
         return password.matches(PASSWORD_STRENGTH_MASK);
     }
 
-    public static boolean validateRegistrationData() {
+    public static boolean validateRegistrationData(String email, String password, String fullName, String phone, String website) {
 
-        return true;
+        if (isValidEmail(email) && isValidPasswordLength(password) && checkPasswordStrength(password)) {
+            return  true;
+        } else return false;
     }
 
 

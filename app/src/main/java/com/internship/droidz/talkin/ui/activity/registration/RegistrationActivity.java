@@ -304,5 +304,11 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
 
 
     }
+
+    @Override
+    public void showInvalidRegistrationDataError() {
+
+        Toast.makeText(this, R.string.invalid_registration_data_error, Toast.LENGTH_LONG).show();
+    }
 }
 

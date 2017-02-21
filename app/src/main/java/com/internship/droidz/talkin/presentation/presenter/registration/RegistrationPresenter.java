@@ -82,7 +82,11 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> implem
 
     public void signUp(String email, String password, String fullName, String phone, String website) {
 
-        mModel.signUp(this, email, password, fullName, phone, website);
+        if (Validator.validateRegistrationData(email, password, fullName, phone, website)) {
+            mModel.signUp(this, email, password, fullName, phone, website);
+        } else {
+            mView.showInvalidRegistrationDataError();
+        }
     }
 
     public void linkFacebook(LoginButton linkFacebookButtonReg) {

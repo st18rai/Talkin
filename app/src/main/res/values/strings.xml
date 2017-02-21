@@ -34,6 +34,7 @@
     <string name="alert_failed_to_load">Failed to load</string>
     <string name="registration_error">Registration failed</string>
     <string name="network_error">Network error</string>
+    <string name="invalid_registration_data_error">Please, fill in all fields properly</string>
 
     <!--Facebook-->
     <string name="button_facebook_log_in">Link Facebook</string>
