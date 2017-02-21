@@ -116,8 +116,16 @@
             android:theme="@style/MainScreenTheme">
         </activity>
 
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.conversation.ConversationActivity"
+            android:theme="@style/MainScreenTheme">
+        </activity>
 
-
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.editChat.EditChatActivity"
+            android:label="@string/edit_chat_label"
+            android:theme="@style/MainScreenTheme">
+        </activity>
 
     </application>
 

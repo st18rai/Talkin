@@ -48,5 +48,6 @@
     <string name="create_chat_label">NEW CHAT</string>
     <string name="users_label">FRIENDS</string>
     <string name="settings_label">SETTINGS</string>
+    <string name="edit_chat_label">EDIT CHAT</string>
 
 </resources>
