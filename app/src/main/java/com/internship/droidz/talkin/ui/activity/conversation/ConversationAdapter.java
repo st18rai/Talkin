@@ -42,10 +42,10 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         RelativeLayout relativeLayout = holder.relativeLayout;
-        ImageView userPic = (ImageView) relativeLayout.findViewById(R.id.imageViewUserConversation);
-        TextView message = (TextView) relativeLayout.findViewById(R.id.textViewMessageConversation);
-        TextView name = (TextView) relativeLayout.findViewById(R.id.textViewNameConversation);
-        TextView time = (TextView) relativeLayout.findViewById(R.id.textViewTimeConversation);
+        ImageView userPic = (ImageView) relativeLayout.findViewById(R.id.imageViewConversationUser);
+        TextView message = (TextView) relativeLayout.findViewById(R.id.textViewConversationMessage);
+        TextView name = (TextView) relativeLayout.findViewById(R.id.textViewConversationName);
+        TextView time = (TextView) relativeLayout.findViewById(R.id.textViewConversationTime);
     }
 
     @Override

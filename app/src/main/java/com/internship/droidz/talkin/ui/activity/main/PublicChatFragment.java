@@ -31,7 +31,7 @@ public class PublicChatFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_public_chat, container, false);
 
-        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewPublicChat);
+        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFragmentPublicChat);
 
         PublicChatAdapter adapter = new PublicChatAdapter();
         recyclerView.setAdapter(adapter);

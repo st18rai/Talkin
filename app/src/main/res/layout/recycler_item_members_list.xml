@@ -10,7 +10,7 @@
         android:layout_height="45dp"
         android:layout_weight="0.31"
         android:paddingBottom="4dp"
-        android:src="@drawable/userpic" />
+        android:src="@drawable/userpic_default" />
 
     <TextView
         android:id="@+id/textViewMembersListItem"

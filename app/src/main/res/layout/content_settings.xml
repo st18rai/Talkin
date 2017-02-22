@@ -15,7 +15,7 @@
     tools:showIn="@layout/activity_settings">
 
     <Switch
-        android:id="@+id/switchNotifications"
+        android:id="@+id/switchNotificationsSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -24,7 +24,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textViewAppVersion"
+        android:id="@+id/textViewSettingsAppVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

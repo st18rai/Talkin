@@ -22,9 +22,7 @@
             android:layout_height="76dp"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:src="@drawable/userpic"
-            app:civ_border_color="@color/talkinUserPicBorder"
-            app:civ_border_width="3dp" />
+            android:src="@drawable/userpic_default" />
     </LinearLayout>
 
     <RelativeLayout

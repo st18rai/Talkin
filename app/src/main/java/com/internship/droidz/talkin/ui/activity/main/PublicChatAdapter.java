@@ -35,7 +35,7 @@ public class PublicChatAdapter extends RecyclerView.Adapter<PublicChatAdapter.Vi
     public PublicChatAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         CardView cv = (CardView) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_item, parent, false);
+                .inflate(R.layout.recycler_item_tabs, parent, false);
         return new ViewHolder(cv);
     }
 
@@ -43,11 +43,11 @@ public class PublicChatAdapter extends RecyclerView.Adapter<PublicChatAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         CardView cardView = holder.cardView;
-        ImageView imageView = (ImageView) cardView.findViewById(R.id.lastUserImageView);
-        TextView chatName = (TextView) cardView.findViewById(R.id.chatNameTextView);
-        TextView userName = (TextView) cardView.findViewById(R.id.userNameTextView);
-        TextView lastMessage = (TextView) cardView.findViewById(R.id.lastMessageTextView);
-        TextView lastTime = (TextView) cardView.findViewById(R.id.lastTimeTextView);
+        ImageView imageView = (ImageView) cardView.findViewById(R.id.imageViewTabsLastUser);
+        TextView chatName = (TextView) cardView.findViewById(R.id.textViewTabsChatName);
+        TextView userName = (TextView) cardView.findViewById(R.id.textViewTabsUserName);
+        TextView lastMessage = (TextView) cardView.findViewById(R.id.textViewTabsLastMessage);
+        TextView lastTime = (TextView) cardView.findViewById(R.id.textViewTabsLastTime);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class PrivateChatFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_private_chat, container, false);
 
-        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewPrivateChat);
+        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFragmentPrivateChat);
 
         PrivateChatAdapter adapter = new PrivateChatAdapter();
         recyclerView.setAdapter(adapter);

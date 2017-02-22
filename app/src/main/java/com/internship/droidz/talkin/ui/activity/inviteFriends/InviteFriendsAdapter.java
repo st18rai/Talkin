@@ -44,8 +44,8 @@ public class InviteFriendsAdapter extends RecyclerView.Adapter<InviteFriendsAdap
         LinearLayout linearLayout = holder.linearLayout;
 
         ImageView imageView = (ImageView) linearLayout.findViewById(R.id.imageViewInviteFriendsItem);
-        TextView textViewName = (TextView) linearLayout.findViewById(R.id.textViewNameInviteFriendsItem);
-        TextView textViewEmail = (TextView) linearLayout.findViewById(R.id.textViewEmailInviteFriendsItem);
+        TextView textViewName = (TextView) linearLayout.findViewById(R.id.textViewInviteFriendsItemName);
+        TextView textViewEmail = (TextView) linearLayout.findViewById(R.id.textViewInviteFriendsItemEmail);
         CheckBox checkBox = (CheckBox) linearLayout.findViewById(R.id.checkBoxInviteFriendsItem);
     }
 

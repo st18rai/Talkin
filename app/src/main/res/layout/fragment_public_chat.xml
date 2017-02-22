@@ -9,6 +9,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/textViewFragmentConnection"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center|top"
@@ -17,7 +18,7 @@
             android:textSize="20sp" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewPublicChat"
+            android:id="@+id/recyclerViewFragmentPublicChat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="35dp">

@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_action_fab"/>
+        app:srcCompat="@drawable/fab"/>
 
 
 </android.support.design.widget.CoordinatorLayout>

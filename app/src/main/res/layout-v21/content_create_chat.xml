@@ -23,7 +23,7 @@
         android:focusableInTouchMode="true">
 
         <TextView
-            android:id="@+id/textViewChatName"
+            android:id="@+id/textViewCreateChatChatName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -31,15 +31,15 @@
             android:text="CHAT NAME" />
 
         <EditText
-            android:id="@+id/editTextChatName"
+            android:id="@+id/editTextCreateChatChatName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/textViewChatName"
+            android:layout_below="@+id/textViewCreateChatChatName"
             android:layout_toStartOf="@+id/imageViewCreateChat"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="Name" />
 
         <ImageView
             android:id="@+id/imageViewCreateChat"
@@ -47,7 +47,7 @@
             android:layout_height="45dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            app:srcCompat="@drawable/userpic" />
+            app:srcCompat="@drawable/userpic_default" />
 
 
     </RelativeLayout>
@@ -60,7 +60,7 @@
         android:layout_marginBottom="40dp">
 
         <TextView
-            android:id="@+id/textViewPrivacy"
+            android:id="@+id/textViewCreateChatPrivacy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -71,7 +71,7 @@
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewPrivacy"
+            android:layout_below="@+id/textViewCreateChatPrivacy"
             android:orientation="horizontal">
 
             <RadioButton
@@ -100,7 +100,7 @@
         android:layout_marginBottom="24dp">
 
         <TextView
-            android:id="@+id/textViewSelectMembers"
+            android:id="@+id/textViewCreateChatSelectMembers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -112,7 +112,7 @@
             android:id="@+id/recyclerViewCreateChat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewSelectMembers" />
+            android:layout_below="@+id/textViewCreateChatSelectMembers" />
 
     </RelativeLayout>
 

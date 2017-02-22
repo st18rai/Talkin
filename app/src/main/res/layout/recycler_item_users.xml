@@ -9,7 +9,7 @@
         android:id="@+id/imageViewUsersItem"
         android:layout_width="wrap_content"
         android:layout_height="55dp"
-        android:src="@drawable/userpic" />
+        android:src="@drawable/userpic_default" />
 
     <TextView
         android:id="@+id/textViewUsersItem"

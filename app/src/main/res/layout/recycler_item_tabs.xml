@@ -16,28 +16,28 @@
         android:padding="12dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/lastUserImageView"
+            android:id="@+id/imageViewTabsLastUser"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:src="@drawable/userpic"
+            android:src="@drawable/userpic_default"
             android:paddingTop="3dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/lastUserImageView"
+            android:layout_toEndOf="@+id/imageViewTabsLastUser"
             android:orientation="vertical"
             android:paddingEnd="3dp"
             android:paddingStart="3dp">
 
             <TextView
-                android:id="@+id/chatNameTextView"
+                android:id="@+id/textViewTabsChatName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Chat name" />
 
             <TextView
-                android:id="@+id/userNameTextView"
+                android:id="@+id/textViewTabsUserName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="2dp"
@@ -45,14 +45,14 @@
                 android:text="User name" />
 
             <TextView
-                android:id="@+id/lastMessageTextView"
+                android:id="@+id/textViewTabsLastMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Last message" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/lastTimeTextView"
+            android:id="@+id/textViewTabsLastTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
