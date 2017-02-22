@@ -33,7 +33,7 @@ public class WebUtils {
             mac.init(signingKey);
             return toHexString(mac.doFinal(data.getBytes()));
         } catch(NoSuchAlgorithmException | InvalidKeyException ex){
-
+            // TODO: 2/20/17 [Code Review] there's a very bad practice to leave catch clause empty
         }
         return null;
     }

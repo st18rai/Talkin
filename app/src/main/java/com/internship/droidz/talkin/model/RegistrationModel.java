@@ -88,6 +88,9 @@ public class RegistrationModel {
         SessionRepository sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());
         ContentRepository contentRepository  = new ContentRepository(ApiRetrofit.getRetrofitApi());
 
+        // TODO: 2/20/17 [Code Review] if you pass listener as parameter (RegistrationPresenter instance in your case),
+        // your presenter will not be killed until your subscription is alive. Not sure this is what you want.
+        // You should move the code below to Presenter layer and use model where you have to
         sessionRepository.signUp(email,password,fullName,phone,website)
                 .flatMap(new Func1<SessionModel, Observable<Response<Void>>>() {
                     @Override

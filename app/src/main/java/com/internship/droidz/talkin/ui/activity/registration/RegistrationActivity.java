@@ -103,7 +103,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
                             email.getText().toString(),
                             password.getText().toString(),
                             fullName.getText().toString(),
-                            phoneEditText.getText().toString().replaceAll("[\\n\\-\\(\\)\\s]",""),
+                            phoneEditText.getText().toString().replaceAll("[\\n\\-\\(\\)\\s]",""), // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
                             website.getText().toString());
                 });
 

@@ -20,6 +20,8 @@ public class LoginPresenter extends MvpPresenter<LoginView> {
 
     public void signIn(String email, String password) {
 
+        // TODO: 2/20/17 [Code Review] pass this instance as parameter, do not create it here, you
+        // will not be able to mock it for tests
         SessionRepository repository = new SessionRepository(ApiRetrofit.getRetrofitApi());
         repository.signIn(email, password, getViewState());
     }

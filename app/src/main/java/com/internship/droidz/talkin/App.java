@@ -13,6 +13,7 @@ import io.fabric.sdk.android.Fabric;
  * Created by Novak Alexandr on 19.01.2017.
  */
 
+// TODO: 2/20/17 [Code Review] triple space? =)
 public class   App extends MultiDexApplication {
 
     private static App instance;
