@@ -38,8 +38,6 @@ public class SplashPresenterUnitTest {
     @Test
     public void navigateToLoginScreenShouldBeCalledIfNotLoggedIn() {
 
-        // TODO: 2/20/17 [Code Review] loggedIn is redundant
-        boolean loggedIn = true;
         when(model.isLoggedIn()).thenReturn(false);
 
         presenter.checkLoggedInAndNavigate();
@@ -49,8 +47,6 @@ public class SplashPresenterUnitTest {
     @Test
     public void navigateToMainScreenShouldBeCalledIfLoggedIn() {
 
-        // TODO: 2/20/17 [Code Review] loggedIn is redundant
-        boolean loggedIn = true;
         when(model.isLoggedIn()).thenReturn(true);
 
         presenter.checkLoggedInAndNavigate();

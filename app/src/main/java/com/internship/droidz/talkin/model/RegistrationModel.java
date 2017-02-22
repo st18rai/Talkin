@@ -5,29 +5,13 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.internship.droidz.talkin.App;
-import com.internship.droidz.talkin.data.CacheSharedPreference;
-import com.internship.droidz.talkin.data.model.SessionModel;
-import com.internship.droidz.talkin.data.web.AmazonConstants;
-import com.internship.droidz.talkin.data.web.ApiRetrofit;
-import com.internship.droidz.talkin.presentation.presenter.registration.RegistrationListener;
-import com.internship.droidz.talkin.repository.ContentRepository;
-import com.internship.droidz.talkin.repository.SessionRepository;
 import com.internship.droidz.talkin.utils.Validator;
-
-import org.json.JSONException;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,18 +19,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import retrofit2.Response;
-import retrofit2.adapter.rxjava.HttpException;
 import ru.tinkoff.decoro.MaskImpl;
 import ru.tinkoff.decoro.parser.UnderscoreDigitSlotsParser;
 import ru.tinkoff.decoro.slots.Slot;
 import ru.tinkoff.decoro.watchers.FormatWatcher;
 import ru.tinkoff.decoro.watchers.MaskFormatWatcher;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by st18r on 10.02.2017.
@@ -61,9 +38,6 @@ public class RegistrationModel {
     private Uri mUserPicFileUri;
     private File mUserPicFile;
     private FormatWatcher mFormatWatcher;
-    private CallbackManager mCallbackManager;
-    CacheSharedPreference cache = CacheSharedPreference.getInstance(App.getApp().getApplicationContext());
-
     private String mFacebookUserID;
 
     public File createImageFile() throws IOException {
@@ -81,165 +55,6 @@ public class RegistrationModel {
         Slot[] slots = new UnderscoreDigitSlotsParser().parseSlots(PHONE_MASK);
         mFormatWatcher = new MaskFormatWatcher(MaskImpl.createTerminated(slots));
         return mFormatWatcher;
-    }
-
-    private void signUpWithPhoto(RegistrationListener listener, String email, String password, String fullName, String phone, String website)
-    {
-        SessionRepository sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());
-        ContentRepository contentRepository  = new ContentRepository(ApiRetrofit.getRetrofitApi());
-
-        // TODO: 2/20/17 [Code Review] if you pass listener as parameter (RegistrationPresenter instance in your case),
-        // your presenter will not be killed until your subscription is alive. Not sure this is what you want.
-        // You should move the code below to Presenter layer and use model where you have to
-        sessionRepository.signUp(email,password,fullName,phone,website)
-                .flatMap(new Func1<SessionModel, Observable<Response<Void>>>() {
-                    @Override
-                    public Observable<Response<Void>> call(SessionModel sessionModel) {
-                        cache.putToken(sessionModel.getSession().getToken());
-                        cache.putUserId(Long.valueOf(sessionModel.getSession().getUser_id()));
-                        return contentRepository.uploadFile(AmazonConstants.CONTENT_TYPE_JPEG,
-                                mUserPicFile, cache.CURRENT_AVATAR);
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<Void>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                        Log.i("victory","user created, ava uploaded and updated");
-                        listener.onRegistrationCompleted();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        if (e instanceof HttpException) {
-                            try {
-                                Log.i("retrofit registration,",((HttpException) e).response().errorBody().string());
-                                listener.onRegistrationError();
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                        else {
-                            Log.i("error_reg_user","error: "+e.getMessage());
-                            listener.onNetworkError();
-                            e.printStackTrace();
-                        }
-
-                    }
-                    @Override
-                    public void onNext(Response<Void> voidResponse) {
-
-                    }
-                });
-    }
-
-    private void signUpWithoutPhoto(RegistrationListener listener, String email, String password, String fullName, String phone, String website)
-    {
-
-        SessionRepository sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());
-        sessionRepository.signUp(email,password,fullName,phone,website)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<SessionModel>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                        Log.i("victory","user created, ava uploaded and updated");
-                        listener.onRegistrationCompleted();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                        if (e instanceof HttpException) {
-                            try {
-                                Log.i("retrofit registration,",((HttpException) e).response().errorBody().string());
-                                listener.onRegistrationError();
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                        else {
-                            Log.i("error_reg_user","error: "+e.getMessage());
-                            listener.onNetworkError();
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                    @Override
-                    public void onNext(SessionModel sessionModel) {
-                        cache.putToken(sessionModel.getSession().getToken());
-                        cache.putUserId(Long.valueOf(sessionModel.getSession().getUser_id()));
-                    }
-
-                });
-    }
-
-
-    public void signUp(RegistrationListener listener, String email, String password, String fullName, String phone, String website) {
-        if(mUserPicFile==null)
-        {
-            signUpWithoutPhoto(listener, email, password, fullName, phone, website);
-        }
-        else
-        {
-           signUpWithPhoto(listener, email, password, fullName, phone, website);
-        }
-    }
-
-    public void linkFacebook(LoginButton linkFacebookButtonReg, RegistrationListener listener) {
-
-        mCallbackManager = CallbackManager.Factory.create();
-        linkFacebookButtonReg.performClick();
-        linkFacebookButtonReg.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-
-                String accessToken = loginResult.getAccessToken().getToken();
-                Log.i(TAG, "Facebook onSuccess: " + accessToken);
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        (object, response) -> {
-                            response.toString();
-                            try {
-                                mFacebookUserID = object.getString("id");
-                                Log.i(TAG, "Facebook linked: " + mFacebookUserID);
-                                listener.onFacebookLogin();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        });
-
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id");
-                request.setParameters(parameters);
-                request.executeAsync();
-            }
-
-            @Override
-            public void onCancel() {
-                Log.i(TAG, "Facebook link cancelled");
-            }
-
-            @Override
-            public void onError(FacebookException e) {
-
-                Log.i(TAG, "Facebook link error");
-                e.printStackTrace();
-            }
-        });
-    }
-
-    public void setOnActivityResultFacebookManager(int requestCode, int resultCode, Intent returnedData) {
-
-        mCallbackManager.onActivityResult(requestCode, resultCode, returnedData);
     }
 
     public Intent getMediaScanIntent() {
@@ -317,7 +132,7 @@ public class RegistrationModel {
         return path;
     }
 
-    public File getmUserPicFile() {
+    public File getUserPicFile() {
 
         return mUserPicFile;
     }
@@ -333,9 +148,18 @@ public class RegistrationModel {
     }
 
 
-    public void setmUserPicFile(File mUserPicFile) {
+    public void setUserPicFile(File userPicFile) {
 
-        this.mUserPicFile = mUserPicFile;
+        this.mUserPicFile = userPicFile;
     }
 
+    public String getFacebookUserID() {
+
+        return mFacebookUserID;
+    }
+
+    public void setFacebookUserID(String mFacebookUserID) {
+
+        this.mFacebookUserID = mFacebookUserID;
+    }
 }

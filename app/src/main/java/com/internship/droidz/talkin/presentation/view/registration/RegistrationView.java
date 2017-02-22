@@ -42,8 +42,7 @@ public interface RegistrationView extends MvpView {
 
     void askPermissionWriteExternal();
 
-    // TODO: 2/20/17 [Code Review] not obvious how exactly this text should be changed. Randomly maybe? :)
-    void changeTextFacebookLoginButton();
+    void setFacebookLoginButtonAsLinked();
 
     void sendBroadcast(Intent mediaScanIntent);
 

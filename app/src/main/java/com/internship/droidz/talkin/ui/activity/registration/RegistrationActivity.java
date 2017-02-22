@@ -24,8 +24,11 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.LoginButton;
 import com.internship.droidz.talkin.R;
+import com.internship.droidz.talkin.data.web.ApiRetrofit;
 import com.internship.droidz.talkin.presentation.presenter.registration.RegistrationPresenter;
 import com.internship.droidz.talkin.presentation.view.registration.RegistrationView;
+import com.internship.droidz.talkin.repository.ContentRepository;
+import com.internship.droidz.talkin.repository.SessionRepository;
 import com.internship.droidz.talkin.ui.activity.main.MainActivity;
 import com.internship.droidz.talkin.utils.Validator;
 import com.jakewharton.rxbinding.view.RxView;
@@ -57,6 +60,8 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     TextInputLayout tilPassword;
     TextInputLayout tilConfirmPassword;
     CallbackManager mCallbackManager;
+    SessionRepository sessionRepository;
+    ContentRepository contentRepository;
 
     public static Intent getIntent(final Context context) {
         Intent intent = new Intent(context, RegistrationActivity.class);
@@ -86,6 +91,8 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         getSupportActionBar().setHomeButtonEnabled(true);
 
         mRegistrationPresenter.setFormatWatcher();
+        sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());
+        contentRepository  = new ContentRepository(ApiRetrofit.getRetrofitApi());
         email = (EditText) findViewById(R.id.emailEditTextReg);
         password = (EditText) findViewById(R.id.passwordEditTextReg);
         confirmPassword = (EditText) findViewById(R.id.confirmPasswordEditText);
@@ -100,6 +107,8 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         Subscription buttonSub = RxView.clicks(signUpButtonReg)
                 .subscribe((Void aVoid) -> {
                     mRegistrationPresenter.signUp(
+                            sessionRepository,
+                            contentRepository,
                             email.getText().toString(),
                             password.getText().toString(),
                             fullName.getText().toString(),
@@ -130,7 +139,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
                 }
             }
             if (FacebookSdk.isFacebookRequestCode(requestCode)) {
-                mRegistrationPresenter.setOnActivityResultFacebookManager(requestCode, resultCode, returnedData);
+                mCallbackManager.onActivityResult(requestCode, resultCode, returnedData);
             }
         }
     }
@@ -220,7 +229,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     }
 
     @Override
-    public void changeTextFacebookLoginButton() {
+    public void setFacebookLoginButtonAsLinked() {
 
         linkFacebookButtonView.setText(R.string.button_facebook_linked);
     }
