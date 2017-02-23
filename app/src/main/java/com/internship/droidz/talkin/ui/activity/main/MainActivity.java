@@ -34,10 +34,13 @@ import com.internship.droidz.talkin.presentation.view.main.MainView;
 import com.internship.droidz.talkin.ui.activity.createChat.CreateChatActivity;
 import com.internship.droidz.talkin.ui.activity.inviteFriends.InviteFriendsActivity;
 import com.internship.droidz.talkin.ui.activity.settings.SettingsActivity;
+import com.internship.droidz.talkin.ui.activity.userProfile.UserProfileActivity;
 import com.internship.droidz.talkin.ui.activity.users.UsersActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView {
     public static final String TAG = "MainActivity";
@@ -54,7 +57,6 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewStub stub;
-
 
     Boolean chatsExist = true;
 
@@ -82,8 +84,6 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +103,16 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View header = navigationView.getHeaderView(0);
+
+        CircleImageView userPic = (CircleImageView) header.findViewById(R.id.imageViewDrawerUserPic);
+
+        userPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
+            }
+        });
 
     }
 

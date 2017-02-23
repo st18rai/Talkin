@@ -127,6 +127,11 @@
             android:theme="@style/MainScreenTheme">
         </activity>
 
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.userProfile.UserProfileActivity"
+            android:theme="@style/MainScreenTheme">
+        </activity>
+
     </application>
 
 </manifest>
