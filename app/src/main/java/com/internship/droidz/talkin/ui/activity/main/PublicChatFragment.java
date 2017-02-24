@@ -3,6 +3,7 @@ package com.internship.droidz.talkin.ui.activity.main;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,11 +33,20 @@ public class PublicChatFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_public_chat, container, false);
 
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFragmentPublicChat);
+        final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
 
         PublicChatAdapter adapter = new PublicChatAdapter();
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         return view;
     }

@@ -14,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -33,6 +34,8 @@ import com.internship.droidz.talkin.presentation.presenter.main.MainPresenter;
 import com.internship.droidz.talkin.presentation.view.main.MainView;
 import com.internship.droidz.talkin.ui.activity.createChat.CreateChatActivity;
 import com.internship.droidz.talkin.ui.activity.inviteFriends.InviteFriendsActivity;
+import com.internship.droidz.talkin.ui.activity.login.ForgotPasswordDialog;
+import com.internship.droidz.talkin.ui.activity.login.LoginActivity;
 import com.internship.droidz.talkin.ui.activity.settings.SettingsActivity;
 import com.internship.droidz.talkin.ui.activity.userProfile.UserProfileActivity;
 import com.internship.droidz.talkin.ui.activity.users.UsersActivity;
@@ -167,7 +170,7 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
             navigateToSettings();
 
         } else if (id == R.id.nav_logout) {
-
+            showLogOutDialog();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -249,5 +252,17 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
 
     public void navigateToSettings() {
         startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+    }
+    public void showLogOutDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Are you sure you want to sign out?")
+                .setPositiveButton("Yes", (dialog1, id) -> {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                })
+                .setNegativeButton("No", (dialog12, id) ->{
+
+                });
+        builder.create();
+        builder.show();
     }
 }

@@ -4,26 +4,29 @@
     android:layout_height="match_parent"
     tools:context="com.internship.droidz.talkin.ui.activity.main.PublicChatFragment">
 
-    <RelativeLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textViewFragmentConnection"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center|top"
-            android:text="Connection problem"
-            android:textColor="@color/errorTextColor"
-            android:textSize="20sp" />
+            android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewFragmentPublicChat"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="35dp">
-        </android.support.v7.widget.RecyclerView>
+            <TextView
+                android:id="@+id/textViewFragmentConnection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|top"
+                android:text="Connection problem"
+                android:textColor="@color/errorTextColor"
+                android:textSize="20sp" />
 
-    </RelativeLayout>
-
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewFragmentPublicChat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="35dp"/>
+        </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>
