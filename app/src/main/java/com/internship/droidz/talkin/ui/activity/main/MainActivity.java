@@ -58,7 +58,7 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private CustomViewPager viewPager;
     private ViewStub stub;
 
     Boolean chatsExist = true;
@@ -74,7 +74,7 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
             stub.setLayoutResource(R.layout.chats_list_layout);
             View inflated = stub.inflate();
 
-            viewPager = (ViewPager) findViewById(R.id.container);
+            viewPager = (CustomViewPager) findViewById(R.id.container);
             setupViewPager(viewPager);
             tabLayout = (TabLayout) findViewById(R.id.tabs);
             tabLayout.setupWithViewPager(viewPager);
@@ -202,7 +202,7 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         inviteFriendsTextView.setHighlightColor(Color.TRANSPARENT);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(CustomViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new PublicChatFragment(), "PUBLIC");
         adapter.addFragment(new PrivateChatFragment(), "PRIVATE");

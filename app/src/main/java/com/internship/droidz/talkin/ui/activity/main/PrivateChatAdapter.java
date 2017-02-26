@@ -1,12 +1,13 @@
 package com.internship.droidz.talkin.ui.activity.main;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.internship.droidz.talkin.R;
 
 /**
@@ -23,31 +24,41 @@ public class PrivateChatAdapter extends RecyclerView.Adapter<PrivateChatAdapter.
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private CardView cardView;
+        private SwipeLayout swipeLayout;
 
-        public ViewHolder(CardView v) {
+        public ViewHolder(SwipeLayout v) {
             super(v);
-            cardView = v;
+            swipeLayout = v;
         }
     }
 
     @Override
     public PrivateChatAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        CardView cv = (CardView) LayoutInflater.from(parent.getContext())
+        SwipeLayout swipeLayout = (SwipeLayout) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_item_tabs, parent, false);
-        return new PrivateChatAdapter.ViewHolder(cv);
+        return new PrivateChatAdapter.ViewHolder(swipeLayout);
     }
 
     @Override
     public void onBindViewHolder(PrivateChatAdapter.ViewHolder holder, int position) {
 
-        CardView cardView = holder.cardView;
-        ImageView imageView = (ImageView) cardView.findViewById(R.id.imageViewTabsLastUser);
-        TextView chatName = (TextView) cardView.findViewById(R.id.textViewTabsChatName);
-        TextView userName = (TextView) cardView.findViewById(R.id.textViewTabsUserName);
-        TextView lastMessage = (TextView) cardView.findViewById(R.id.textViewTabsLastMessage);
-        TextView lastTime = (TextView) cardView.findViewById(R.id.textViewTabsLastTime);
+        SwipeLayout swipeLayout = holder.swipeLayout;
+        ImageView imageView = (ImageView) swipeLayout.findViewById(R.id.imageViewTabsLastUser);
+        TextView chatName = (TextView) swipeLayout.findViewById(R.id.textViewTabsChatName);
+        TextView userName = (TextView) swipeLayout.findViewById(R.id.textViewTabsUserName);
+        TextView lastMessage = (TextView) swipeLayout.findViewById(R.id.textViewTabsLastMessage);
+        TextView lastTime = (TextView) swipeLayout.findViewById(R.id.textViewTabsLastTime);
+        ImageView deleteButton = (ImageView) swipeLayout.findViewById(R.id.imageViewDelete);
+
+        swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
+        swipeLayout.addDrag(SwipeLayout.DragEdge.Right, swipeLayout.findViewById(R.id.bottom_wrapper));
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Delete item
+            }
+        });
     }
 
     @Override

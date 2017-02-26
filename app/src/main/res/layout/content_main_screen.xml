@@ -31,7 +31,7 @@
         android:layout_centerVertical="true"
         android:clickable="true"
         android:text="@string/main_screen_text"
-        android:textColorLink="@color/loginScreenBackground" />
+        android:textColorLink="@color/darkGreen" />
 
 
 </RelativeLayout>

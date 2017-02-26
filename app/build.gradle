@@ -111,6 +111,9 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    // SwipeLayout
+    compile "com.daimajia.swipelayout:library:1.2.0@aar"
+
 }
 
 apply plugin: 'com.google.gms.google-services'

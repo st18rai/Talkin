@@ -15,7 +15,7 @@
     <style name="SplashScreenTheme" parent="AppTheme" />
 
     <style name="MainScreenTheme" parent="AppTheme">
-        <item name="colorAccent">@color/loginScreenBackground</item>/>
+        <item name="colorAccent">@color/darkGreen</item>/>
     </style>
 
     <style name="SignInButtonStyle">
