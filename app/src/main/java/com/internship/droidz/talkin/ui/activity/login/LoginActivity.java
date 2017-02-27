@@ -68,9 +68,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        //Turned off while UI is developing
-
-        //signInButtonState();
+        signInButtonState();
 
         // TODO: 2/20/17 you do not need subscription entity here (and below)
         Subscription buttonSub = RxView.clicks(btnSignUp).subscribe((aVoid) -> {
@@ -84,9 +82,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
         Subscription SubscrBtnSignIn = RxView.clicks(btnSignIn)
                 .subscribe((aVoid) -> {
-                    //Turned off while UI is developing
-                   // mLoginPresenter.signIn(email.getText().toString(), password.getText().toString());
-                    navigationToMainScreen();
+                    mLoginPresenter.signIn(email.getText().toString(), password.getText().toString());
                 });
 
     }
