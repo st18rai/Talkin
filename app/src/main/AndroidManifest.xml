@@ -83,13 +83,53 @@
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.main.MainActivity"
             android:label="@string/title_activity_main_screen"
-            android:noHistory="true"
-            android:theme="@style/AppTheme">
+            android:noHistory="false"
+            android:theme="@style/MainScreenTheme">
         </activity>
 
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.registration.RegistrationActivity"
             android:label="@string/sign_up_button">
+        </activity>
+
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.inviteFriends.InviteFriendsActivity"
+            android:label="@string/invite_friends_label"
+            android:theme="@style/MainScreenTheme">
+        </activity>
+
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.createChat.CreateChatActivity"
+            android:label="@string/create_chat_label"
+            android:theme="@style/MainScreenTheme">
+        </activity>
+
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.users.UsersActivity"
+            android:label="@string/users_label"
+            android:theme="@style/MainScreenTheme">
+        </activity>
+
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.settings.SettingsActivity"
+            android:label="@string/settings_label"
+            android:theme="@style/MainScreenTheme">
+        </activity>
+
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.conversation.ConversationActivity"
+            android:theme="@style/MainScreenTheme">
+        </activity>
+
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.editChat.EditChatActivity"
+            android:label="@string/edit_chat_label"
+            android:theme="@style/MainScreenTheme">
+        </activity>
+
+        <activity
+            android:name="com.internship.droidz.talkin.ui.activity.userProfile.UserProfileActivity"
+            android:theme="@style/MainScreenTheme">
         </activity>
 
     </application>

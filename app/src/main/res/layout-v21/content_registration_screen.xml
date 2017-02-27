@@ -26,7 +26,7 @@
             android:layout_marginBottom="12dp"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:background="@color/loginScreenBackground"
+            android:background="@color/darkGreen"
             android:elevation="12dp"
             android:focusableInTouchMode="true"
             android:orientation="vertical">

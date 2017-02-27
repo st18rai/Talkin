@@ -8,8 +8,13 @@
     </style>
 
     <style name="SplashScreenTheme" parent="AppTheme">
-        <item name="android:statusBarColor">@color/loginScreenBackground</item>
+        <item name="android:statusBarColor">@color/darkGreen</item>
     </style>
+
+    <style name="MainScreenTheme" parent="AppTheme">
+        <item name="colorAccent">@color/darkGreen</item>
+    </style>
+
     <style name="SignInButtonStyle">
         <item name="android:colorButtonNormal">#004951</item>
     </style>

@@ -1,9 +1,8 @@
 package com.internship.droidz.talkin.model;
 
 /**
- * Created by Koroqe on 13-Feb-17.
+ * Created by st18r on 21.02.2017.
  */
 
 public class ConversationModel {
-
 }

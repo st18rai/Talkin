@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_conversation"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f7f7f9"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.internship.droidz.talkin.ui.activity.conversation.ConversationActivity"
+    tools:showIn="@layout/activity_conversation">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerConversation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayoutConversation"
+        android:layout_alignParentTop="true"
+        app:reverseLayout="true"
+        app:stackFromEnd="true" />
+
+    <RelativeLayout
+        android:id="@+id/linearLayoutConversation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageViewConversation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="14dp"
+            app:srcCompat="@drawable/smiles" />
+
+
+        <EditText
+            android:id="@+id/editTextConversation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:ems="10"
+            android:hint="Type your message"
+            android:inputType="none" />
+
+        <ImageView
+            android:id="@+id/imageViewConversationSend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="14dp"
+            android:layout_marginTop="14dp"
+            app:srcCompat="@drawable/send" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
