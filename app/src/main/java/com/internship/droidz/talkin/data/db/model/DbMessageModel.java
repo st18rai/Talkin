@@ -1,20 +1,15 @@
 package com.internship.droidz.talkin.data.db.model;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-import com.internship.droidz.talkin.data.db.RealmInteger;
 import com.internship.droidz.talkin.data.web.response.chat.MessageModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
 
 /**
  * Created by Novak Alexandr on 20.02.2017.
  */
 
-public class DbMessageModel extends RealmObject {
+public class DbMessageModel {
 
     Integer _id;
     Integer created_at;
@@ -24,9 +19,9 @@ public class DbMessageModel extends RealmObject {
     String date_sent;
     Integer sender_id;
     Integer recipient_id;
-    RealmList<RealmInteger> read_ids;
-    RealmList<RealmInteger> delivered_ids;
-    RealmList<Attachment> attachments;
+    List<Integer> read_ids;
+    List<Integer> delivered_ids;
+    List<Attachment> attachments;
 
     public Integer get_id() {
         return _id;
@@ -92,27 +87,27 @@ public class DbMessageModel extends RealmObject {
         this.recipient_id = recipient_id;
     }
 
-    public RealmList<RealmInteger> getRead_ids() {
+    public List<Integer> getRead_ids() {
         return read_ids;
     }
 
-    public void setRead_ids(RealmList<RealmInteger> read_ids) {
+    public void setRead_ids(List<Integer> read_ids) {
         this.read_ids = read_ids;
     }
 
-    public RealmList<RealmInteger> getDelivered_ids() {
+    public List<Integer> getDelivered_ids() {
         return delivered_ids;
     }
 
-    public void setDelivered_ids(RealmList<RealmInteger> delivered_ids) {
+    public void setDelivered_ids(List<Integer> delivered_ids) {
         this.delivered_ids = delivered_ids;
     }
 
-    public RealmList<Attachment> getAttachments() {
+    public List<Attachment> getAttachments() {
         return attachments;
     }
 
-    public void setAttachments(RealmList<Attachment> attachments) {
+    public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
     }
 
@@ -126,24 +121,15 @@ public class DbMessageModel extends RealmObject {
         this.date_sent=model.getDate_sent();
         this.sender_id=model.getSender_id();
         this.recipient_id=model.getRecipient_id();
-        this.read_ids=convertList(model.getRead_ids());
-        this.delivered_ids=convertList(model.getDelivered_ids());
+        this.read_ids=model.getRead_ids();
+        this.delivered_ids=model.getDelivered_ids();
         this.attachments=convertAttachmentList(model.getAttachments());
     }
 
-    private RealmList<RealmInteger> convertList(List<Integer> list)
-    {
-        RealmList<RealmInteger> result = new RealmList<>();
-        for(Integer i:list)
-        {
-            result.add(new RealmInteger(i));
-        }
-        return result;
-    }
 
-    private RealmList<Attachment> convertAttachmentList(List<MessageModel.Attachment> list)
+    private List<Attachment> convertAttachmentList(List<MessageModel.Attachment> list)
     {
-        RealmList<Attachment> result = new RealmList<>();
+        List<Attachment> result = new ArrayList<>();
         for(MessageModel.Attachment i:list)
         {
             if(i.getId()!=null)
@@ -155,7 +141,8 @@ public class DbMessageModel extends RealmObject {
     }
 
 
-    public static class Attachment extends RealmObject
+
+    public static class Attachment
     {
        private String type;
        private Integer id;

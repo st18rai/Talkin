@@ -1,18 +1,16 @@
 package com.internship.droidz.talkin.data.db.model;
 
-import com.internship.droidz.talkin.data.db.RealmInteger;
 import com.internship.droidz.talkin.data.web.response.chat.DialogModel;
+import com.orm.SugarRecord;
 
 import java.util.List;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
 
 /**
  * Created by Novak Alexandr on 20.02.2017.
  */
 
-public class DbDialogModel extends RealmObject {
+public class DbDialogModel extends SugarRecord<DbDialogModel> {
 
 
     public void setDialog(DialogModel model)
@@ -25,20 +23,42 @@ public class DbDialogModel extends RealmObject {
         this.name=model.getName();
         this.photo=model.getPhoto();
         this.xmpp_room_jid=model.getXmpp_room_jid();
-        this.occupants_ids=convertList(model.getOccupants_ids());
+        this.occupants_ids=model.getOccupants_ids();
         this.last_message=model.getLast_message();
         this.last_message_date_sent=model.getLast_message_date_sent();
         this.last_message_user_id=model.getLast_message_user_id();
         this.unread_messages_count=model.getUnread_messages_count();
     }
 
-    Integer _id;
+    public DbDialogModel() {}
+
+    public DbDialogModel(String _id, Integer user_id, String created_at,
+                         String updated_at, Integer type, String name,
+                         String photo, String xmpp_room_jid, List<Integer> occupants_ids,
+                         String last_message, String last_message_date_sent,
+                         Integer last_message_user_id, Integer unread_messages_count) {
+        this._id = _id;
+        this.user_id = user_id;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+        this.type = type;
+        this.name = name;
+        this.photo = photo;
+        this.xmpp_room_jid = xmpp_room_jid;
+        this.occupants_ids = occupants_ids;
+        this.last_message = last_message;
+        this.last_message_date_sent = last_message_date_sent;
+        this.last_message_user_id = last_message_user_id;
+        this.unread_messages_count = unread_messages_count;
+    }
+
+    String _id;
 
     Integer user_id;
 
-    Integer created_at;
+    String created_at;
 
-    Integer updated_at;
+    String updated_at;
 
     Integer type;
 
@@ -48,7 +68,7 @@ public class DbDialogModel extends RealmObject {
 
     String xmpp_room_jid;
 
-    RealmList<RealmInteger> occupants_ids;
+    List<Integer> occupants_ids;
 
     String last_message;
 
@@ -58,21 +78,13 @@ public class DbDialogModel extends RealmObject {
 
     Integer unread_messages_count;
 
-    private RealmList<RealmInteger> convertList(List<Integer> list)
-    {
-        RealmList<RealmInteger> result = new RealmList<>();
-        for(Integer i:list)
-        {
-            result.add(new RealmInteger(i));
-        }
-        return result;
-    }
 
-    public Integer get_id() {
+
+    public String get_id() {
         return _id;
     }
 
-    public void set_id(Integer _id) {
+    public void set_id(String _id) {
         this._id = _id;
     }
 
@@ -84,19 +96,19 @@ public class DbDialogModel extends RealmObject {
         this.user_id = user_id;
     }
 
-    public Integer getCreated_at() {
+    public String getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Integer created_at) {
+    public void setCreated_at(String created_at) {
         this.created_at = created_at;
     }
 
-    public Integer getUpdated_at() {
+    public String getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(Integer updated_at) {
+    public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
 
@@ -132,11 +144,11 @@ public class DbDialogModel extends RealmObject {
         this.xmpp_room_jid = xmpp_room_jid;
     }
 
-    public RealmList<RealmInteger> getOccupants_ids() {
+    public List<Integer> getOccupants_ids() {
         return occupants_ids;
     }
 
-    public void setOccupants_ids(RealmList<RealmInteger> occupants_ids) {
+    public void setOccupants_ids(List<Integer> occupants_ids) {
         this.occupants_ids = occupants_ids;
     }
 

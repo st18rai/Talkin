@@ -12,7 +12,7 @@ import java.util.List;
 public class DialogModel {
     @SerializedName("_id")
     @Expose
-    Integer _id;
+    String _id;
 
     @SerializedName("user_id")
     @Expose
@@ -20,11 +20,11 @@ public class DialogModel {
 
     @SerializedName("created_at")
     @Expose
-    Integer created_at;
+    String created_at;
 
     @SerializedName("updated_at")
     @Expose
-    Integer updated_at;
+    String updated_at;
 
     @SerializedName("type")
     @Expose
@@ -62,8 +62,8 @@ public class DialogModel {
     @Expose
     Integer unread_messages_count;
 
-    public DialogModel(Integer _id, Integer user_id, Integer created_at,
-                       Integer updated_at, Integer type, String name,
+    public DialogModel(String _id, Integer user_id, String created_at,
+                       String updated_at, Integer type, String name,
                        String photo, String xmpp_room_jid, List<Integer> occupants_ids,
                        String last_message, String last_message_date_sent,
                        Integer last_message_user_id, Integer unread_messages_count) {
@@ -82,11 +82,11 @@ public class DialogModel {
         this.unread_messages_count = unread_messages_count;
     }
 
-    public Integer get_id() {
+    public String get_id() {
         return _id;
     }
 
-    public void set_id(Integer _id) {
+    public void set_id(String _id) {
         this._id = _id;
     }
 
@@ -98,19 +98,19 @@ public class DialogModel {
         this.user_id = user_id;
     }
 
-    public Integer getCreated_at() {
+    public String getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(Integer created_at) {
+    public void setCreated_at(String created_at) {
         this.created_at = created_at;
     }
 
-    public Integer getUpdated_at() {
+    public String getUpdated_at() {
         return updated_at;
     }
 
-    public void setUpdated_at(Integer updated_at) {
+    public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
 

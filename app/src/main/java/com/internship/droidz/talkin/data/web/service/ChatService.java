@@ -3,10 +3,8 @@ package com.internship.droidz.talkin.data.web.service;
 import com.internship.droidz.talkin.data.web.requests.chat.CreateGroupDialogRequest;
 import com.internship.droidz.talkin.data.web.requests.chat.CreatePrivateDialogRequest;
 import com.internship.droidz.talkin.data.web.requests.chat.CreatePublicDialogRequest;
-import com.internship.droidz.talkin.data.web.requests.file.CreateFileRequest;
 import com.internship.droidz.talkin.data.web.response.chat.DialogModel;
 import com.internship.droidz.talkin.data.web.response.chat.GetDialogResponse;
-import com.internship.droidz.talkin.data.web.response.file.CreateFileResponse;
 
 import retrofit2.http.Body;
 import retrofit2.http.GET;

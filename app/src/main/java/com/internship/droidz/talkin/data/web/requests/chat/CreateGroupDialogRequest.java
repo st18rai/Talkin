@@ -1,5 +1,7 @@
 package com.internship.droidz.talkin.data.web.requests.chat;
 
+import android.util.Log;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -17,7 +19,7 @@ public class CreateGroupDialogRequest {
 
     @SerializedName("occupants_ids")
     @Expose
-    List<Integer> occupants_ids;
+    String occupants_ids;
 
     @SerializedName("name")
     @Expose
@@ -29,14 +31,26 @@ public class CreateGroupDialogRequest {
 
     public CreateGroupDialogRequest(List<Integer> occupants_ids, String name) {
 
-        this.occupants_ids = occupants_ids;
+        this.occupants_ids =convertList( occupants_ids);
         this.name = name;
     }
 
     public CreateGroupDialogRequest(List<Integer> occupants_ids, String name, Integer photo_id) {
-        this.occupants_ids = occupants_ids;
+        this.occupants_ids = convertList(occupants_ids);
         this.name = name;
         this.photo_id = photo_id;
+    }
+
+    private String convertList(List<Integer> list)
+    {
+        String result="";
+        for (Integer i:list)
+        {
+            result=result+i.toString()+",";
+        }
+        result=result.substring(0,result.length()-1);
+        Log.i("debug_occupants",result);
+        return result;
     }
 
     public Integer getType() {
@@ -47,12 +61,12 @@ public class CreateGroupDialogRequest {
         this.type = type;
     }
 
-    public List<Integer> getOccupants_ids() {
+    public String getOccupants_ids() {
         return occupants_ids;
     }
 
     public void setOccupants_ids(List<Integer> occupants_ids) {
-        this.occupants_ids = occupants_ids;
+        this.occupants_ids = convertList(occupants_ids);
     }
 
     public String getName() {
