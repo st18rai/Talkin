@@ -18,8 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="22dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginTop="22dp"
         android:layout_toEndOf="@+id/imageViewConversationUser"
         android:background="@drawable/message_out_background"
         android:orientation="vertical"
@@ -29,11 +29,11 @@
             android:id="@+id/textViewConversationMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Veeeeeeeeeeeeeeeeery long message"
-            android:layout_marginEnd="32dp"/>
+            android:layout_marginEnd="32dp"
+            android:text="Veeeeeeeeeeeeeeeeery long message" />
 
-        <LinearLayout
-            android:id="@+id/linearLayoutConversation"
+        <RelativeLayout
+            android:id="@+id/relativeLayoutConversation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
@@ -43,17 +43,26 @@
                 android:id="@+id/textViewConversationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
+                android:layout_alignParentStart="true"
                 android:text="Name" />
 
             <TextView
                 android:id="@+id/textViewConversationTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="12:46"
-                android:layout_marginEnd="32dp"/>
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/textViewConversationName"
+                android:text="12:46" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/imageViewReadMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/read" />
+
+
+        </RelativeLayout>
 
     </LinearLayout>
 

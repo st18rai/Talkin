@@ -91,6 +91,17 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/textViewTabsNewMessageBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/new_message_badge"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:text="+5"
+            android:textColor="@color/white" />
     </android.support.v7.widget.CardView>
 
     <!-- Surface View End -->

@@ -14,4 +14,5 @@
     <color name="darkGreen">#327780</color>
     <color name="talkinUserPicBorder">#9bbcc2</color>
     <color name="errorTextColor">#ff7070</color>
+    <color name="connectionProblemBackground">#eaeaea</color>
 </resources>
