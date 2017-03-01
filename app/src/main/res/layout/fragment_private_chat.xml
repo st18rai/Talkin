@@ -22,6 +22,15 @@
                 android:textColor="@color/errorTextColor"
                 android:textSize="20sp" />
 
+            <TextView
+                android:id="@+id/textViewFragmentPrivateChatEmpty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Chats list is empty"
+                android:textSize="24sp"
+                android:visibility="invisible" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewFragmentPrivateChat"
                 android:layout_width="match_parent"

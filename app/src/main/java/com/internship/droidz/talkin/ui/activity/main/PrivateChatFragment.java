@@ -9,11 +9,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.internship.droidz.talkin.R;
 
 
 public class PrivateChatFragment extends Fragment {
+
+    Boolean chatsExist = false;
 
     public PrivateChatFragment() {
         // Required empty public constructor
@@ -32,11 +35,16 @@ public class PrivateChatFragment extends Fragment {
 
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFragmentPrivateChat);
         final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
+        final TextView chatsListEmpty = (TextView) view.findViewById(R.id.textViewFragmentPrivateChatEmpty);
 
-        PrivateChatAdapter adapter = new PrivateChatAdapter();
-        recyclerView.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+        if (chatsExist) {
+            PrivateChatAdapter adapter = new PrivateChatAdapter();
+            recyclerView.setAdapter(adapter);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+        } else {
+            chatsListEmpty.setVisibility(View.VISIBLE);
+        }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

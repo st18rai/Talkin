@@ -84,47 +84,79 @@
             android:name="com.internship.droidz.talkin.ui.activity.main.MainActivity"
             android:label="@string/title_activity_main_screen"
             android:noHistory="false"
-            android:theme="@style/MainScreenTheme">
+            android:theme="@style/MainScreenTheme"
+            android:parentActivityName=".ui.activity.login.LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.internship.droidz.talkin.ui.activity.login.LoginActivity" />
         </activity>
 
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.registration.RegistrationActivity"
-            android:label="@string/sign_up_button">
+            android:label="@string/sign_up_button"
+            android:parentActivityName=".ui.activity.login.LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.internship.droidz.talkin.ui.activity.login.LoginActivity" />
         </activity>
 
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.inviteFriends.InviteFriendsActivity"
             android:label="@string/invite_friends_label"
-            android:theme="@style/MainScreenTheme">
+            android:theme="@style/MainScreenTheme"
+            android:parentActivityName=".ui.activity.main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.internship.droidz.talkin.ui.activity.main.MainActivity" />
         </activity>
 
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.createChat.CreateChatActivity"
             android:label="@string/create_chat_label"
-            android:theme="@style/MainScreenTheme">
+            android:theme="@style/MainScreenTheme"
+            android:parentActivityName=".ui.activity.main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.internship.droidz.talkin.ui.activity.main.MainActivity" />
         </activity>
 
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.users.UsersActivity"
             android:label="@string/users_label"
-            android:theme="@style/MainScreenTheme">
+            android:theme="@style/MainScreenTheme"
+            android:parentActivityName=".ui.activity.main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.internship.droidz.talkin.ui.activity.main.MainActivity" />
         </activity>
 
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.settings.SettingsActivity"
             android:label="@string/settings_label"
-            android:theme="@style/MainScreenTheme">
+            android:theme="@style/MainScreenTheme"
+            android:parentActivityName=".ui.activity.main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.internship.droidz.talkin.ui.activity.main.MainActivity" />
         </activity>
 
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.conversation.ConversationActivity"
-            android:theme="@style/MainScreenTheme">
+            android:theme="@style/MainScreenTheme"
+            android:parentActivityName=".ui.activity.main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.internship.droidz.talkin.ui.activity.main.MainActivity" />
         </activity>
 
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.editChat.EditChatActivity"
             android:label="@string/edit_chat_label"
-            android:theme="@style/MainScreenTheme">
+            android:theme="@style/MainScreenTheme"
+            android:parentActivityName=".ui.activity.conversation.ConversationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.internship.droidz.talkin.ui.activity.conversation.ConversationActivity" />
         </activity>
 
         <activity
