@@ -3,11 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_filter"
-        android:icon="@drawable/filter"
+        android:id="@+id/action_sort"
+        android:icon="@drawable/sort"
         android:orderInCategory="100"
-        android:title="@string/action_filter"
-        app:showAsAction="always" />
+        android:title="@string/action_sort"
+        app:showAsAction="always">
+
+        <menu>
+            <group
+                android:id="@+id/sort_group"
+                android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/created_at"
+                    android:orderInCategory="100"
+                    android:title="Clear sort"/>
+                <item
+                    android:id="@+id/asc"
+                    android:orderInCategory="200"
+                    android:title="By name (ASC)"/>
+
+                <item
+                    android:id="@+id/desc"
+                    android:orderInCategory="300"
+                    android:title="By name (DESC)"/>
+
+            </group>
+        </menu>
+    </item>
 
     <item
         android:id="@+id/action_search"

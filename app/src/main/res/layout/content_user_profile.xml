@@ -18,8 +18,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -29,19 +31,24 @@
                 android:src="@drawable/email" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:divider="@drawable/line_separator"
+                android:orientation="vertical"
+                android:showDividers="end">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
                     android:text="EMAIL" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="android@android.com" />
+                    android:layout_marginBottom="16dp"
+                    android:text="android@android.com"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 
@@ -50,8 +57,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -61,19 +70,24 @@
                 android:src="@drawable/phone" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:divider="@drawable/line_separator"
+                android:orientation="vertical"
+                android:showDividers="end">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
                     android:text="PHONE" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+52 7351 7217 18" />
+                    android:layout_marginBottom="16dp"
+                    android:text="+52 7351 7217 18"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 
@@ -82,8 +96,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -93,19 +109,24 @@
                 android:src="@drawable/site" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:divider="@drawable/line_separator"
+                android:orientation="vertical"
+                android:showDividers="end">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
                     android:text="WEBSITE" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="android.com" />
+                    android:layout_marginBottom="16dp"
+                    android:text="android.com"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
 

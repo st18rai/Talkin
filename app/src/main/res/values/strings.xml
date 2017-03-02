@@ -50,7 +50,7 @@
     <string name="users_label">FRIENDS</string>
     <string name="settings_label">SETTINGS</string>
     <string name="edit_chat_label">EDIT CHAT</string>
-    <string name="action_filter">Filter</string>
+    <string name="action_sort">Sort</string>
     <string name="action_quantity">0</string>
 
 </resources>

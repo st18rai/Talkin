@@ -62,7 +62,11 @@ public class UsersActivity extends MvpAppCompatActivity implements UsersView {
         switch (id){
             case R.id.action_search:
                 break;
-            case R.id.action_filter:
+            case R.id.created_at:
+                break;
+            case R.id.asc:
+                break;
+            case R.id.desc:
                 break;
             default:
                 return false;

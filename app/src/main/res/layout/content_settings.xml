@@ -14,7 +14,7 @@
     tools:context="com.internship.droidz.talkin.ui.activity.settings.SettingsActivity"
     tools:showIn="@layout/activity_settings">
 
-    <Switch
+    <android.support.v7.widget.SwitchCompat
         android:id="@+id/switchNotificationsSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
