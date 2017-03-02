@@ -25,6 +25,9 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.widget.LoginButton;
 import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
+import com.internship.droidz.talkin.media.IMediaIntentProvider;
+import com.internship.droidz.talkin.media.PhotoFile;
+import com.internship.droidz.talkin.model.RegistrationModel;
 import com.internship.droidz.talkin.presentation.presenter.registration.RegistrationPresenter;
 import com.internship.droidz.talkin.presentation.view.registration.RegistrationView;
 import com.internship.droidz.talkin.repository.ContentRepository;
@@ -32,6 +35,8 @@ import com.internship.droidz.talkin.repository.SessionRepository;
 import com.internship.droidz.talkin.ui.activity.main.MainActivity;
 import com.internship.droidz.talkin.utils.Validator;
 import com.jakewharton.rxbinding.view.RxView;
+
+import java.io.File;
 
 import ru.tinkoff.decoro.watchers.FormatWatcher;
 import rx.Subscription;
@@ -89,6 +94,19 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        if (savedInstanceState == null) {
+            mRegistrationPresenter.setmModel(new RegistrationModel(new IMediaIntentProvider() {
+                @Override
+                public Intent getMediaScanIntent(String currentPhotoPath) {
+                    Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    File userPicFile = new File(currentPhotoPath);
+                    Uri contentUri = Uri.fromFile(userPicFile);
+                    mediaScanIntent.setData(contentUri);
+                    return mediaScanIntent;
+                }
+            }, new PhotoFile()));
+        }
 
         mRegistrationPresenter.setFormatWatcher();
         sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());

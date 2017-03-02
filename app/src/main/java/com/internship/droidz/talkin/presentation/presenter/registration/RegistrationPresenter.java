@@ -48,12 +48,6 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
     RegistrationView mView;
     CacheSharedPreference cache = CacheSharedPreference.getInstance(App.getApp().getApplicationContext());
 
-    public RegistrationPresenter() {
-
-        mModel = new RegistrationModel();
-        mView = getViewState();
-    }
-
     public Intent getCameraPictureIntent(PackageManager packageManager) {
 
         return mModel.getCameraPictureIntent(packageManager);
@@ -277,4 +271,11 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
         mView.showNetworkError();
     }
 
+    public void setmModel(RegistrationModel mModel) {
+        this.mModel = mModel;
+    }
+
+    public void setmView(RegistrationView mView) {
+        this.mView = mView;
+    }
 }

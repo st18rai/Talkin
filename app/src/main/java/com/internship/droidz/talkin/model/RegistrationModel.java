@@ -5,18 +5,17 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import com.internship.droidz.talkin.App;
+import com.internship.droidz.talkin.media.IMediaFile;
+import com.internship.droidz.talkin.media.IMediaIntentProvider;
 import com.internship.droidz.talkin.utils.Validator;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import ru.tinkoff.decoro.MaskImpl;
@@ -40,14 +39,12 @@ public class RegistrationModel {
     private FormatWatcher mFormatWatcher;
     private String mFacebookUserID;
 
-    public File createImageFile() throws IOException {
+    private IMediaFile media;
+    private IMediaIntentProvider mediaIntentProvider;
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        mUserPicFile = new File(storageDir + File.separator + imageFileName + ".jpg");
-        mCurrentPhotoPath = mUserPicFile.getAbsolutePath();
-        return mUserPicFile;
+    public RegistrationModel(IMediaIntentProvider mediaIntentProvider, IMediaFile media) {
+        this.mediaIntentProvider = mediaIntentProvider;
+        this.media = media;
     }
 
     public FormatWatcher getFormatWatcher() {
@@ -57,14 +54,6 @@ public class RegistrationModel {
         return mFormatWatcher;
     }
 
-    public Intent getMediaScanIntent() {
-
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File userPicFile = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(userPicFile);
-        mediaScanIntent.setData(contentUri);
-        return mediaScanIntent;
-    }
 
     public void grantAllPermissionsToUserPicFile(Intent intent) {
 
@@ -93,7 +82,7 @@ public class RegistrationModel {
     public void addPicToGallery() {
 
         if (mUserPicFile != null) {
-            App.getApp().sendBroadcast(getMediaScanIntent());;
+            App.getApp().sendBroadcast(mediaIntentProvider.getMediaScanIntent(mCurrentPhotoPath));
         } else {
             Log.i(TAG, "File doesn't exist");
         }
@@ -104,7 +93,8 @@ public class RegistrationModel {
         Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (pictureIntent.resolveActivity(packageManager) != null) {
             try {
-                mUserPicFile = createImageFile();
+                // mUserPicFile = createImageFile();
+                mUserPicFile = media.getTemporaryFile();
                 mCurrentPhotoPath = mUserPicFile.getPath();
             } catch (IOException e) {
                 Log.i(TAG, "Can't create file!", e);
