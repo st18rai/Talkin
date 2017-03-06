@@ -25,6 +25,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.widget.LoginButton;
 import com.internship.droidz.talkin.R;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
+import com.internship.droidz.talkin.media.PhotoFile;
 import com.internship.droidz.talkin.presentation.presenter.registration.RegistrationPresenter;
 import com.internship.droidz.talkin.presentation.view.registration.RegistrationView;
 import com.internship.droidz.talkin.repository.ContentRepository;
@@ -169,7 +170,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     @Override
     public void startCameraForCapture() {
 
-        startActivityForResult(mRegistrationPresenter.getCameraPictureIntent(getPackageManager()), REQUEST_IMAGE_CAPTURE);
+        startActivityForResult(mRegistrationPresenter.getCameraPictureIntent(new PhotoFile(), getPackageManager()), REQUEST_IMAGE_CAPTURE);
     }
 
 

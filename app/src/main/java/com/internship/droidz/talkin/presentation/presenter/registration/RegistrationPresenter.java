@@ -3,7 +3,6 @@ package com.internship.droidz.talkin.presentation.presenter.registration;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +19,7 @@ import com.internship.droidz.talkin.App;
 import com.internship.droidz.talkin.data.CacheSharedPreference;
 import com.internship.droidz.talkin.data.model.SessionModel;
 import com.internship.droidz.talkin.data.web.AmazonConstants;
+import com.internship.droidz.talkin.media.IMediaFile;
 import com.internship.droidz.talkin.model.RegistrationModel;
 import com.internship.droidz.talkin.presentation.view.registration.RegistrationView;
 import com.internship.droidz.talkin.repository.ContentRepository;
@@ -28,7 +28,6 @@ import com.internship.droidz.talkin.utils.Validator;
 
 import org.json.JSONException;
 
-import java.io.File;
 import java.io.IOException;
 
 import retrofit2.Response;
@@ -54,45 +53,32 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
         mView = getViewState();
     }
 
-    public Intent getCameraPictureIntent(PackageManager packageManager) {
+    public Intent getCameraPictureIntent(IMediaFile mediaFile, PackageManager packageManager) {
 
-        return mModel.getCameraPictureIntent(packageManager);
+        return mModel.getCameraPictureIntent(mediaFile, packageManager);
     }
 
     public void setupUserPicFromCamera() {
 
-        mModel.addPicToGallery();
-        if (Validator.checkUserPicSize(mModel.getUserPicFile())) {
+        if (mModel.addPicToGallery()) {
             try {
-                mView.setImageUriToView(mModel.getUserPicFileUri());
+                mView.setImageUriToView(mModel.getUserPic().getUri());
             } catch (Exception e) {
                 e.printStackTrace();
                 mView.showAlertFailedToLoad();
             }
         } else {
             mView.showAlertMaxSizeOfImage();
-            mModel.setUserPicFile(null);
-            mModel.setUserPicFileUri(null);
         }
     }
 
     public void setupUserPicFromGallery(Intent intent) {
 
-        try {
-            mModel.setUserPic(intent.getData());
-            mView.setImageUriToView(Uri.fromFile(mModel.getUserPicFile()));
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            mView.showAlertFailedToLoad();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (mModel.setUserPic(intent.getData())) {
+            mView.setImageUriToView(mModel.getUserPic().getUri());
+        } else {
             mView.showAlertMaxSizeOfImage();
         }
-    }
-
-    public File getUserPicFile() {
-
-        return mModel.getUserPicFile();
     }
 
     public void setFormatWatcher() {
@@ -109,7 +95,7 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
                        String email, String password, String fullName, String phone, String website) {
 
         if (Validator.validateRegistrationData(email, password, fullName, phone, website)) {
-            if(mModel.getUserPicFile()==null)
+            if(mModel.getUserPic().getFile() == null)
             {
                 signUpWithoutPhoto(sessionRepository, email, password, fullName, phone, website);
             }
@@ -132,7 +118,7 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
                         cache.putToken(sessionModel.getSession().getToken());
                         cache.putUserId(Long.valueOf(sessionModel.getSession().getUser_id()));
                         return contentRepository.uploadFile(AmazonConstants.CONTENT_TYPE_JPEG,
-                                mModel.getUserPicFile(), cache.CURRENT_AVATAR);
+                                mModel.getUserPic().getFile(), cache.CURRENT_AVATAR);
                     }
                 })
                 .subscribeOn(Schedulers.io())
