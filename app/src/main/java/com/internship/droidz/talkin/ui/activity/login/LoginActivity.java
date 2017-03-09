@@ -1,42 +1,37 @@
 package com.internship.droidz.talkin.ui.activity.login;
 
-import android.app.AlarmManager;
 import android.app.FragmentManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.internship.droidz.talkin.App;
 import com.internship.droidz.talkin.R;
+import com.internship.droidz.talkin.data.web.ApiRetrofit;
 import com.internship.droidz.talkin.presentation.presenter.login.LoginPresenter;
 import com.internship.droidz.talkin.presentation.view.login.LoginView;
+import com.internship.droidz.talkin.repository.SessionRepository;
 import com.internship.droidz.talkin.ui.activity.main.MainActivity;
 import com.internship.droidz.talkin.ui.activity.registration.RegistrationActivity;
-import com.internship.droidz.talkin.utils.ProcessTimerReceiver;
-import com.jakewharton.rxbinding.view.RxView;
-
-import rx.Subscription;
 
 public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
     public static final String TAG = "LoginActivity";
-    // TODO: 2/20/17 [Code Review] This is a part of business logic, move to model layer
-    int TIME_TO_SEND_NOTIFICATION = 15 * 60;
 
     @InjectPresenter
     LoginPresenter mLoginPresenter;
+
+    SessionRepository repository;
 
     EditText email;
     EditText password;
@@ -68,23 +63,19 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
+        repository = new SessionRepository(ApiRetrofit.getRetrofitApi());
+
         signInButtonState();
 
-        // TODO: 2/20/17 you do not need subscription entity here (and below)
-        Subscription buttonSub = RxView.clicks(btnSignUp).subscribe((aVoid) -> {
-            Log.i("rx login", email.getText().toString());
-            Log.i("rx password", password.getText().toString());
-            // TODO: 2/20/17 you have to call presenter method instead of direct call of this method
-            navigateToRegistrationScreen();
+        btnSignUp.setOnClickListener(view -> {
+            Log.i("login", email.getText().toString());
+            Log.i("password", password.getText().toString());
+            mLoginPresenter.navigateToRegistrationScreen();
         });
 
-        Subscription tvSub = RxView.clicks(tvForgotPassword).subscribe((aVoid) -> forgotPassword());
+        tvForgotPassword.setOnClickListener(view -> mLoginPresenter.showForgotPasswordDialog());
 
-        Subscription SubscrBtnSignIn = RxView.clicks(btnSignIn)
-                .subscribe((aVoid) -> {
-                    mLoginPresenter.signIn(email.getText().toString(), password.getText().toString());
-                });
-
+        btnSignIn.setOnClickListener(view -> mLoginPresenter.signIn(email.getText().toString(), password.getText().toString(), repository));
     }
 
     @Override
@@ -92,8 +83,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
         super.onStop();
 
-        // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
-        checkAndStartTimer();
+        mLoginPresenter.checkAndStartTimer();
     }
 
     @Override
@@ -101,14 +91,13 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
         super.onStop();
 
-        // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
-        stopTimer();
+        mLoginPresenter.stopTimer();
     }
 
     @Override
     public void signInButtonState() {
 
-        btnSignIn.setEnabled(false);
+        mLoginPresenter.disableButton(btnSignIn);
         email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -122,9 +111,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
-                if (TextUtils.isEmpty(email.getText().toString()))
-                    btnSignIn.setEnabled(false);
+                mLoginPresenter.disableButtonIfEmailEmpty(email.getText().toString(), btnSignIn);
             }
         });
         password.addTextChangedListener(new TextWatcher() {
@@ -140,33 +127,9 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
-                if (TextUtils.isEmpty(email.getText().toString()))
-                    btnSignIn.setEnabled(false);
-                else
-                    btnSignIn.setEnabled(true);
+                mLoginPresenter.enableButtonIfEmailEntered(email.getText().toString(), btnSignIn);
             }
         });
-    }
-
-    public void checkAndStartTimer() {
-
-        if (!App.getApp().getBackgroundChecker().isAppInForeground()) {
-            Log.i("TAG", "checkAndStartTimer: ");
-            AlarmManager processTimer = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
-            Intent intent = new Intent(this, ProcessTimerReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            processTimer.set(AlarmManager.RTC, System.currentTimeMillis() + TIME_TO_SEND_NOTIFICATION * 1000, pendingIntent);
-        }
-    }
-
-    public void stopTimer() {
-
-        Log.i("TAG", "stopTimer: ");
-        Intent intent = new Intent(this, ProcessTimerReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        AlarmManager alarmManager = (AlarmManager) this.getSystemService(this.ALARM_SERVICE);
-        alarmManager.cancel(pendingIntent);
     }
 
     @Override
@@ -201,5 +164,15 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
     public void showNetworkError() {
 
         Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void disableButton(Button button) {
+        btnSignIn.setEnabled(false);
+    }
+
+    @Override
+    public void enableButton(Button button) {
+        btnSignIn.setEnabled(true);
     }
 }
