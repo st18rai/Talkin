@@ -95,13 +95,13 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
                        String email, String password, String fullName, String phone, String website) {
 
         if (Validator.validateRegistrationData(email, password, fullName, phone, website)) {
-            if(mModel.getUserPic().getFile() == null)
-            {
-                signUpWithoutPhoto(sessionRepository, email, password, fullName, phone, website);
-            }
-            else
-            {
+            try {
+                mModel.getUserPic().getFile();
                 signUpWithPhoto(sessionRepository, contentRepository, email, password, fullName, phone, website);
+
+            } catch (Exception e) {
+                Log.i(TAG, "signUp: No userPic file");
+                signUpWithoutPhoto(sessionRepository, email, password, fullName, phone, website);
             }
         } else {
             mView.showInvalidRegistrationDataError();
@@ -109,7 +109,7 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
     }
 
     private void signUpWithPhoto(SessionRepository sessionRepository, ContentRepository contentRepository,
-                                 String email, String password, String fullName, String phone, String website) {
+                                 String email, String password, String fullName, String phone, String website) throws IOException {
 
         sessionRepository.signUp(email,password,fullName,phone,website)
                 .flatMap(new Func1<SessionModel, Observable<Response<Void>>>() {
@@ -231,6 +231,7 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
 
             @Override
             public void onCancel() {
+
                 Log.i(TAG, "Facebook link cancelled");
             }
 

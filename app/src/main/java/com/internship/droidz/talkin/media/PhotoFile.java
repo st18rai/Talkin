@@ -21,7 +21,8 @@ public class PhotoFile implements IMediaFile {
     private File mFile;
 
     @Override
-    public String getFileName() {
+    public String createFileName() {
+
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
@@ -30,22 +31,26 @@ public class PhotoFile implements IMediaFile {
 
     @Override
     public File createFile() {
-        setFile(new File(getFileName()));
+
+        setFile(new File(createFileName()));
         return mFile;
     }
 
     @Override
     public File getFile() {
+
         return mFile;
     }
 
     @Override
     public Uri getUri() {
+
         return mUri;
     }
 
     @Override
     public void setFile(File file) {
+
         mFile = file;
         mCurrentPhotoPath = mFile.getPath();
         mUri = FileProvider.getUriForFile(App.getApp(),

@@ -52,4 +52,5 @@ public class SplashPresenterUnitTest {
         presenter.checkLoggedInAndNavigate();
         verify(view, times(1)).navigateToMainScreen();
     }
+
 }

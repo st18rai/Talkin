@@ -205,7 +205,6 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         confirmPassword.setOnFocusChangeListener((view, focus) -> {
             if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
                 tilConfirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
-               // Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT).show();
             }
             else
                 tilConfirmPassword.setError(null);
@@ -263,7 +262,6 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         email.setOnFocusChangeListener((view, focus) -> {
             if (!focus && !Validator.isValidEmail(email.getText().toString())) {
                 tilEmail.setError(getResources().getString(R.string.invalid_email_toast));
-//                    Toast.makeText(getApplication(), R.string.invalid_email_toast, Toast.LENGTH_SHORT).show();
             }
             else
                 tilEmail.setError(null);
@@ -277,12 +275,10 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
             String input = password.getText().toString();
             if (!focus && !Validator.isValidPasswordLength(input)) {
                 tilPassword.setError(getResources().getString(R.string.invalid_password_length_toast));
-//                Toast.makeText(getApplication(), R.string.invalid_password_length_toast, Toast.LENGTH_SHORT).show();
             } else {
                 tilPassword.setError(null);
                 if (!focus && !Validator.checkPasswordStrength(input)) {
                     tilPassword.setError(getResources().getString(R.string.password_is_weak_toast));
-//                    Toast.makeText(getApplication(), R.string.password_is_weak_toast, Toast.LENGTH_SHORT).show();
                 }
                 else
                     tilPassword.setError(null);

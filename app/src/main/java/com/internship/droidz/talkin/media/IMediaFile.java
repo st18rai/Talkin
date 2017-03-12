@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public interface IMediaFile {
 
-    String getFileName();
+    String createFileName();
 
     File createFile() throws IOException;
 
