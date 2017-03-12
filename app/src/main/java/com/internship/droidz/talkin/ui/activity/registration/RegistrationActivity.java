@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -61,6 +62,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     CallbackManager mCallbackManager;
     SessionRepository sessionRepository;
     ContentRepository contentRepository;
+    ProgressBar progressBar;
 
     public static Intent getIntent(final Context context) {
         Intent intent = new Intent(context, RegistrationActivity.class);
@@ -98,6 +100,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         tilEmail = (TextInputLayout) findViewById(R.id.til_emailAddress);
         tilPassword = (TextInputLayout) findViewById(R.id.til_textPassword);
         tilConfirmPassword = (TextInputLayout) findViewById(R.id.til_confirmTextPassword);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_registration);
 
         checkEmail();
         checkPassword();
@@ -154,12 +157,12 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -309,4 +312,3 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         Toast.makeText(this, R.string.invalid_registration_data_error, Toast.LENGTH_LONG).show();
     }
 }
-
