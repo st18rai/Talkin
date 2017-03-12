@@ -21,4 +21,7 @@ public interface IMediaFile {
 
     void setFile(File file);
 
+    void setFile(Uri uri);
+
+
 }

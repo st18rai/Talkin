@@ -15,6 +15,8 @@ import com.internship.droidz.talkin.utils.ProcessTimerReceiver;
 
 public class LoginModel {
 
+    public static final int TIME_TO_SEND_NOTIFICATION = 15 * 60;
+
     Context context = App.getApp().getApplicationContext();
 
     public void checkAndStartTimer() {
@@ -24,7 +26,6 @@ public class LoginModel {
             AlarmManager processTimer = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
             Intent intent = new Intent(context, ProcessTimerReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            int TIME_TO_SEND_NOTIFICATION = 15 * 60;
             processTimer.set(AlarmManager.RTC, System.currentTimeMillis() + TIME_TO_SEND_NOTIFICATION * 1000, pendingIntent);
         }
     }

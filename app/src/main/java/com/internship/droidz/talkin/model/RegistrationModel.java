@@ -10,10 +10,8 @@ import android.util.Log;
 import com.internship.droidz.talkin.App;
 import com.internship.droidz.talkin.media.IMediaFile;
 import com.internship.droidz.talkin.media.PhotoFile;
-import com.internship.droidz.talkin.utils.Converter;
 import com.internship.droidz.talkin.utils.Validator;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -62,7 +60,7 @@ public class RegistrationModel {
     public boolean setUserPic(Uri uri) {
 
         userPic = new PhotoFile();
-        userPic.setFile(new File(Converter.getRealPathFromURI(uri)));
+        userPic.setFile(uri);
 
         if (userPic.getFile() != null) {
             if (Validator.checkUserPicSize(userPic.getFile())) {
@@ -83,9 +81,10 @@ public class RegistrationModel {
             if (Validator.checkUserPicSize(userPic.getFile())) {
                 App.getApp().sendBroadcast(getMediaScanIntent());
                 return true;
+            } else {
+                userPic = null;
+                return false;
             }
-            userPic = null;
-            return false;
         } else {
             Log.i(TAG, "addPicToGallery: File doesn't exist");
             userPic = null;

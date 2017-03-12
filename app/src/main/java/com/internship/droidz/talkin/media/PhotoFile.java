@@ -58,4 +58,11 @@ public class PhotoFile implements IMediaFile {
                 mFile);
     }
 
+    @Override
+    public void setFile(Uri uri) {
+
+        mFile = new File(uri.getPath());
+        mCurrentPhotoPath = mFile.getPath();
+        mUri = uri;
+    }
 }

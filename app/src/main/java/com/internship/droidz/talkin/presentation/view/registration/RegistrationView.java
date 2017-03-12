@@ -49,8 +49,5 @@ public interface RegistrationView extends MvpView {
 
     void sendBroadcast(Intent mediaScanIntent);
 
-
-    void activitySendBroadcast(Intent mediaScanIntent);
-
     void showInvalidRegistrationDataError();
 }
