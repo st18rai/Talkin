@@ -75,7 +75,8 @@ public class SessionRepository {
                     @Override
                     public void onCompleted() {
                         Log.i("RX", "Logged in");
-                        view.navigationToMainScreen();
+                        view.navigateToMainScreen();
+                        view.hideLoading();
                     }
 
                     @Override

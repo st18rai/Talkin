@@ -32,10 +32,8 @@ import com.internship.droidz.talkin.repository.ContentRepository;
 import com.internship.droidz.talkin.repository.SessionRepository;
 import com.internship.droidz.talkin.ui.activity.main.MainActivity;
 import com.internship.droidz.talkin.utils.Validator;
-import com.jakewharton.rxbinding.view.RxView;
 
 import ru.tinkoff.decoro.watchers.FormatWatcher;
-import rx.Subscription;
 
 public class RegistrationActivity extends MvpAppCompatActivity implements RegistrationView {
 
@@ -93,7 +91,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
 
         mRegistrationPresenter.setFormatWatcher();
         sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());
-        contentRepository  = new ContentRepository(ApiRetrofit.getRetrofitApi());
+        contentRepository = new ContentRepository(ApiRetrofit.getRetrofitApi());
         email = (EditText) findViewById(R.id.emailEditTextReg);
         password = (EditText) findViewById(R.id.passwordEditTextReg);
         confirmPassword = (EditText) findViewById(R.id.confirmPasswordEditText);
@@ -105,17 +103,14 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         checkPassword();
         comparePasswords();
 
-        Subscription buttonSub = RxView.clicks(signUpButtonReg)
-                .subscribe((Void aVoid) -> {
-                    mRegistrationPresenter.signUp(
-                            sessionRepository,
-                            contentRepository,
-                            email.getText().toString(),
-                            password.getText().toString(),
-                            fullName.getText().toString(),
-                            phoneEditText.getText().toString().replaceAll("[\\n\\-\\(\\)\\s]",""), // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
-                            website.getText().toString());
-                });
+        signUpButtonReg.setOnClickListener(view -> mRegistrationPresenter.signUp(
+                sessionRepository,
+                contentRepository,
+                email.getText().toString(),
+                password.getText().toString(),
+                fullName.getText().toString(),
+                phoneEditText.getText().toString().replaceAll("[\\n\\-\\(\\)\\s]", ""), // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
+                website.getText().toString()));
 
         linkFacebookButtonView.setOnClickListener(view -> {
 
@@ -205,9 +200,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         confirmPassword.setOnFocusChangeListener((view, focus) -> {
             if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
                 tilConfirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
-               // Toast.makeText(getApplication(), R.string.compare_passwords_toast, Toast.LENGTH_SHORT).show();
-            }
-            else
+            } else
                 tilConfirmPassword.setError(null);
         });
     }
@@ -263,9 +256,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         email.setOnFocusChangeListener((view, focus) -> {
             if (!focus && !Validator.isValidEmail(email.getText().toString())) {
                 tilEmail.setError(getResources().getString(R.string.invalid_email_toast));
-//                    Toast.makeText(getApplication(), R.string.invalid_email_toast, Toast.LENGTH_SHORT).show();
-            }
-            else
+            } else
                 tilEmail.setError(null);
         });
     }
@@ -277,14 +268,11 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
             String input = password.getText().toString();
             if (!focus && !Validator.isValidPasswordLength(input)) {
                 tilPassword.setError(getResources().getString(R.string.invalid_password_length_toast));
-//                Toast.makeText(getApplication(), R.string.invalid_password_length_toast, Toast.LENGTH_SHORT).show();
             } else {
                 tilPassword.setError(null);
                 if (!focus && !Validator.checkPasswordStrength(input)) {
                     tilPassword.setError(getResources().getString(R.string.password_is_weak_toast));
-//                    Toast.makeText(getApplication(), R.string.password_is_weak_toast, Toast.LENGTH_SHORT).show();
-                }
-                else
+                } else
                     tilPassword.setError(null);
             }
         });

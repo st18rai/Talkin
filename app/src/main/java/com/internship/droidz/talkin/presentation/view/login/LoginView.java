@@ -1,7 +1,5 @@
 package com.internship.droidz.talkin.presentation.view.login;
 
-import android.widget.Button;
-
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
@@ -15,13 +13,17 @@ public interface LoginView extends MvpView {
 
     void showNetworkError();
 
-    void disableButton(Button button);
+    void showLoading();
 
-    void enableButton(Button button);
+    void hideLoading();
+
+    void disableButton();
+
+    void enableButton();
 
     void forgotPassword();
 
     void navigateToRegistrationScreen();
 
-    void navigationToMainScreen();
+    void navigateToMainScreen();
 }

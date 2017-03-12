@@ -9,8 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.widget.Button;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
     Toolbar toolbar;
     AppCompatButton btnSignIn;
     AppCompatButton btnSignUp;
+    ProgressBar progressBar;
 
     public static Intent getIntent(final Context context) {
 
@@ -58,6 +60,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
         tvForgotPassword = (TextView) findViewById(R.id.forgotPasswordTextView);
         btnSignIn = (AppCompatButton) findViewById(R.id.signInButton);
         btnSignUp = (AppCompatButton) findViewById(R.id.signUpButton);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_login);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -97,7 +100,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
     @Override
     public void signInButtonState() {
 
-        mLoginPresenter.disableButton(btnSignIn);
+        mLoginPresenter.disableButton();
         email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -111,7 +114,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                mLoginPresenter.disableButtonIfEmailEmpty(email.getText().toString(), btnSignIn);
+                mLoginPresenter.disableButtonIfEmailEmpty(email.getText().toString());
             }
         });
         password.addTextChangedListener(new TextWatcher() {
@@ -127,7 +130,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                mLoginPresenter.enableButtonIfEmailEntered(email.getText().toString(), btnSignIn);
+                mLoginPresenter.enableButtonIfEmailEntered(email.getText().toString());
             }
         });
     }
@@ -148,7 +151,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
     }
 
     @Override
-    public void navigationToMainScreen() {
+    public void navigateToMainScreen() {
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
@@ -167,12 +170,22 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
     }
 
     @Override
-    public void disableButton(Button button) {
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void disableButton() {
         btnSignIn.setEnabled(false);
     }
 
     @Override
-    public void enableButton(Button button) {
+    public void enableButton() {
         btnSignIn.setEnabled(true);
     }
 }

@@ -2,7 +2,6 @@ package com.internship.droidz.talkin.presentation.presenter.login;
 
 
 import android.text.TextUtils;
-import android.widget.Button;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -16,27 +15,28 @@ public class LoginPresenter extends MvpPresenter<LoginView> {
     LoginModel model = new LoginModel();
 
     public void signIn(String email, String password, SessionRepository repository) {
+        getViewState().showLoading();
         repository.signIn(email, password, getViewState());
     }
 
-    public void disableButton(Button button) {
-        getViewState().disableButton(button);
+    public void disableButton() {
+        getViewState().disableButton();
     }
 
-    public void enableButton(Button button) {
-        getViewState().enableButton(button);
+    public void enableButton() {
+        getViewState().enableButton();
     }
 
-    public void disableButtonIfEmailEmpty(String email, Button button) {
+    public void disableButtonIfEmailEmpty(String email) {
         if (TextUtils.isEmpty(email))
-            getViewState().disableButton(button);
+            getViewState().disableButton();
     }
 
-    public void enableButtonIfEmailEntered(String email, Button button) {
+    public void enableButtonIfEmailEntered(String email) {
         if (TextUtils.isEmpty(email))
-            getViewState().disableButton(button);
+            getViewState().disableButton();
         else
-            getViewState().enableButton(button);
+            getViewState().enableButton();
     }
 
     public void navigateToRegistrationScreen() {
