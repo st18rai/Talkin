@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -32,10 +33,8 @@ import com.internship.droidz.talkin.repository.ContentRepository;
 import com.internship.droidz.talkin.repository.SessionRepository;
 import com.internship.droidz.talkin.ui.activity.main.MainActivity;
 import com.internship.droidz.talkin.utils.Validator;
-import com.jakewharton.rxbinding.view.RxView;
 
 import ru.tinkoff.decoro.watchers.FormatWatcher;
-import rx.Subscription;
 
 public class RegistrationActivity extends MvpAppCompatActivity implements RegistrationView {
 
@@ -63,6 +62,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     CallbackManager mCallbackManager;
     SessionRepository sessionRepository;
     ContentRepository contentRepository;
+    ProgressBar progressBar;
 
     public static Intent getIntent(final Context context) {
         Intent intent = new Intent(context, RegistrationActivity.class);
@@ -93,29 +93,27 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
 
         mRegistrationPresenter.setFormatWatcher();
         sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());
-        contentRepository  = new ContentRepository(ApiRetrofit.getRetrofitApi());
+        contentRepository = new ContentRepository(ApiRetrofit.getRetrofitApi());
         email = (EditText) findViewById(R.id.emailEditTextReg);
         password = (EditText) findViewById(R.id.passwordEditTextReg);
         confirmPassword = (EditText) findViewById(R.id.confirmPasswordEditText);
         tilEmail = (TextInputLayout) findViewById(R.id.til_emailAddress);
         tilPassword = (TextInputLayout) findViewById(R.id.til_textPassword);
         tilConfirmPassword = (TextInputLayout) findViewById(R.id.til_confirmTextPassword);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar_registration);
 
         checkEmail();
         checkPassword();
         comparePasswords();
 
-        Subscription buttonSub = RxView.clicks(signUpButtonReg)
-                .subscribe((Void aVoid) -> {
-                    mRegistrationPresenter.signUp(
-                            sessionRepository,
-                            contentRepository,
-                            email.getText().toString(),
-                            password.getText().toString(),
-                            fullName.getText().toString(),
-                            phoneEditText.getText().toString().replaceAll("[\\n\\-\\(\\)\\s]",""), // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
-                            website.getText().toString());
-                });
+        signUpButtonReg.setOnClickListener(view -> mRegistrationPresenter.signUp(
+                sessionRepository,
+                contentRepository,
+                email.getText().toString(),
+                password.getText().toString(),
+                fullName.getText().toString(),
+                phoneEditText.getText().toString().replaceAll("[\\n\\-\\(\\)\\s]", ""), // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
+                website.getText().toString()));
 
         linkFacebookButtonView.setOnClickListener(view -> {
 
@@ -159,12 +157,12 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -205,8 +203,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         confirmPassword.setOnFocusChangeListener((view, focus) -> {
             if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
                 tilConfirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
-            }
-            else
+            } else
                 tilConfirmPassword.setError(null);
         });
     }
@@ -262,8 +259,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         email.setOnFocusChangeListener((view, focus) -> {
             if (!focus && !Validator.isValidEmail(email.getText().toString())) {
                 tilEmail.setError(getResources().getString(R.string.invalid_email_toast));
-            }
-            else
+            } else
                 tilEmail.setError(null);
         });
     }
@@ -279,8 +275,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
                 tilPassword.setError(null);
                 if (!focus && !Validator.checkPasswordStrength(input)) {
                     tilPassword.setError(getResources().getString(R.string.password_is_weak_toast));
-                }
-                else
+                } else
                     tilPassword.setError(null);
             }
         });
@@ -317,4 +312,3 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         Toast.makeText(this, R.string.invalid_registration_data_error, Toast.LENGTH_LONG).show();
     }
 }
-

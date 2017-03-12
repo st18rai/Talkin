@@ -86,9 +86,9 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
         mView.setPhoneMask(mModel.getFormatWatcher());
     }
 
-    public boolean shouldAskPermission(){
+    public boolean shouldAskPermission() {
 
-        return(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
     }
 
     public void signUp(SessionRepository sessionRepository, ContentRepository contentRepository,
@@ -104,6 +104,7 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
                 signUpWithoutPhoto(sessionRepository, email, password, fullName, phone, website);
             }
         } else {
+            mView.hideProgress();
             mView.showInvalidRegistrationDataError();
         }
     }
@@ -111,7 +112,7 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
     private void signUpWithPhoto(SessionRepository sessionRepository, ContentRepository contentRepository,
                                  String email, String password, String fullName, String phone, String website) throws IOException {
 
-        sessionRepository.signUp(email,password,fullName,phone,website)
+        sessionRepository.signUp(email, password, fullName, phone, website)
                 .flatMap(new Func1<SessionModel, Observable<Response<Void>>>() {
                     @Override
                     public Observable<Response<Void>> call(SessionModel sessionModel) {
@@ -128,7 +129,7 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
                     @Override
                     public void onCompleted() {
 
-                        Log.i("victory","user created, ava uploaded and updated");
+                        Log.i("victory", "user created, ava uploaded and updated");
                         onRegistrationCompleted();
                     }
 
@@ -137,19 +138,19 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
 
                         if (e instanceof HttpException) {
                             try {
-                                Log.i("retrofit registration,",((HttpException) e).response().errorBody().string());
+                                Log.i("retrofit registration,", ((HttpException) e).response().errorBody().string());
                                 onRegistrationError();
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }
-                        }
-                        else {
-                            Log.i("error_reg_user","error: "+e.getMessage());
+                        } else {
+                            Log.i("error_reg_user", "error: " + e.getMessage());
                             onNetworkError();
                             e.printStackTrace();
                         }
 
                     }
+
                     @Override
                     public void onNext(Response<Void> voidResponse) {
 
@@ -160,7 +161,7 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
     private void signUpWithoutPhoto(SessionRepository sessionRepository,
                                     String email, String password, String fullName, String phone, String website) {
 
-        sessionRepository.signUp(email,password,fullName,phone,website)
+        sessionRepository.signUp(email, password, fullName, phone, website)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SessionModel>() {
@@ -168,7 +169,7 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
                     @Override
                     public void onCompleted() {
 
-                        Log.i("victory","user created, without ava");
+                        Log.i("victory", "user created, without ava");
                         onRegistrationCompleted();
                     }
 
@@ -177,14 +178,13 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
 
                         if (e instanceof HttpException) {
                             try {
-                                Log.i("retrofit registration,",((HttpException) e).response().errorBody().string());
+                                Log.i("retrofit registration,", ((HttpException) e).response().errorBody().string());
                                 onRegistrationError();
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }
-                        }
-                        else {
-                            Log.i("error_reg_user","error: "+e.getMessage());
+                        } else {
+                            Log.i("error_reg_user", "error: " + e.getMessage());
                             onNetworkError();
                             e.printStackTrace();
                         }
@@ -201,7 +201,7 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
 
     public void linkFacebook(LoginButton linkFacebookButtonReg) {
 
-        CallbackManager callbackManager= CallbackManager.Factory.create();
+        CallbackManager callbackManager = CallbackManager.Factory.create();
         linkFacebookButtonReg.performClick();
         linkFacebookButtonReg.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 
@@ -252,16 +252,19 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
     public void onRegistrationCompleted() {
 
         mView.navigateToMainScreen();
+        mView.hideProgress();
     }
 
     public void onRegistrationError() {
 
         mView.showRegistrationError();
+        mView.hideProgress();
     }
 
     public void onNetworkError() {
 
         mView.showNetworkError();
+        mView.hideProgress();
     }
 
 }

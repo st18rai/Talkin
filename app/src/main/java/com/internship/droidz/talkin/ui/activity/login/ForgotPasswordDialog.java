@@ -11,13 +11,16 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.internship.droidz.talkin.R;
-import com.internship.droidz.talkin.utils.Validator;
+import com.internship.droidz.talkin.presentation.presenter.forgotPassword.ForgotPasswordPresenter;
+import com.internship.droidz.talkin.presentation.view.forgotPassword.ForgotPasswordView;
 
 /**
  * Created by st18r on 02.02.2017.
  */
 
-public class ForgotPasswordDialog extends DialogFragment {
+public class ForgotPasswordDialog extends DialogFragment implements ForgotPasswordView {
+
+    ForgotPasswordPresenter forgotPasswordPresenter;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -25,6 +28,8 @@ public class ForgotPasswordDialog extends DialogFragment {
         // inflate the custom dialog layout
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.forgot_password_dialog, null);
+
+        forgotPasswordPresenter = new ForgotPasswordPresenter(this);
 
         EditText etForgotPassword = (EditText) view.findViewById(R.id.forgotPasswordEditText);
 
@@ -41,15 +46,7 @@ public class ForgotPasswordDialog extends DialogFragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
-                if (!Validator.isValidEmail(etForgotPassword.getText().toString())) {
-                    AlertDialog dialog = (AlertDialog) getDialog();
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-                } else {
-                    // enable the positive button after input
-                    AlertDialog dialog = (AlertDialog) getDialog();
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-                }
+                forgotPasswordPresenter.setPositiveButtonState(etForgotPassword.getText().toString());
             }
         });
 
@@ -68,8 +65,18 @@ public class ForgotPasswordDialog extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-
         // disable positive button by default
+        forgotPasswordPresenter.disablePositiveButton();
+    }
+
+    @Override
+    public void enablePositiveButton() {
+        AlertDialog dialog = (AlertDialog) getDialog();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+    }
+
+    @Override
+    public void disablePositiveButton() {
         AlertDialog dialog = (AlertDialog) getDialog();
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
     }

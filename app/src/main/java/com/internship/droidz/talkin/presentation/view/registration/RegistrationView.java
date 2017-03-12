@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.arellomobile.mvp.MvpView;
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
+import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 import ru.tinkoff.decoro.watchers.FormatWatcher;
 
+@StateStrategyType(OneExecutionStateStrategy.class)
 public interface RegistrationView extends MvpView {
 
     void showProgress();
