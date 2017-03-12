@@ -85,6 +85,7 @@ public class SessionRepository {
                             try {
                                 Log.i("retrofit login,", ((HttpException) e).response().errorBody().string());
                                 view.showLoginError();
+                                view.hideLoading();
 
                             } catch (IOException e1) {
                                 e1.printStackTrace();
@@ -92,6 +93,7 @@ public class SessionRepository {
                         } else {
                             Log.i("error_login_user", "error: " + e.getMessage());
                             view.showNetworkError();
+                            view.hideLoading();
                             e.printStackTrace();
                         }
 

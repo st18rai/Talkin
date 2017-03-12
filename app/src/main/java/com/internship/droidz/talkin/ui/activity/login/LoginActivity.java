@@ -182,10 +182,12 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
     @Override
     public void disableButton() {
         btnSignIn.setEnabled(false);
+        btnSignIn.setBackgroundResource(R.drawable.signin_button_state);
     }
 
     @Override
     public void enableButton() {
         btnSignIn.setEnabled(true);
+        btnSignIn.setBackgroundResource(R.drawable.signup_button_state);
     }
 }

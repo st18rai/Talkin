@@ -28,6 +28,7 @@ public class SplashScreenUITest {
 
     @Test
     public void finishActivityShouldBeCalledAfter3000ms() {
+
         SystemClock.sleep(3100);
         assertTrue(mActivityRule.getActivity().isFinishing());
     }
