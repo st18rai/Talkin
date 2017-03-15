@@ -43,15 +43,8 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
 
     private String TAG = "RegistrationPresenter";
 
-    RegistrationModel mModel;
-    RegistrationView mView;
-    CacheSharedPreference cache = CacheSharedPreference.getInstance(App.getApp().getApplicationContext());
-
-    public RegistrationPresenter() {
-
-        mModel = new RegistrationModel();
-        mView = getViewState();
-    }
+    private CacheSharedPreference cache = CacheSharedPreference.getInstance(App.getApp().getApplicationContext());
+    private RegistrationModel mModel = new RegistrationModel();
 
     public Intent getCameraPictureIntent(IMediaFile mediaFile, PackageManager packageManager) {
 
@@ -62,28 +55,28 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
 
         if (mModel.addPicToGallery()) {
             try {
-                mView.setImageUriToView(mModel.getUserPic().getUri());
+                getViewState().setImageUriToView(mModel.getUserPic().getUri());
             } catch (Exception e) {
                 e.printStackTrace();
-                mView.showAlertFailedToLoad();
+                getViewState().showAlertFailedToLoad();
             }
         } else {
-            mView.showAlertMaxSizeOfImage();
+            getViewState().showAlertMaxSizeOfImage();
         }
     }
 
     public void setupUserPicFromGallery(Intent intent) {
 
         if (mModel.setUserPic(intent.getData())) {
-            mView.setImageUriToView(mModel.getUserPic().getUri());
+            getViewState().setImageUriToView(mModel.getUserPic().getUri());
         } else {
-            mView.showAlertMaxSizeOfImage();
+            getViewState().showAlertMaxSizeOfImage();
         }
     }
 
     public void setFormatWatcher() {
 
-        mView.setPhoneMask(mModel.getFormatWatcher());
+        getViewState().setPhoneMask(mModel.getFormatWatcher());
     }
 
     public boolean shouldAskPermission() {
@@ -104,8 +97,8 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
                 signUpWithoutPhoto(sessionRepository, email, password, fullName, phone, website);
             }
         } else {
-            mView.hideProgress();
-            mView.showInvalidRegistrationDataError();
+            getViewState().hideProgress();
+            getViewState().showInvalidRegistrationDataError();
         }
     }
 
@@ -246,25 +239,39 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
 
     public void onFacebookLogin() {
 
-        mView.setFacebookLoginButtonAsLinked();
+        getViewState().setFacebookLoginButtonAsLinked();
     }
 
     public void onRegistrationCompleted() {
 
-        mView.navigateToMainScreen();
-        mView.hideProgress();
+        getViewState().navigateToMainScreen();
+        getViewState().hideProgress();
     }
 
     public void onRegistrationError() {
 
-        mView.showRegistrationError();
-        mView.hideProgress();
+        getViewState().showRegistrationError();
+        getViewState().hideProgress();
     }
 
     public void onNetworkError() {
 
-        mView.showNetworkError();
-        mView.hideProgress();
+        getViewState().showNetworkError();
+        getViewState().hideProgress();
     }
 
+    public void checkEmail() {
+
+        getViewState().checkEmail();
+    }
+
+    public void checkPassword() {
+
+        getViewState().checkPassword();
+    }
+
+    public void checkAndComparePasswords() {
+
+        getViewState().checkAndComparePasswords();
+    }
 }

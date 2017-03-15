@@ -83,7 +83,6 @@
         <activity
             android:name="com.internship.droidz.talkin.ui.activity.main.MainActivity"
             android:label="@string/title_activity_main_screen"
-            android:noHistory="true"
             android:theme="@style/MainScreenTheme"
             android:parentActivityName=".ui.activity.login.LoginActivity">
             <meta-data

@@ -32,15 +32,14 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
     @InjectPresenter
     LoginPresenter mLoginPresenter;
 
-    SessionRepository repository;
-
-    EditText email;
-    EditText password;
-    TextView tvForgotPassword;
-    Toolbar toolbar;
-    AppCompatButton btnSignIn;
-    AppCompatButton btnSignUp;
-    ProgressBar progressBar;
+    private SessionRepository repository;
+    private EditText email;
+    private EditText password;
+    private TextView tvForgotPassword;
+    private Toolbar toolbar;
+    private AppCompatButton btnSignIn;
+    private AppCompatButton btnSignUp;
+    private ProgressBar progressBar;
 
     public static Intent getIntent(final Context context) {
 
@@ -92,7 +91,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
     @Override
     protected void onStart() {
 
-        super.onStop();
+        super.onStart();
 
         mLoginPresenter.stopTimer();
     }
@@ -155,6 +154,7 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

@@ -17,8 +17,8 @@ public class SplashModel {
         sPref = App.getApp().getApplicationContext().getSharedPreferences("SplashPref", MODE_PRIVATE);
     }
 
-    SharedPreferences sPref;
-    SharedPreferences.Editor ed;
+    private SharedPreferences sPref;
+    private SharedPreferences.Editor ed;
 
     private static final String LOGGED_IN_KEY = "loggedIn";
 

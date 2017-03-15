@@ -12,7 +12,7 @@ import com.internship.droidz.talkin.repository.SessionRepository;
 @InjectViewState
 public class LoginPresenter extends MvpPresenter<LoginView> {
 
-    LoginModel model = new LoginModel();
+    private LoginModel model = new LoginModel();
 
     public void signIn(String email, String password, SessionRepository repository) {
         getViewState().showLoading();

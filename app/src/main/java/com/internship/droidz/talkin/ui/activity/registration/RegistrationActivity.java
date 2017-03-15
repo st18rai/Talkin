@@ -46,23 +46,15 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     @InjectPresenter
     RegistrationPresenter mRegistrationPresenter;
 
-    EditText email;
-    EditText password;
-    EditText confirmPassword;
-    ImageView userPicImageView;
-    EditText phoneEditText;
-    EditText fullName;
-    EditText website;
-    LoginButton linkFacebookButtonReg;
-    AppCompatButton linkFacebookButtonView;
-    AppCompatButton signUpButtonReg;
-    TextInputLayout tilEmail;
-    TextInputLayout tilPassword;
-    TextInputLayout tilConfirmPassword;
+    private EditText email, password, confirmPassword, phoneEditText, fullName, website;
+    private ImageView userPicImageView;
+    private LoginButton linkFacebookButtonReg;
+    private AppCompatButton linkFacebookButtonView, signUpButtonReg;
+    private TextInputLayout tilEmail, tilPassword, tilConfirmPassword;
+    private SessionRepository sessionRepository;
+    private ContentRepository contentRepository;
+    private ProgressBar progressBar;
     CallbackManager mCallbackManager;
-    SessionRepository sessionRepository;
-    ContentRepository contentRepository;
-    ProgressBar progressBar;
 
     public static Intent getIntent(final Context context) {
         Intent intent = new Intent(context, RegistrationActivity.class);
@@ -102,9 +94,9 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         tilConfirmPassword = (TextInputLayout) findViewById(R.id.til_confirmTextPassword);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar_registration);
 
-        checkEmail();
-        checkPassword();
-        comparePasswords();
+        mRegistrationPresenter.checkEmail();
+        mRegistrationPresenter.checkPassword();
+        mRegistrationPresenter.checkAndComparePasswords();
 
         signUpButtonReg.setOnClickListener(view -> mRegistrationPresenter.signUp(
                 sessionRepository,
@@ -171,7 +163,6 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         startActivityForResult(mRegistrationPresenter.getCameraPictureIntent(new PhotoFile(), getPackageManager()), REQUEST_IMAGE_CAPTURE);
     }
 
-
     @Override
     public void startGalleryForCapture() {
 
@@ -198,7 +189,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     }
 
     @Override
-    public void comparePasswords() {
+    public void checkAndComparePasswords() {
 
         confirmPassword.setOnFocusChangeListener((view, focus) -> {
             if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
@@ -213,6 +204,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
 
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

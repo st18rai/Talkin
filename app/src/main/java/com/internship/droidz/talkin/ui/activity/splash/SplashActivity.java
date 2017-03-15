@@ -20,8 +20,8 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
 
     public static final String TAG = "SplashActivity";
 
-    Handler handler;
-    Runnable runnable;
+    private Handler handler;
+    private Runnable runnable;
 
     public static Intent getIntent(final Context context) {
 

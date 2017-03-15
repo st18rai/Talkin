@@ -15,9 +15,8 @@ import com.internship.droidz.talkin.utils.ProcessTimerReceiver;
 
 public class LoginModel {
 
-    public static final int TIME_TO_SEND_NOTIFICATION = 15 * 60;
-
-    Context context = App.getApp().getApplicationContext();
+    private static final int TIME_TO_SEND_NOTIFICATION = 15 * 60;
+    private Context context = App.getApp().getApplicationContext();
 
     public void checkAndStartTimer() {
 

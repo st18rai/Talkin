@@ -38,8 +38,7 @@ public interface RegistrationView extends MvpView {
 
     void checkPassword();
 
-    // TODO: 2/20/17 [Code Review] this method does not sound as a method of View layer
-    void comparePasswords();
+    void checkAndComparePasswords();
 
     void navigateToMainScreen();
 
