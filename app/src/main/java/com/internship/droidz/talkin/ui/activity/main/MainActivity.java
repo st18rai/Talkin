@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -28,7 +29,11 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.internship.droidz.talkin.App;
 import com.internship.droidz.talkin.R;
+import com.internship.droidz.talkin.data.CacheSharedPreference;
+import com.internship.droidz.talkin.data.web.ApiRetrofit;
+import com.internship.droidz.talkin.data.web.response.user.UserSearchResponse;
 import com.internship.droidz.talkin.presentation.presenter.main.MainPresenter;
 import com.internship.droidz.talkin.presentation.view.main.MainView;
 import com.internship.droidz.talkin.ui.activity.createChat.CreateChatActivity;
@@ -42,6 +47,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import com.internship.droidz.talkin.repository.UserRepository;
+
+import java.io.IOException;
+
+import retrofit2.adapter.rxjava.HttpException;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView {
 
@@ -91,9 +104,45 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navigateToCreateChat();
-                // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //       .setAction("Action", null).show();
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+
+               CacheSharedPreference cache= CacheSharedPreference.getInstance(App.getApp().getApplicationContext());
+                UserRepository repo = new UserRepository(ApiRetrofit.getRetrofitApi());
+                repo.searchUser("full name")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<UserSearchResponse>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.i("good","vse good");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                if (e instanceof HttpException) {
+                                    try {
+                                        Log.i("retrofit search,",((HttpException) e).response().errorBody().string());
+                                    } catch (IOException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                }
+                                else {
+                                    Log.i("error_srch_user","error: "+e.getMessage());
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onNext(UserSearchResponse userSearchResponse) {
+                                   for(UserSearchResponse.Item u:userSearchResponse.getItem())
+                                   {
+                                       Log.i("search_user",u.getUser().getEmail());
+                                   }
+                            }
+                        });
+
+
             }
         });
 

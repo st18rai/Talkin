@@ -1,4 +1,4 @@
-package com.internship.droidz.talkin.data.web.requests;
+package com.internship.droidz.talkin.data.web.requests.user;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

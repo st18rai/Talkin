@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.internship.droidz.talkin.utils.BackgroundChecker;
+import com.orm.SugarApp;
 import com.squareup.leakcanary.LeakCanary;
 
 import io.fabric.sdk.android.Fabric;
@@ -13,7 +14,7 @@ import io.fabric.sdk.android.Fabric;
  * Created by Novak Alexandr on 19.01.2017.
  */
 
-public class App extends MultiDexApplication {
+public class   App extends SugarApp {
 
     private static App instance;
     private BackgroundChecker backgroundChecker;

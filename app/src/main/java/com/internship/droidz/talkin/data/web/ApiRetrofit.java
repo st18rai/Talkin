@@ -1,6 +1,7 @@
 package com.internship.droidz.talkin.data.web;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.internship.droidz.talkin.data.web.service.ChatService;
 import com.internship.droidz.talkin.data.web.service.ContentService;
 import com.internship.droidz.talkin.data.web.service.UserService;
 
@@ -42,9 +43,13 @@ public class ApiRetrofit {
         return contentService;
     }
 
+    public ChatService getChatService() {
+        return chatService;
+    }
+
     private UserService userService;
     private ContentService contentService;
-
+    private ChatService chatService;
 
     private ApiRetrofit() {
         logging = new HttpLoggingInterceptor();
@@ -64,6 +69,7 @@ public class ApiRetrofit {
 
         userService=retrofit.create(UserService.class);
         contentService=retrofit.create(ContentService.class);
+        chatService=retrofit.create(ChatService.class);
     }
 
     private OkHttpClient createClient() {

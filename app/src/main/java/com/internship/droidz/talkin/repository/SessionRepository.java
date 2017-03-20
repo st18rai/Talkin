@@ -8,11 +8,11 @@ import com.internship.droidz.talkin.data.model.SessionModel;
 import com.internship.droidz.talkin.data.model.UserModel;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
 import com.internship.droidz.talkin.data.web.WebUtils;
-import com.internship.droidz.talkin.data.web.requests.RegistrationRequest;
-import com.internship.droidz.talkin.data.web.requests.SessionRequest;
-import com.internship.droidz.talkin.data.web.requests.SessionWithAuthRequest;
-import com.internship.droidz.talkin.data.web.requests.UserRequestModel;
-import com.internship.droidz.talkin.data.web.requests.UserSignUpRequest;
+import com.internship.droidz.talkin.data.web.requests.auth.RegistrationRequest;
+import com.internship.droidz.talkin.data.web.requests.auth.SessionRequest;
+import com.internship.droidz.talkin.data.web.requests.auth.SessionWithAuthRequest;
+import com.internship.droidz.talkin.data.web.requests.user.UserRequestModel;
+import com.internship.droidz.talkin.data.web.requests.user.UserSignUpRequest;
 import com.internship.droidz.talkin.data.web.service.ContentService;
 import com.internship.droidz.talkin.data.web.service.UserService;
 import com.internship.droidz.talkin.presentation.view.login.LoginView;
@@ -107,13 +107,13 @@ public class SessionRepository {
     }
 
     public Observable<SessionModel> signUp(String email, String password,
-                                           String fullName, String phone, String website) {
+                                           String fullName, String phone, String website,String facebook_id) {
         return createSession()
                 .flatMap(new Func1<SessionModel, Observable<UserModel>>() {
                     @Override
                     public Observable<UserModel> call(SessionModel sessionModel) {
                         UserSignUpRequest requestReg = new UserSignUpRequest(email,
-                                password, fullName, phone, website);
+                                password, fullName, phone, website,facebook_id);
                         RegistrationRequest request = new RegistrationRequest(requestReg);
                         return userService.requestSignUp(request, sessionModel.getSession().getToken());
                     }
@@ -132,18 +132,4 @@ public class SessionRepository {
 
     }
 
-    public Observable<UserModel> signUpWithoutPhoto(String email, String password,
-                                           String fullName, String phone, String website) {
-        return createSession()
-                .flatMap(new Func1<SessionModel, Observable<UserModel>>() {
-                    @Override
-                    public Observable<UserModel> call(SessionModel sessionModel) {
-                        UserSignUpRequest requestReg = new UserSignUpRequest(email,
-                                password, fullName, phone, website);
-                        RegistrationRequest request = new RegistrationRequest(requestReg);
-                        return userService.requestSignUp(request, sessionModel.getSession().getToken());
-                    }
-                });
-
-    }
 }

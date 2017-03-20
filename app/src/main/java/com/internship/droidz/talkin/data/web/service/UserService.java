@@ -3,20 +3,24 @@ package com.internship.droidz.talkin.data.web.service;
 import com.internship.droidz.talkin.data.model.SessionModel;
 
 import com.internship.droidz.talkin.data.model.UserModel;
-import com.internship.droidz.talkin.data.web.requests.RegistrationRequest;
-import com.internship.droidz.talkin.data.web.requests.SessionRequest;
-import com.internship.droidz.talkin.data.web.requests.SessionWithAuthRequest;
-import com.internship.droidz.talkin.data.web.requests.UpdateUserRequest;
-import com.internship.droidz.talkin.data.web.requests.UserSignUpRequest;
+import com.internship.droidz.talkin.data.web.requests.auth.RegistrationRequest;
+import com.internship.droidz.talkin.data.web.requests.auth.SessionRequest;
+import com.internship.droidz.talkin.data.web.requests.auth.SessionWithAuthRequest;
+import com.internship.droidz.talkin.data.web.requests.user.ResetPasswordRequest;
+import com.internship.droidz.talkin.data.web.requests.user.UpdateUserRequest;
+import com.internship.droidz.talkin.data.web.requests.user.UserSearchRequest;
+import com.internship.droidz.talkin.data.web.response.user.UserSearchResponse;
 
 
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -47,4 +51,12 @@ public interface UserService {
                                           @Body UpdateUserRequest body,
                                           @Header("QB-Token") String token);
 
+    @Headers({"Content-Type: application/json"})
+    @GET("/users/password/reset.json")
+    Observable<Response<Void>> resetPassword(@Body ResetPasswordRequest body, @Header("QB-Token") String token);
+
+
+    @Headers({"Content-Type: application/json"})
+    @GET("/users/by_full_name.json")
+    Observable<UserSearchResponse> searchUser(@Query("full_name") String full_name, @Header("QB-Token") String token);
 }
