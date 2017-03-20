@@ -8,7 +8,6 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -35,16 +34,12 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
     private SessionRepository repository;
     private EditText email;
     private EditText password;
-    private TextView tvForgotPassword;
-    private Toolbar toolbar;
     private AppCompatButton btnSignIn;
-    private AppCompatButton btnSignUp;
     private ProgressBar progressBar;
 
     public static Intent getIntent(final Context context) {
 
-        Intent intent = new Intent(context, LoginActivity.class);
-        return intent;
+        return new Intent(context, LoginActivity.class);
     }
 
     @Override
@@ -52,26 +47,31 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+        getWindow().setBackgroundDrawable(null);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView tvForgotPassword = (TextView) findViewById(R.id.forgotPasswordTextView);
+        AppCompatButton btnSignUp = (AppCompatButton) findViewById(R.id.signUpButton);
+
         email = (EditText) findViewById(R.id.emailEditText);
         password = (EditText) findViewById(R.id.passwordEditText);
-        tvForgotPassword = (TextView) findViewById(R.id.forgotPasswordTextView);
         btnSignIn = (AppCompatButton) findViewById(R.id.signInButton);
-        btnSignUp = (AppCompatButton) findViewById(R.id.signUpButton);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar_login);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
 
         repository = new SessionRepository(ApiRetrofit.getRetrofitApi());
 
         signInButtonState();
 
         btnSignUp.setOnClickListener(view -> {
-            Log.i("login", email.getText().toString());
-            Log.i("password", password.getText().toString());
+        //    Log.i("login", email.getText().toString());
+        //    Log.i("password", password.getText().toString());
             mLoginPresenter.navigateToRegistrationScreen();
         });
 

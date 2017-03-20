@@ -25,8 +25,7 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
 
     public static Intent getIntent(final Context context) {
 
-        Intent intent = new Intent(context, SplashActivity.class);
-        return intent;
+        return new Intent(context, SplashActivity.class);
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
@@ -41,7 +42,6 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     public static final String TAG = "RegistrationActivity";
     private final int REQUEST_IMAGE_CAPTURE = 0;
     private final int REQUEST_IMAGE_EXT = 1;
-    private final int REQUEST_PERMISSION_WRITE_EXTERNAL = 200;
 
     @InjectPresenter
     RegistrationPresenter mRegistrationPresenter;
@@ -49,7 +49,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     private EditText email, password, confirmPassword, phoneEditText, fullName, website;
     private ImageView userPicImageView;
     private LoginButton linkFacebookButtonReg;
-    private AppCompatButton linkFacebookButtonView, signUpButtonReg;
+    private AppCompatButton linkFacebookButtonView;
     private TextInputLayout tilEmail, tilPassword, tilConfirmPassword;
     private SessionRepository sessionRepository;
     private ContentRepository contentRepository;
@@ -57,9 +57,8 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     CallbackManager mCallbackManager;
 
     public static Intent getIntent(final Context context) {
-        Intent intent = new Intent(context, RegistrationActivity.class);
 
-        return intent;
+        return new Intent(context, RegistrationActivity.class);
     }
 
 
@@ -69,19 +68,24 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_registration_screen);
+        getWindow().setBackgroundDrawable(null);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        AppCompatButton signUpButtonReg = (AppCompatButton) findViewById(R.id.signUpButtonReg);
+
         userPicImageView = (ImageView) findViewById(R.id.userPicImageView);
         phoneEditText = (EditText) findViewById(R.id.phoneEditText);
         fullName = (EditText) findViewById(R.id.nameEditText);
         website = (EditText) findViewById(R.id.siteEditText);
-        signUpButtonReg = (AppCompatButton) findViewById(R.id.signUpButtonReg);
         linkFacebookButtonReg = (LoginButton) findViewById(R.id.linkFacebookButtonReg);
         linkFacebookButtonView = (AppCompatButton) findViewById(R.id.linkFacebookButtonView);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
 
         mRegistrationPresenter.setFormatWatcher();
         sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());
@@ -213,6 +217,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
 
         if (mRegistrationPresenter.shouldAskPermission()) {
             String[] perms = {"android.permission.WRITE_EXTERNAL_STORAGE"};
+            int REQUEST_PERMISSION_WRITE_EXTERNAL = 200;
             requestPermissions(perms, REQUEST_PERMISSION_WRITE_EXTERNAL);
         }
     }
@@ -236,7 +241,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     }
 
     @Override
-    public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int permsRequestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         switch (permsRequestCode) {
             case 200:

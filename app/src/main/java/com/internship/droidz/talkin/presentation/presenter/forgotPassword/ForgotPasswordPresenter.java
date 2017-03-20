@@ -6,14 +6,10 @@ import com.internship.droidz.talkin.utils.Validator;
 
 public class ForgotPasswordPresenter {
 
-    ForgotPasswordView forgotPasswordView;
+    private ForgotPasswordView forgotPasswordView;
 
-    public ForgotPasswordPresenter(ForgotPasswordView view){
+    public ForgotPasswordPresenter(ForgotPasswordView view) {
         this.forgotPasswordView = view;
-    }
-
-    public void enablePositiveButton() {
-        forgotPasswordView.enablePositiveButton();
     }
 
     public void disablePositiveButton() {
