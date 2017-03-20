@@ -20,7 +20,9 @@
                 android:gravity="center|top"
                 android:text="Connection problem"
                 android:textColor="@color/errorTextColor"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="visible"
+                android:layout_marginTop="-24sp" />
 
             <TextView
                 android:id="@+id/textViewFragmentPublicChatEmpty"

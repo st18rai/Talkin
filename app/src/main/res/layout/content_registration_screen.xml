@@ -39,9 +39,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="16dp"
                     android:onClick="onClickUserPicView"
-                    android:src="@drawable/userpic"
-                    app:civ_border_color="@color/talkinUserPicBorder"
-                    app:civ_border_width="3dp" />
+                    android:src="@drawable/userpic" />
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/til_emailAddress"
@@ -204,7 +202,7 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:paddingTop="10dp"
-                    android:textColor="@color/com_facebook_share_button_text_color"
+                    android:textColor="@color/linkFacebookButton"
                     android:textSize="18sp"
                     android:visibility="gone" />
 

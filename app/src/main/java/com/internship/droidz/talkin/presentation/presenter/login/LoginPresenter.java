@@ -23,10 +23,6 @@ public class LoginPresenter extends MvpPresenter<LoginView> {
         getViewState().disableButton();
     }
 
-    public void enableButton() {
-        getViewState().enableButton();
-    }
-
     public void disableButtonIfEmailEmpty(String email) {
         if (TextUtils.isEmpty(email))
             getViewState().disableButton();

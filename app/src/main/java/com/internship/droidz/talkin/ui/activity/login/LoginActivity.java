@@ -108,12 +108,12 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                mLoginPresenter.disableButtonIfEmailEmpty(email.getText().toString());
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                mLoginPresenter.disableButtonIfEmailEmpty(email.getText().toString());
+
             }
         });
         password.addTextChangedListener(new TextWatcher() {
@@ -124,12 +124,12 @@ public class LoginActivity extends MvpAppCompatActivity implements LoginView {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                mLoginPresenter.enableButtonIfEmailEntered(email.getText().toString());
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                mLoginPresenter.enableButtonIfEmailEntered(email.getText().toString());
+
             }
         });
     }

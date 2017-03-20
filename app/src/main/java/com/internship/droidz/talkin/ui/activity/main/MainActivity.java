@@ -44,13 +44,15 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainView {
+
     public static final String TAG = "MainActivity";
+
     @InjectPresenter
     MainPresenter mMainPresenter;
 
     public static Intent getIntent(final Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
 
+        Intent intent = new Intent(context, MainActivity.class);
         return intent;
     }
 

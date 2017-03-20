@@ -87,6 +87,7 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
     public void signUp(SessionRepository sessionRepository, ContentRepository contentRepository,
                        String email, String password, String fullName, String phone, String website) {
 
+        getViewState().showProgress();
         if (Validator.validateRegistrationData(email, password, fullName, phone, website)) {
             try {
                 mModel.getUserPic().getFile();

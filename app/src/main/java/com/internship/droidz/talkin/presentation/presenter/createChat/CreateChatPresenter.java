@@ -10,11 +10,9 @@ import com.internship.droidz.talkin.presentation.view.createChat.CreateChatView;
 public class CreateChatPresenter extends MvpPresenter<CreateChatView> {
 
     CreateChatModel mModel;
-    CreateChatView mView;
 
     public CreateChatPresenter() {
 
         mModel = new CreateChatModel();
-        mView = getViewState();
     }
 }
