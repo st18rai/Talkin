@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.internship.droidz.talkin.R;
+import com.internship.droidz.talkin.data.db.model.DbDialogModel;
+
+import java.util.ArrayList;
 
 
 public class PublicChatFragment extends Fragment {
@@ -40,7 +43,7 @@ public class PublicChatFragment extends Fragment {
         final TextView chatsListEmpty = (TextView) view.findViewById(R.id.textViewFragmentPublicChatEmpty);
 
         if (chatsExist) {
-            PublicChatAdapter adapter = new PublicChatAdapter();
+            PublicChatAdapter adapter = new PublicChatAdapter(new ArrayList<DbDialogModel>());
             recyclerView.setAdapter(adapter);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);

@@ -4,7 +4,6 @@ package com.internship.droidz.talkin.presentation.presenter.registration;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -13,6 +12,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
+import com.facebook.GraphRequestAsyncTask;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.internship.droidz.talkin.App;
@@ -26,7 +27,7 @@ import com.internship.droidz.talkin.repository.ContentRepository;
 import com.internship.droidz.talkin.repository.SessionRepository;
 import com.internship.droidz.talkin.utils.Validator;
 
-import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -204,23 +205,13 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
 
                 String accessToken = loginResult.getAccessToken().getToken();
                 Log.i(TAG, "Facebook onSuccess: " + accessToken);
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        (object, response) -> {
-                            response.toString();
-                            try {
-                                mModel.setFacebookUserID(object.getString("id"));
-                                Log.i(TAG, "Facebook linked: " + mModel.getFacebookUserID());
-                                onFacebookLogin();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        });
-
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id");
-                request.setParameters(parameters);
-                request.executeAsync();
+                GraphRequestAsyncTask request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
+                        (JSONObject user, GraphResponse graphResponse) -> {
+                            String email = user.optString("email");
+                            String name = user.optString("name");
+                            mModel.setFacebookUserID(user.optString("id"));
+                            onFacebookLogin(email, name);
+                        }).executeAsync();
             }
 
             @Override
@@ -238,9 +229,11 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
         });
     }
 
-    public void onFacebookLogin() {
+    public void onFacebookLogin(String email, String name) {
 
         getViewState().setFacebookLoginButtonAsLinked();
+        getViewState().setEmailText(email);
+        getViewState().setNameText(name);
     }
 
     public void onRegistrationCompleted() {

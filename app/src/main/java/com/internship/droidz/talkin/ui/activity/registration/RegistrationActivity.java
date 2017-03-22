@@ -46,7 +46,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     @InjectPresenter
     RegistrationPresenter mRegistrationPresenter;
 
-    private EditText email, password, confirmPassword, phoneEditText, fullName, website;
+    private EditText etEmail, etPassword, etConfirmPassword, etPhone, etName, etWebsite;
     private ImageView userPicImageView;
     private LoginButton linkFacebookButtonReg;
     private AppCompatButton linkFacebookButtonView, signUpButtonReg;
@@ -72,9 +72,9 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         userPicImageView = (ImageView) findViewById(R.id.userPicImageView);
-        phoneEditText = (EditText) findViewById(R.id.phoneEditText);
-        fullName = (EditText) findViewById(R.id.nameEditText);
-        website = (EditText) findViewById(R.id.siteEditText);
+        etPhone = (EditText) findViewById(R.id.phoneEditText);
+        etName = (EditText) findViewById(R.id.nameEditText);
+        etWebsite = (EditText) findViewById(R.id.siteEditText);
         signUpButtonReg = (AppCompatButton) findViewById(R.id.signUpButtonReg);
         linkFacebookButtonReg = (LoginButton) findViewById(R.id.linkFacebookButtonReg);
         linkFacebookButtonView = (AppCompatButton) findViewById(R.id.linkFacebookButtonView);
@@ -86,9 +86,9 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         mRegistrationPresenter.setFormatWatcher();
         sessionRepository = new SessionRepository(ApiRetrofit.getRetrofitApi());
         contentRepository = new ContentRepository(ApiRetrofit.getRetrofitApi());
-        email = (EditText) findViewById(R.id.emailEditTextReg);
-        password = (EditText) findViewById(R.id.passwordEditTextReg);
-        confirmPassword = (EditText) findViewById(R.id.confirmPasswordEditText);
+        etEmail = (EditText) findViewById(R.id.emailEditTextReg);
+        etPassword = (EditText) findViewById(R.id.passwordEditTextReg);
+        etConfirmPassword = (EditText) findViewById(R.id.confirmPasswordEditText);
         tilEmail = (TextInputLayout) findViewById(R.id.til_emailAddress);
         tilPassword = (TextInputLayout) findViewById(R.id.til_textPassword);
         tilConfirmPassword = (TextInputLayout) findViewById(R.id.til_confirmTextPassword);
@@ -101,16 +101,17 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
         signUpButtonReg.setOnClickListener(view -> mRegistrationPresenter.signUp(
                 sessionRepository,
                 contentRepository,
-                email.getText().toString(),
-                password.getText().toString(),
-                fullName.getText().toString(),
-                phoneEditText.getText().toString().replaceAll("[\\n\\-\\(\\)\\s]", ""), // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
-                website.getText().toString()));
+                etEmail.getText().toString(),
+                etPassword.getText().toString(),
+                etName.getText().toString(),
+                etPhone.getText().toString().replaceAll("[\\n\\-\\(\\)\\s]", ""), // TODO: 2/20/17 [Code Review] this is a part of business logic, move to presenter/model layer
+                etWebsite.getText().toString()));
 
         linkFacebookButtonView.setOnClickListener(view -> {
 
             mRegistrationPresenter.linkFacebook(linkFacebookButtonReg);
         });
+        linkFacebookButtonReg.setReadPermissions("email");
 
     }
 
@@ -130,6 +131,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
                 }
             }
             if (FacebookSdk.isFacebookRequestCode(requestCode)) {
+                mCallbackManager = CallbackManager.Factory.create();
                 mCallbackManager.onActivityResult(requestCode, resultCode, returnedData);
             }
         }
@@ -144,7 +146,7 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     @Override
     public void setPhoneMask(FormatWatcher formatWatcher) {
 
-        formatWatcher.installOn(phoneEditText);
+        formatWatcher.installOn(etPhone);
     }
 
     @Override
@@ -191,8 +193,8 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     @Override
     public void checkAndComparePasswords() {
 
-        confirmPassword.setOnFocusChangeListener((view, focus) -> {
-            if (!focus && !TextUtils.equals(password.getText().toString(), confirmPassword.getText().toString())) {
+        etConfirmPassword.setOnFocusChangeListener((view, focus) -> {
+            if (!focus && !TextUtils.equals(etPassword.getText().toString(), etConfirmPassword.getText().toString())) {
                 tilConfirmPassword.setError(getResources().getString(R.string.compare_passwords_toast));
             } else
                 tilConfirmPassword.setError(null);
@@ -248,8 +250,8 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     @Override
     public void checkEmail() {
 
-        email.setOnFocusChangeListener((view, focus) -> {
-            if (!focus && !Validator.isValidEmail(email.getText().toString())) {
+        etEmail.setOnFocusChangeListener((view, focus) -> {
+            if (!focus && !Validator.isValidEmail(etEmail.getText().toString())) {
                 tilEmail.setError(getResources().getString(R.string.invalid_email_toast));
             } else
                 tilEmail.setError(null);
@@ -259,8 +261,8 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     @Override
     public void checkPassword() {
 
-        password.setOnFocusChangeListener((view, focus) -> {
-            String input = password.getText().toString();
+        etPassword.setOnFocusChangeListener((view, focus) -> {
+            String input = etPassword.getText().toString();
             if (!focus && !Validator.isValidPasswordLength(input)) {
                 tilPassword.setError(getResources().getString(R.string.invalid_password_length_toast));
             } else {
@@ -296,5 +298,17 @@ public class RegistrationActivity extends MvpAppCompatActivity implements Regist
     public void showInvalidRegistrationDataError() {
 
         Toast.makeText(this, R.string.invalid_registration_data_error, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void setEmailText(String email) {
+
+        etEmail.setText(email);
+    }
+
+    @Override
+    public void setNameText(String name) {
+
+        etName.setText(name);
     }
 }
