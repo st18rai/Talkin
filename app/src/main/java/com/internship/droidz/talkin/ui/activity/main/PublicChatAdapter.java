@@ -1,15 +1,16 @@
 package com.internship.droidz.talkin.ui.activity.main;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.internship.droidz.talkin.R;
+import com.internship.droidz.talkin.data.db.model.DbDialogModel;
+
+import java.util.List;
 
 /**
  * Created by st18r on 16.02.2017.
@@ -17,11 +18,18 @@ import com.internship.droidz.talkin.R;
 
 public class PublicChatAdapter extends RecyclerView.Adapter<PublicChatAdapter.ViewHolder> {
 
+    List<DbDialogModel> chatsList;
+
     private String chatName;
     private String userName;
     private String lastMessage;
     private String lastTime;
     private int[] imageIds;
+
+    public PublicChatAdapter(List<DbDialogModel> chatsList) {
+
+        this.chatsList = chatsList;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -54,16 +62,20 @@ public class PublicChatAdapter extends RecyclerView.Adapter<PublicChatAdapter.Vi
 
         swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
         swipeLayout.addDrag(SwipeLayout.DragEdge.Right, swipeLayout.findViewById(R.id.bottom_wrapper));
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
+        deleteButton.setOnClickListener((view) -> {
                 // Delete item
-            }
-        });
+            });
+    }
+
+    public void refreshChatsList(List<DbDialogModel> list) {
+
+        chatsList.addAll(list);
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return 9;
+        return chatsList.size();
     }
 }

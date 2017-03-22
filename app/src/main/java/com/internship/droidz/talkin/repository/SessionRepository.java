@@ -107,13 +107,13 @@ public class SessionRepository {
     }
 
     public Observable<SessionModel> signUp(String email, String password,
-                                           String fullName, String phone, String website,String facebook_id) {
+                                           String fullName, String phone, String website) {
         return createSession()
                 .flatMap(new Func1<SessionModel, Observable<UserModel>>() {
                     @Override
                     public Observable<UserModel> call(SessionModel sessionModel) {
                         UserSignUpRequest requestReg = new UserSignUpRequest(email,
-                                password, fullName, phone, website,facebook_id);
+                                password, fullName, phone, website);
                         RegistrationRequest request = new RegistrationRequest(requestReg);
                         return userService.requestSignUp(request, sessionModel.getSession().getToken());
                     }
@@ -127,6 +127,21 @@ public class SessionRepository {
                     public Observable<SessionModel> call(SessionModel sessionModel) {
                         cache.putToken(sessionModel.getSession().getToken());
                         return createSessionWithAuth(email, password, sessionModel.getSession().getToken());
+                    }
+                });
+
+    }
+
+    public Observable<UserModel> signUpWithoutPhoto(String email, String password,
+                                                    String fullName, String phone, String website) {
+        return createSession()
+                .flatMap(new Func1<SessionModel, Observable<UserModel>>() {
+                    @Override
+                    public Observable<UserModel> call(SessionModel sessionModel) {
+                        UserSignUpRequest requestReg = new UserSignUpRequest(email,
+                                password, fullName, phone, website);
+                        RegistrationRequest request = new RegistrationRequest(requestReg);
+                        return userService.requestSignUp(request, sessionModel.getSession().getToken());
                     }
                 });
 

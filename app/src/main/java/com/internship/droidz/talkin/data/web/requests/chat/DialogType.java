@@ -5,6 +5,7 @@ package com.internship.droidz.talkin.data.web.requests.chat;
  */
 
 public enum DialogType {
+
     PUBLIC_GROUP(1),
     GROUP(2),
     PRIVATE(3);

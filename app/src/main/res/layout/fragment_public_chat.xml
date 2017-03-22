@@ -22,7 +22,7 @@
                 android:textColor="@color/errorTextColor"
                 android:textSize="20sp"
                 android:visibility="visible"
-                android:layout_marginTop="-24sp" />
+                android:layout_marginTop="-26sp" />
 
             <TextView
                 android:id="@+id/textViewFragmentPublicChatEmpty"
@@ -37,7 +37,8 @@
                 android:id="@+id/recyclerViewFragmentPublicChat"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="35dp"/>
+                android:layout_below="@+id/textViewFragmentConnection" />
+
         </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>

@@ -10,37 +10,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textViewFragmentConnection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|top"
+                android:text="Connection problem"
+                android:textColor="@color/errorTextColor"
+                android:visibility="visible"
+                android:textSize="20sp"
+                android:layout_marginTop="-26sp" />
+
+            <TextView
+                android:id="@+id/textViewFragmentPrivateChatEmpty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Chats list is empty"
+                android:textSize="24sp"
+                android:visibility="invisible" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewFragmentPrivateChat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/textViewFragmentConnection" />
+
+        </RelativeLayout>
+
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/textViewFragmentConnection"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center|top"
-            android:text="Connection problem"
-            android:textColor="@color/errorTextColor"
-            android:visibility="visible"
-            android:textSize="20sp"
-            android:layout_marginTop="-24sp" />
-
-        <TextView
-            android:id="@+id/textViewFragmentPrivateChatEmpty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Chats list is empty"
-            android:textSize="24sp"
-            android:visibility="invisible" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewFragmentPrivateChat"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/textViewFragmentConnection" />
-
-    </RelativeLayout>
 </FrameLayout>

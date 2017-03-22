@@ -15,12 +15,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +36,7 @@ import com.internship.droidz.talkin.data.web.ApiRetrofit;
 import com.internship.droidz.talkin.data.web.response.user.UserSearchResponse;
 import com.internship.droidz.talkin.presentation.presenter.main.MainPresenter;
 import com.internship.droidz.talkin.presentation.view.main.MainView;
+import com.internship.droidz.talkin.repository.UserRepository;
 import com.internship.droidz.talkin.ui.activity.createChat.CreateChatActivity;
 import com.internship.droidz.talkin.ui.activity.inviteFriends.InviteFriendsActivity;
 import com.internship.droidz.talkin.ui.activity.login.LoginActivity;
@@ -43,14 +44,11 @@ import com.internship.droidz.talkin.ui.activity.settings.SettingsActivity;
 import com.internship.droidz.talkin.ui.activity.userProfile.UserProfileActivity;
 import com.internship.droidz.talkin.ui.activity.users.UsersActivity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import com.internship.droidz.talkin.repository.UserRepository;
-
-import java.io.IOException;
-
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -104,10 +102,10 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
 
-               CacheSharedPreference cache= CacheSharedPreference.getInstance(App.getApp().getApplicationContext());
+                navigateToCreateChat();
+
+                CacheSharedPreference cache= CacheSharedPreference.getInstance(App.getApp().getApplicationContext());
                 UserRepository repo = new UserRepository(ApiRetrofit.getRetrofitApi());
                 repo.searchUser("full name")
                         .subscribeOn(Schedulers.io())
@@ -115,6 +113,7 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
                         .subscribe(new Subscriber<UserSearchResponse>() {
                             @Override
                             public void onCompleted() {
+
                                 Log.i("good","vse good");
                             }
 
