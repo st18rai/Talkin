@@ -13,15 +13,17 @@ import android.widget.TextView;
 
 import com.internship.droidz.talkin.R;
 
+import java.util.ArrayList;
 
 public class PublicChatFragment extends Fragment {
 
+    // Temporary solution
     Boolean chatsExist = true;
+    Boolean connectionExist = true;
 
     public PublicChatFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,9 +40,58 @@ public class PublicChatFragment extends Fragment {
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFragmentPublicChat);
         final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
         final TextView chatsListEmpty = (TextView) view.findViewById(R.id.textViewFragmentPublicChatEmpty);
+        final TextView connectionProblemTV = (TextView) view.findViewById(R.id.textViewFragmentConnection);
+
+        // Temporary solution
+        ArrayList<String> chatName = new ArrayList<>();
+        ArrayList<String> userName = new ArrayList<>();
+        ArrayList<String> lastMessage = new ArrayList<>();
+        ArrayList<String> lastTime = new ArrayList<>();
+        ArrayList<Integer> imageIds = new ArrayList<>();
+
+        chatName.add("Chat 1");
+        chatName.add("Chat 2");
+        chatName.add("Chat 3");
+        chatName.add("Chat 4");
+        chatName.add("Chat 5");
+        chatName.add("Chat 6");
+        chatName.add("Chat 7");
+
+        userName.add("Bob");
+        userName.add("Karl");
+        userName.add("John");
+        userName.add("Bill");
+        userName.add("Sara");
+        userName.add("Mary");
+        userName.add("Jack");
+
+        lastMessage.add("Message 1");
+        lastMessage.add("Message 2");
+        lastMessage.add("Message 3");
+        lastMessage.add("Message 4");
+        lastMessage.add("Message 5");
+        lastMessage.add("Message 6");
+        lastMessage.add("Message 7");
+
+
+        lastTime.add("12:54");
+        lastTime.add("11:59");
+        lastTime.add("15:37");
+        lastTime.add("12:12");
+        lastTime.add("17:24");
+        lastTime.add("10:32");
+        lastTime.add("07:44");
+
+        imageIds.add(R.drawable.userpic);
+        imageIds.add(R.drawable.userpic);
+        imageIds.add(R.drawable.userpic);
+        imageIds.add(R.drawable.userpic);
+        imageIds.add(R.drawable.userpic);
+        imageIds.add(R.drawable.userpic);
+        imageIds.add(R.drawable.userpic);
 
         if (chatsExist) {
-            PublicChatAdapter adapter = new PublicChatAdapter();
+            PublicChatAdapter adapter = new PublicChatAdapter(chatName, userName, lastMessage, lastTime, imageIds);
             recyclerView.setAdapter(adapter);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
@@ -48,12 +99,15 @@ public class PublicChatFragment extends Fragment {
             chatsListEmpty.setVisibility(View.VISIBLE);
         }
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
-                swipeRefreshLayout.setRefreshing(false);
-            }
+        if (connectionExist) {
+            connectionProblemTV.setVisibility(View.GONE);
+        } else {
+            connectionProblemTV.setVisibility((View.VISIBLE));
+        }
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            swipeRefreshLayout.setRefreshing(false);
         });
 
         return view;

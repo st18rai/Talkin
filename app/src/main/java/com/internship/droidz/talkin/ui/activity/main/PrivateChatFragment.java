@@ -13,10 +13,14 @@ import android.widget.TextView;
 
 import com.internship.droidz.talkin.R;
 
+import java.util.ArrayList;
+
 
 public class PrivateChatFragment extends Fragment {
 
+    // Temporary solution
     Boolean chatsExist = false;
+    Boolean connectionExist = true;
 
     public PrivateChatFragment() {
         // Required empty public constructor
@@ -36,9 +40,37 @@ public class PrivateChatFragment extends Fragment {
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFragmentPrivateChat);
         final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefresh);
         final TextView chatsListEmpty = (TextView) view.findViewById(R.id.textViewFragmentPrivateChatEmpty);
+        final TextView connectionProblemTV = (TextView) view.findViewById(R.id.textViewFragmentConnection);
+
+        // Temporary solution
+        ArrayList<String> chatName = new ArrayList<>();
+        ArrayList<String> userName = new ArrayList<>();
+        ArrayList<String> lastMessage = new ArrayList<>();
+        ArrayList<String> lastTime = new ArrayList<>();
+        ArrayList<Integer> imageIds = new ArrayList<>();
+
+        chatName.add("Chat 1");
+        chatName.add("Chat 2");
+        chatName.add("Chat 3");
+
+        userName.add("Bill");
+        userName.add("Sara");
+        userName.add("John");
+
+        lastMessage.add("Message 1");
+        lastMessage.add("Message 2");
+        lastMessage.add("Message 3");
+
+        lastTime.add("12:44");
+        lastTime.add("08:19");
+        lastTime.add("13:47");
+
+        imageIds.add(R.drawable.userpic);
+        imageIds.add(R.drawable.userpic);
+        imageIds.add(R.drawable.userpic);
 
         if (chatsExist) {
-            PrivateChatAdapter adapter = new PrivateChatAdapter();
+            PrivateChatAdapter adapter = new PrivateChatAdapter(chatName, userName, lastMessage, lastTime, imageIds);
             recyclerView.setAdapter(adapter);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
@@ -46,12 +78,15 @@ public class PrivateChatFragment extends Fragment {
             chatsListEmpty.setVisibility(View.VISIBLE);
         }
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(true);
-                swipeRefreshLayout.setRefreshing(false);
-            }
+        if (connectionExist) {
+            connectionProblemTV.setVisibility(View.GONE);
+        } else {
+            connectionProblemTV.setVisibility((View.VISIBLE));
+        }
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            swipeRefreshLayout.setRefreshing(false);
         });
 
         return view;
