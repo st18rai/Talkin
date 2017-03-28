@@ -18,12 +18,14 @@ import com.internship.droidz.talkin.ui.activity.editChat.EditChatActivity;
 
 public class ConversationActivity extends MvpAppCompatActivity implements ConversationView {
     public static final String TAG = "ConversationActivity";
+
+    private String mChatId;
     @InjectPresenter
     ConversationPresenter mConversationPresenter;
 
     public static Intent getIntent(final Context context) {
-        Intent intent = new Intent(context, ConversationActivity.class);
 
+        Intent intent = new Intent(context, ConversationActivity.class);
         return intent;
     }
 
@@ -44,6 +46,9 @@ public class ConversationActivity extends MvpAppCompatActivity implements Conver
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+        Intent intent = getIntent();
+        mChatId = intent.getStringExtra("mChatId");
 
     }
 
