@@ -1,5 +1,6 @@
 package com.internship.droidz.talkin.ui.activity.main;
 
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -72,8 +73,17 @@ public class PublicChatAdapter extends RecyclerView.Adapter<PublicChatAdapter.Vi
 
         deleteButton.setOnClickListener(view -> {
             // Delete item
-            removeItemAt(holder.getAdapterPosition());
-            Toast.makeText(view.getContext(), "Chat deleted", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setTitle("Are you sure you want to delete this chat?")
+                    .setPositiveButton("Yes", (dialog1, id) -> {
+                        removeItemAt(holder.getAdapterPosition());
+                        Toast.makeText(view.getContext(), "Chat deleted", Toast.LENGTH_SHORT).show();
+                    })
+                    .setNegativeButton("No", (dialog12, id) -> {
+
+                    });
+            builder.create();
+            builder.show();
         });
     }
 

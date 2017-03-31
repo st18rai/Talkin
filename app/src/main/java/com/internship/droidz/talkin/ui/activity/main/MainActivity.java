@@ -49,9 +49,7 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
     MainPresenter mMainPresenter;
 
     public static Intent getIntent(final Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-
-        return intent;
+        return new Intent(context, MainActivity.class);
     }
 
     private Toolbar toolbar;
@@ -86,19 +84,16 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navigateToCreateChat();
-                // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //       .setAction("Action", null).show();
-            }
+        fab.setOnClickListener(view -> {
+            navigateToCreateChat();
+            // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            //       .setAction("Action", null).show();
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -107,14 +102,12 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         View header = navigationView.getHeaderView(0);
 
         CircleImageView userPic = (CircleImageView) header.findViewById(R.id.imageViewDrawerUserPic);
+        TextView userName = (TextView) header.findViewById(R.id.textViewDrawerName);
+        TextView userEmail = (TextView) header.findViewById(R.id.textViewDrawerEmail);
 
-        userPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
-            }
-        });
-
+        userPic.setOnClickListener(view -> navigateToUserProfile());
+        userName.setOnClickListener(view -> navigateToUserProfile());
+        userEmail.setOnClickListener(view -> navigateToUserProfile());
     }
 
     @Override
@@ -207,7 +200,7 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         viewPager.setAdapter(adapter);
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -251,13 +244,18 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
     public void navigateToSettings() {
         startActivity(new Intent(MainActivity.this, SettingsActivity.class));
     }
-    public void showLogOutDialog(){
+
+    public void navigateToUserProfile() {
+        startActivity(new Intent(MainActivity.this, UserProfileActivity.class));
+    }
+
+    public void showLogOutDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Are you sure you want to sign out?")
                 .setPositiveButton("Yes", (dialog1, id) -> {
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 })
-                .setNegativeButton("No", (dialog12, id) ->{
+                .setNegativeButton("No", (dialog12, id) -> {
 
                 });
         builder.create();
