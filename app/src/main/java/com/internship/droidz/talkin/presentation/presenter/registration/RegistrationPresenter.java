@@ -113,7 +113,7 @@ public class RegistrationPresenter extends MvpPresenter<RegistrationView> {
                     public Observable<Response<Void>> call(SessionModel sessionModel) {
                         cache.putToken(sessionModel.getSession().getToken());
                         cache.putUserId(Long.valueOf(sessionModel.getSession().getUser_id()));
-                        return contentRepository.uploadFile(AmazonConstants.CONTENT_TYPE_JPEG,
+                        return contentRepository.uploadAvatar(AmazonConstants.CONTENT_TYPE_JPEG,
                                 mModel.getUserPic().getFile(), cache.CURRENT_AVATAR);
                     }
                 })

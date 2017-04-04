@@ -34,11 +34,13 @@ public class PublicChatFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         //test
+        int сhatID = 1;
         Intent intent = new Intent(getContext(), SmackService.class);
         intent.putExtra("id", "1"); //TODO test
         getContext().startService(intent);
         Intent intent1 = new Intent(getContext(), ConversationActivity.class);
-        intent1.putExtra("chatId", id); //TODO test
+        intent1.putExtra("chatId", сhatID);
+
         getContext().startActivity(intent1);
         //test
 

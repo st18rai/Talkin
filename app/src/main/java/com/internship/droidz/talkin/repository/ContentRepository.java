@@ -8,21 +8,26 @@ import com.internship.droidz.talkin.App;
 import com.internship.droidz.talkin.data.CacheSharedPreference;
 import com.internship.droidz.talkin.data.web.AmazonConstants;
 import com.internship.droidz.talkin.data.web.ApiRetrofit;
+import com.internship.droidz.talkin.data.web.requests.user.UpdateUserRequest;
 import com.internship.droidz.talkin.data.web.requests.file.CreateFileRequest;
 import com.internship.droidz.talkin.data.web.requests.file.FileConfirmUploadRequest;
-import com.internship.droidz.talkin.data.web.requests.user.UpdateUserRequest;
 import com.internship.droidz.talkin.data.web.response.file.CreateFileResponse;
+import com.internship.droidz.talkin.data.web.response.file.GetFileResponse;
 import com.internship.droidz.talkin.data.web.response.file.UploadFileResponse;
 import com.internship.droidz.talkin.data.web.service.ContentService;
 import com.internship.droidz.talkin.data.web.service.UserService;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import okio.BufferedSink;
+import okio.Okio;
 import retrofit2.Response;
 import rx.Observable;
 import rx.functions.Func1;
@@ -46,7 +51,7 @@ public class ContentRepository {
         cache = CacheSharedPreference.getInstance(App.getApp().getApplicationContext());
     }
 
-    public Observable<Response<Void>> uploadFile(String contentType, File file, String name) {
+    public Observable<Response<Void>> uploadAvatar(String contentType, File file, String name) {
 
         CreateFileRequest.Blob blob = new CreateFileRequest.Blob(contentType, file.getName());
         CreateFileRequest fileCreateRequest = new CreateFileRequest(blob);
@@ -56,21 +61,17 @@ public class ContentRepository {
                 .flatMap(new Func1<CreateFileResponse, Observable<UploadFileResponse>>() {
                     @Override
                     public Observable<UploadFileResponse> call(CreateFileResponse createFileResponse) {
-                        Log.i("rx","inside upload");
                         blobId = createFileResponse.getBlob().getId();
                         String params = createFileResponse.getBlob().getBlobObjectAccess().getParams();
                         params = params.replaceAll("&amp;", "&");
-
                         Map<String, RequestBody> paramsMap = composeFormParamsMap(params);
                         MultipartBody.Part filePart = prepareFilePart(file, contentType, name);
-                        Log.i("rx", "inside upload,uploading");
                         return contentService.uploadFile(AmazonConstants.AMAZON_END_POINT, paramsMap, filePart);
                     }
                 })
                 .flatMap(new Func1<UploadFileResponse, Observable<Response<Void>>>() {
                     @Override
                     public Observable<Response<Void>> call(UploadFileResponse uploadFileResponse) {
-                        Log.i("rx", "inside file confirm upload");
                         String size = String.valueOf(file.getTotalSpace());
                         FileConfirmUploadRequest.Blob confirmBlob = new FileConfirmUploadRequest.Blob(size);
                         FileConfirmUploadRequest confirmRequest = new FileConfirmUploadRequest(confirmBlob);
@@ -88,6 +89,65 @@ public class ContentRepository {
                                                 cache.getToken());
                                     }
                                 });
+                    }
+                });
+    }
+
+    public void downloadFile(String id, String token,File dstFile)
+    {
+        contentService.downloadFile(id,token)
+                .flatMap(new Func1<Response<ResponseBody>, Observable<File>>() {
+                    @Override
+                    public Observable<File> call(Response<ResponseBody> responseBodyResponse) {
+                        return saveFile(responseBodyResponse,dstFile);
+                    }
+                });
+    }
+
+    public Observable<File> saveFile(Response<ResponseBody> response,File dstFile) {
+        return Observable.create((Observable.OnSubscribe<File>) subscriber -> {
+            try {
+                BufferedSink sink = Okio.buffer(Okio.sink(dstFile));
+                sink.writeAll(response.body().source());
+                sink.close();
+                subscriber.onNext(dstFile);
+                subscriber.onCompleted();
+            } catch (IOException e) {
+                e.printStackTrace();
+                subscriber.onError(e);
+            }
+        });
+    }
+
+    public Observable<GetFileResponse> uploadFile(String contentType, File file, String name)
+    {
+        CreateFileRequest.Blob blob = new CreateFileRequest.Blob(contentType, file.getName());
+        CreateFileRequest fileCreateRequest = new CreateFileRequest(blob);
+        return contentService.createFile( fileCreateRequest,cache.getToken())
+                .flatMap(new Func1<CreateFileResponse, Observable<UploadFileResponse>>() {
+                    @Override
+                    public Observable<UploadFileResponse> call(CreateFileResponse createFileResponse) {
+                        blobId = createFileResponse.getBlob().getId();
+                        String params = createFileResponse.getBlob().getBlobObjectAccess().getParams();
+                        params = params.replaceAll("&amp;", "&");
+                        Map<String, RequestBody> paramsMap = composeFormParamsMap(params);
+                        MultipartBody.Part filePart = prepareFilePart(file, contentType, name);
+                        return contentService.uploadFile(AmazonConstants.AMAZON_END_POINT, paramsMap, filePart);
+                    }
+                })
+                .flatMap(new Func1<UploadFileResponse, Observable<Response<Void>>>() {
+                    @Override
+                    public Observable<Response<Void>> call(UploadFileResponse uploadFileResponse) {
+                        String size = String.valueOf(file.getTotalSpace());
+                        FileConfirmUploadRequest.Blob confirmBlob = new FileConfirmUploadRequest.Blob(size);
+                        FileConfirmUploadRequest confirmRequest = new FileConfirmUploadRequest(confirmBlob);
+                        return contentService.fileConfirmUpload(blobId,cache.getToken(), confirmRequest);
+                    }
+                })
+                .flatMap(new Func1<Response<Void>, Observable<GetFileResponse>>() {
+                    @Override
+                    public Observable<GetFileResponse> call(Response<Void> voidResponse) {
+                        return contentService.getFile(blobId,cache.getToken());
                     }
                 });
     }

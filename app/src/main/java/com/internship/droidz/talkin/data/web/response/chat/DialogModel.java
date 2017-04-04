@@ -185,4 +185,21 @@ public class DialogModel {
     public void setUnread_messages_count(Integer unread_messages_count) {
         this.unread_messages_count = unread_messages_count;
     }
+
+    public enum DialogType {
+
+        PUBLIC_GROUP(1),
+        GROUP(2),
+        PRIVATE(3);
+
+        private int id;
+
+        DialogType(int value) {
+            this.id = value;
+        }
+
+        public int getId() {
+            return id;
+        }
+    }
 }
